@@ -1,0 +1,43 @@
+{% assign blocks = "imageOne imageTwo imageThree" | split: " " %}
+{% assign colour = section.settings.backgroundColour %}
+{% assign imageHeight = section.settings.imageHeight %}
+{% assign imageTransform = imageHeight | prepend: 'x' %}
+
+{% if colour == 'dark' %}
+    {% assign textColour = 'text-white' %}
+{% else %}
+    {% assign textColour = 'text-body' %}
+{% endif %}
+
+<div class="bg-{{ colour }}">
+    <div class="container">
+        <div class="py-5 row">
+            {% for block in blocks %}
+                {% assign settings = section.settings %}
+                {% assign image = block %}
+                {% assign title = block | append: 'Title' %}
+                {% assign text = block | append: 'Text' %}
+
+                {% if forloop.index == 3 %}
+                    {% assign marginClass = 'mb-0' %}
+                {% else %}
+                    {% assign marginClass = 'mb-5 mb-md-0' %}
+                {% endif %}
+
+                <div class="col-12 col-md">
+                    <div class="d-flex flex-column {{ marginClass }} px-lg-3 h-100 text-center">
+                        <img loading="lazy" src="{{ settings[image] | img_url: imageTransform }}" alt="{{ settings[image].alt }}"
+                             class="align-self-center h-100" style="max-height: {{ imageHeight | append: 'px' }}">
+                        <div class="d-flex flex-column flex-grow-1 mt-4 {{ textColour }}">
+                            <p class="gkit-p-17 gkit-bold mb-0">{{ settings[title] }}</p>
+
+                            <div class="mt-3 gkit-p-15">
+                                {{ settings[text] }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

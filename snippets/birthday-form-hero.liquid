@@ -1,0 +1,224 @@
+<section class="container birthday-form-section">
+        <div class="row">
+            <div class="d-none d-md-flex col-md-6 align-items-center">
+                <div class="d-none d-md-block">
+
+                    {% if options.image != blank %}
+                        <img loading="lazy" class="birthday-form-section_image" src="{{ options.image | img_url: "1600x" }}"/>
+                    {% endif %}
+
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="birthday-form-section_content">
+                    {% if options.page_title != blank %}
+                        <h1 class="title gkit-h1">{{ options.page_title | escape }}</h1>
+                    {% endif %}
+
+                    <div class="d-block d-md-none">
+
+                        {% if options.image != blank %}
+                            <img loading="lazy" class="birthday-form-section_mobile-image" src="{{ options.image | img_url: "1600x" }}"/>
+                        {% endif %}
+
+                    </div>
+
+                    {% if options.introduction != blank %}
+                        <div class="birthday-form-section_subtitle gkit-p-20">{{ options.introduction }}</div>
+                    {% endif %}
+
+                </div>
+                <div class="birthday-form-section_form">
+                    <form id="grind-birthday-form">
+                        <div class="form-group">
+                            <label for="formQuestion" class="gkit-p-17 font-weight-extra-bold">{{ options.form_input_label }}</label>
+                            <div class="d-flex flex-row">
+                                <input id="formDay"
+                                   class="form-control mr-3"
+                                   aria-describedby="formQuestion"
+                                   name="day"
+                                   placeholder="Day"
+                                   type="number"
+                                   inputmode="numeric"
+                                   step="1"
+                                   min="1"
+                                   max="31"
+                                   autocomplete="off"/>
+
+                                <input id="formMonth"
+                                   class="form-control mr-3"
+                                   aria-describedby="formQuestion"
+                                   name="month"
+                                   placeholder="Month"
+                                   type="number"
+                                   inputmode="numeric"
+                                   step="1"
+                                   min="1"
+                                   max="12"
+                                   autocomplete="off" />
+
+                                <input id="formYear"
+                                   class="form-control"
+                                   aria-describedby="formQuestion"
+                                   name="year"
+                                   placeholder="Year"
+                                   type="number"
+                                   inputmode="numeric"
+                                   step="1"
+                                   min="1900"
+                                   max="2021"
+                                   autocomplete="off"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="formEmail" class="gkit-p-17 font-weight-extra-bold">Email address</label>
+                            <input id="formEmail"
+                                class="form-control"
+                                aria-describedby="formEmail"
+                                disabled
+                                name="email"
+                                type="email"
+                                autocomplete="off"/>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input id="formGdprGrind"
+                                name="grindMarketing"
+                                type="checkbox"
+                                aria-describedby="formGdprGrind"
+                                class="custom-control-input" />
+                            <label for="formGdprGrind" class="custom-control-label">{{ options.marketing_text }}</label>
+                        </div>
+                        <p class="alert-danger mt-3 d-none gkit-bold bg-transparent" role="alert"></p>
+                        <div class="mt-4">
+                            <button type="submit" disabled class="btn btn-black btn-block">
+                                <img loading="lazy" class="spinner d-none" src="{{ 'spinner.svg' | asset_url }}" />
+                                <span class="button-text">{{ options.form_button_text | default: 'Submit' }}</span>
+                           </button>
+                        </div>
+
+                        {% if options.small_print != blank %}
+                            <div class="birthday-form-section_small-print px-md-5 text-md-center gkit-p-17 mb-0 px-md-2">
+                                {{ options.small_print }}
+                            </div>
+                        {% endif %}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+</section>
+
+<script>
+let linkPortions = window.location.href.split("?");
+let qs = {}
+if (linkPortions.length > 1) {
+    let query = linkPortions[1];
+
+    let vars = query.split("&");
+    for (let varIdx = 0; varIdx < vars.length; varIdx++) {
+        let pair = vars[varIdx].split("=");
+        if (pair.length === 2) {
+          qs[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        }
+    }
+    if (!qs["token"]){
+        $(".alert-danger").removeClass("d-none");
+        $(".alert-danger").append("Profile token is missing.");
+    } else {
+        $.ajax({
+			type: 'GET',
+			url: 'https://web-api.grind.co.uk/v1/account/profile',
+			dataType: 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', `Bearer ${qs.token}`);
+            },
+			success: function(data) {
+                $("#formEmail").val(data.email);
+			},
+            error: function() {
+                window.location.href = '/';
+			}
+		});
+    }
+} else {
+    $(".alert-danger").removeClass("d-none");
+    $(".alert-danger").append("Please follow the link from the email.");
+}
+$("form :input").change(function() {
+  if ($("#formDay").val() && $("#formMonth").val() && $("#formYear").val()){
+    $("button").attr("disabled", false);
+  } else {
+    $("button").attr("disabled", true);
+  }
+});
+$('#grind-birthday-form').submit(function(e) {
+    e.preventDefault();
+
+    let marketing = $("#formGdprGrind").is(":checked");
+
+    let day = $("#formDay").val();
+    let month = $("#formMonth").val();
+    let year = $("#formYear").val();
+    let birthday = new Date(year, month, day);
+
+    if (marketing){
+        $.ajax({
+		    type: 'PUT',
+		    url: 'https://web-api.grind.co.uk/v1/account/preferences',
+            data: {accepts_marketing: 1},
+			dataType: 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', `Bearer ${qs.token}`);
+            },
+			success: function(data) {
+                console.log(data);
+			},
+            error: function({responseJSON}) {
+                $(".alert-danger").removeClass("d-none");
+                $(".alert-danger").append(responseJSON.error.message);
+			}
+	    });
+    }
+
+    if(isValidDate(day, month, year)) {
+        $(".button-text").addClass("d-none");
+        $(".spinner").removeClass("d-none");
+        let birthday = `${year}-${month.toString().padStart(2,0)}-${day.toString().padStart(2,0)}`;
+        $(".alert-danger").addClass("d-none");
+        $.ajax({
+			type: 'PUT',
+			url: 'https://web-api.grind.co.uk/v1/account/profile',
+            data: {birthday: birthday},
+			dataType: 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', `Bearer ${qs.token}`);
+            },
+			success: function(data) {
+                window.location.href = '/pages/birthday-confirmation';
+			},
+            error: function(xhr) {
+                $(".alert-danger").removeClass("d-none");
+                $(".alert-danger").append(xhr.responseJSON.error.message);
+                $(".spinner").addClass("d-none");
+                $(".button-text").removeClass("d-none");
+			}
+		});
+    } else {
+        $(".alert-danger").removeClass("d-none")
+        $(".alert-danger").append("Please check the date. It's invalid.")
+    }
+});
+function isValidDate(day, month, year)
+{
+    let monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+    // Adjust for leap years
+    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+    {
+        monthLength[1] = 29;
+    }
+
+    // Check the range of the day
+    return day > 0 && day <= monthLength[month - 1];
+}
+</script>

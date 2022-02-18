@@ -1,0 +1,106 @@
+{% assign reversed = section.settings.isReversed %}
+{% assign backgroundColor = section.settings.backgroundColor %}
+{% assign heroImage = section.settings.heroImage %}
+{% assign title = section.settings.contentTitle %}
+{% assign iconSize = section.settings.iconSize %}
+{% assign positives = section.blocks %}
+
+<section class="container-fluid px-0" style="background-color: {{ backgroundColor }}">
+    <div class="container hero-2020-positives">
+        <div class="row d-flex align-items-center">
+            <div class="col-lg-6 hero-img{% if reversed %} order-2 offset-lg-1{% endif %}">
+                <img src="{{ heroImage | img_url: '1000x' }}" />
+            </div>
+            <div class="col-lg-5 hero-content{% if reversed %} order-lg-1{% else %} offset-lg-1{% endif %}">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-12">
+                        <h2>{{ title }}</h2>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-12 positives-container">
+                        {% for positive in positives %}
+                        <div class="positive d-flex justify-content-start align-items-center">
+                            <img src="{{ positive.settings.image | img_url: "200x" }}" style="width: {{ iconSize }}px" width="{{iconSize}}" height="{{iconSize}}"/>
+                            <div class="positive-content">
+                                <h3>{{ positive.settings.title }}</h3>
+                                <p>{{ positive.settings.subtitle }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+    "name": "Hero 2020 - Pro Points",
+    "blocks": [
+        {
+            "type": "positive",
+            "name": "Positive",
+            "limit": 4,
+            "settings": [
+                {
+                    "id": "image",
+                    "type": "image_picker",
+                    "label": "icon"
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "label": "Title"
+                },
+                {
+                    "id": "subtitle",
+                    "type": "text",
+                    "label": "Subtitle"
+                }
+            ]
+        }
+    ],
+    "settings": [
+        {
+            "type": "color",
+            "id": "backgroundColor",
+            "label": "Background Colour",
+            "default": "#FFFFFF"
+        },
+        {
+            "type": "image_picker",
+            "id": "heroImage",
+            "label": "Hero Image"
+        },
+        {
+            "type": "checkbox",
+            "id": "isReversed",
+            "label": "Reverse Layout",
+            "default": false,
+            "info": "Using Reverse Layout will put the image on the right and copy on the left."
+        },
+        {
+            "type": "text",
+            "id": "contentTitle",
+            "label": "Content Title",
+            "default": "Put a Title On It"
+        },
+        {
+            "type": "range",
+            "id": "iconSize",
+            "label": "Icon Size",
+            "min": 16,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "default": 60
+        }
+    ],
+    "presets": [
+        {
+            "name": "Section - Positives Hero",
+            "category": "Content"
+        }
+    ]
+}
+{% endschema %}

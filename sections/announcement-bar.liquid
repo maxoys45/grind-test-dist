@@ -1,0 +1,97 @@
+{% assign i18nVisibility = section.settings.internationalVisibility %}
+{% unless i18nVisibility == 'eu' and localization.country.iso_code == 'GB' %}
+{% unless i18nVisibility == 'gb' and localization.country.iso_code != 'GB' %}
+
+{%- if section.settings.show_announcement -%}
+  {%- if section.settings.home_page_only == false or template.name == 'index' -%}
+
+<div style="background-color: {{ section.settings.background_color }}">
+    <div class="container">
+        <div class="row">
+            <div class="col p-3 text-center">
+              <a href="{{ section.settings.link }}">
+                <p style="color: {{ section.settings.font_color }}; font-size: 15px; font-weight: 400; font-family: ApercuPro; padding: 0; margin: 0">{{ section.settings.wrapper_emoji }} {{ section.settings.text }} <u class="font-weight-bold text-uppercase">{{ section.settings.code }}</u> {{ section.settings.wrapper_emoji }}</p>
+              </a>
+            </div>
+        </div>
+    </div>
+</div>           
+
+  {%- endif -%}
+{%- endif -%}
+
+{% endunless %}
+{% endunless %}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": "Home page only",
+      "default": true
+    },
+    {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Colour",
+        "default": "#2D2926"
+    },
+    {
+        "type": "color",
+        "id": "font_color",
+        "label": "Font Colour",
+        "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "wrapper_emoji",
+      "label": "Wrapper emoji"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement text",
+      "default": "Announce something here"
+    },
+    {
+      "type": "text",
+      "id": "code",
+      "label": "Code"
+    },
+    {
+      "type": "text",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "internationalVisibility",
+      "label": "International Visibility",
+      "options": [
+        {
+          "value": "all",
+          "label": "All"
+        },
+        {
+          "value": "eu",
+          "label": "EU Only"
+        },
+        {
+          "value": "gb",
+          "label": "UK Only"
+        }
+      ],
+      "default": "all"
+    }
+  ]
+}
+{% endschema %}

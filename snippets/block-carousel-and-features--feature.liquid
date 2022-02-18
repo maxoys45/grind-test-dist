@@ -1,0 +1,39 @@
+{%- if image != blank or title != blank or text != blank -%}
+
+    <div class="col-12 col-md-6 col-lg-12">
+        <div class="block-carousel-and-features__features-list">
+
+            {%- if image != blank -%}
+
+                <div class="block-carousel-and-features__features-list-image">
+                    <figure class="{{ class }}">
+                        {%- render 'image',
+                                image: image,
+                                class: 'img-fluid w-100',
+                                size: '45x45',
+                                size_sm: '45x45',
+                                size_md: '45x45',
+                                size_lg: '45x45',
+                                size_xl: '45x45',
+                                size_xxl: '45x45',
+                                cropType: 'center' -%}
+                    </figure>
+                </div>
+
+            {%- endif -%}
+
+            {%- if title != blank or text != blank -%}
+
+                <div class="block-carousel-and-features__features-list-text">
+                    <h3 class="gkit-p-17 gkit-bold">{{ title }}</h3>
+                    <div class="gkit-p-13 gkit-regular">
+                        {{ text }}
+                    </div>
+                </div>
+
+            {%- endif -%}
+
+        </div>
+    </div>
+
+{%- endif -%}

@@ -1,0 +1,59 @@
+{% liquid
+  assign icons = section.blocks
+  assign imageHeight = section.settings.imageHeight
+%}
+
+<section class="container px-0">
+  <div class="d-flex flex-column flex-md-row justify-content-center align-items-center align-items-md-start wow fadeInUp">
+    {% for iconObject in icons %}
+      {% render '2021-icon-text-block' with block: iconObject.settings,
+        imageHeight: imageHeight
+       %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Icon Text Blocks (4x)",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "icon_card",
+      "name": "Icon Cards",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Lorem ipsum"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+            }
+          ]
+        }
+      ],
+      "settings": [
+        {
+          "type": "range",
+          "id": "imageHeight",
+          "min": 15,
+          "max": 300,
+          "step": 5,
+          "unit": "px",
+          "label": "Icon Height",
+          "default": 80
+        }
+      ]
+    }
+
+{% endschema %}

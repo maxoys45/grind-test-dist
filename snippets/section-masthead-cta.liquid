@@ -1,0 +1,35 @@
+{% assign title = section.settings.title | strip_html | newline_to_br %}
+{% assign text = section.settings.text %}
+{% assign btnLink = section.settings.btnLink %}
+{% assign btnText = section.settings.btnText %}
+{% assign btnColour = section.settings.btnColour %}
+{% assign backgroundColour = section.settings.backgroundColour %}
+{% assign addTopMargin = section.settings.addTopMargin %}
+{% assign addBottomMargin = section.settings.addBottomMargin %}
+{% assign marginClasses = "" %}
+
+{% if addTopMargin %}
+    {% assign marginClasses = marginClasses | append: 'mt-5' %}
+{% endif %}
+
+{% if addBottomMargin %}
+    {% assign marginClasses = marginClasses | append: ' mb-5' %}
+{% endif %}
+
+{% if backgroundColour == 'dark' %}
+    {% assign textColour = 'text-white' %}
+{% else %}
+    {% assign textColour = 'text-body' %}
+{% endif %}
+
+<div class="masthead-cta bg-{{ backgroundColour }}">
+    <div class="container py-5 {{ marginClasses }}">
+        <div class="d-flex justify-content-center">
+            <div class="py-5 text-center {{ textColour }}">
+                <h1 class="gkit-h2">{{ title }}</h1>
+                <div class="content-no-margin font-italic gkit-p-15 mt-3">{{ text }}</div>
+                <a href="{{ btnLink }}" class="mt-4 gkit-btn-md gkit-primary">{{ btnText }}</a>
+            </div>
+        </div>
+    </div>
+</div>

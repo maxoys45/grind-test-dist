@@ -1,0 +1,109 @@
+{% assign collection_size = collection.products.size %}
+{% include 'shortcode-info-block' %}
+
+{% if collection_size >= 1 %}
+    <section class="mb-5 pb-5 collection {% if border %}border-bottom{% endif %}">
+        <div class="pb-4 pb-md-5 row">
+
+            <div class="col-12 col-md-6 col-lg-7 offset-lg-1 order-md-2 wow fadeInUp" data-wow-delay=".5s">
+                {% if collection.image %}
+                    <div class="collection-image" style="background-image: url('{{ collection.image | img_url: "1200x" }}')"></div>
+                {% else %}
+                    <div class="collection-image collection-filler">
+                        <img loading="lazy" class="logo" src="{{ 'logo-black.svg' | asset_url }}" alt="Grind logo">
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4 order-md-1 wow fadeInUp" data-wow-delay=".5s">
+                {% if name %}
+                    <h2 class="mt-4 mt-md-0 gkit-h2">{{ collection.title }}</h2>
+                {% endif %}
+
+                {% if collection.description != blank %}
+                    <div class="font-weight-light description">{% include 'shortcode' load: collection.description %}</div>
+                {% endif %}
+
+                {% if titleOne != blank and textOne != blank %}
+                    <div class="mt-3 collections-point-container">
+                        <p class="mb-1 gkit-p-17"><strong>{{ titleOne }}</strong></p>
+                        <p class="mt-1 mb-3 pb-3 border-bottom border-gray-3 gkit-p-15">{{ textOne }}</p>
+
+                        {% if titleTwo != blank and textTwo != blank %}
+                            <p class="mb-1 gkit-p-17"><strong>{{ titleTwo }}</strong></p>
+                            <p class="mt-1 mb-3 pb-3 border-bottom border-gray-3 gkit-p-15">{{ textTwo }}</p>
+                        {% endif %}
+
+                        {% if titleThree != blank and textThree != blank %}
+                            <p class="mb-1 gkit-p-17"><strong>{{ titleThree }}</strong></p>
+                            <p class="mt-1 mb-3 mb-md-0 pb-3 border-bottom border-gray-3 gkit-p-15">{{ textThree }}</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            {% for product in collection.products limit: 8 %}
+
+                {% if collection_size <= 3 %}
+                    {% assign classes = 'col-12 col-sm-6 col-md-4' %}
+                {% else %}
+                    {% assign classes = 'col-12 col-sm-6 col-md-4 col-lg-3' %}
+                {% endif %}
+
+                {% if forloop.first %}
+                    {% assign animationTime = 0.75 %}
+                {% else %}
+                    {% assign animationTime = animationTime | plus: 0.10 %}
+                {% endif %}
+
+                <div class="d-flex flex-column {{ classes }} mb-4 product wow fadeInUp {% if product.images[1] %}has-two-images{% endif %}" data-wow-delay="{{ animationTime }}s">
+                    <a href="{{ product.url }}" class="w-100">
+                        {% if product.images[0] %}
+                            <img loading="lazy" class="w-100 product-image first" src="{{ product.images[0] | img_url: "500x500" | crop: "center" }}" alt="{{ product.title }}">
+                            {% if product.images[1] %}
+                                <img loading="lazy" class="w-100 product-image second" src="{{ product.images[1] | img_url: "500x500" | crop: "center" }}" alt="{{ product.title }}">
+                            {% endif %}
+                        {% else %}
+                            <div class="bg-primary w-100 product-filler" aria-label="Product default image">
+                                <img loading="lazy" class="logo" src="{{ 'logo-black.svg' | asset_url }}" alt="Grind logo">
+                            </div>
+                        {% endif %}
+                    </a>
+
+                    <div class="d-flex flex-column flex-grow-1 px-3 px-xl-5 text-center">
+                        {% assign subscriptionPrice = null %}
+
+                        {% if product.tags contains 'Subscription' or product.tags contains 'subscription' %}
+                            {% assign discount = settings.subDiscount | divided_by: 100.0 %}
+                            {% assign subDiscount = 1.0 | minus: discount %}
+                            {% assign subscriptionPrice = product.price_min | times: subDiscount %}
+                        {% endif %}
+                        <p class="mb-0 gkit-p-15 mt-3"><strong>{{ product.title }}</strong></p>
+                        <p class="gkit-p-13 mt-1 mb-3 gkit-light">From {{ subscriptionPrice | default: product.price_min | money }}</p>
+                        <a href="{{ product.url }}" class="align-self-start mx-auto mt-auto gkit-btn-sm gkit-tertiary">Shop Now</a>
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% if collection_size < 3 %}
+                <div class="col-12 col-sm-6 col-md-4 product wow fadeInUp" data-wow-delay=".85s">
+                    <div class="bg-primary w-100 product-filler" aria-label="Product default image">
+                        <img loading="lazy" class="logo" src="{{ 'logo-black.svg' | asset_url }}" alt="Grind logo">
+                    </div>
+                </div>
+
+                {% if collection_size == 1 %}
+                    <div class="col-12 col-sm-6 col-md-4 product wow fadeInUp" data-wow-delay=".95s">
+                        <div class="bg-primary w-100 product-filler" aria-label="Product default image">
+                            <img loading="lazy" class="logo" src="{{ 'logo-black.svg' | asset_url }}" alt="Grind logo">
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </section>
+{% endif %}

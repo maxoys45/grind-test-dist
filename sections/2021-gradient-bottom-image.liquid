@@ -1,0 +1,149 @@
+{%- liquid
+  assign gradient = section.settings.gradient
+  assign backgroundColor = section.settings.backgroundColor | color_to_rgb
+  assign limitWidth = section.settings.limitWidth
+  assign titlePosition = section.settings.titlePosition
+  assign titleHighlight = section.settings.titleHighlight
+  assign renderTitle = section.settings.title
+  assign renderText = section.settings.text
+  assign replacedText = '<span style="color: #ff014e;">' | append: titleHighlight | append: "</span>"
+  assign textPosition = section.settings.textPosition
+
+  case gradient
+    when 'no'
+      assign backgroundStyle = backgroundColor
+    when 'top-to-bottom'
+      assign backgroundStyle = "linear-gradient(180deg, " | append: backgroundColor | append: "0%, rgba(255,255,255,1) 35%);"
+    when 'bottom-to-top'
+      assign backgroundStyle = "linear-gradient(180deg, rgba(255,255,255,1) 45%, " | append: backgroundColor | append: " 100%);"
+  endcase
+-%}
+
+<section class="container-fluid px-0 position-relative">
+  <div class="gradient-bottom-image__top-background" style="background: {{ backgroundStyle }}">
+    <div class="container pb-4 wow fadeInUp" {%- if limitWidth -%} style="max-width: 920px;" {%- endif -%}>
+      <h1 class="gkit-h1 mb-0 px-3 px-md-0 text-{{ titlePosition }}">
+        {% if titleHighlight != blank %}
+          {{ renderTitle | replace: titleHighlight, replacedText }}
+        {% else %}
+          {{ renderTitle }}
+        {% endif %}
+      </h1>
+    </div>
+  </div>
+  <div class="pt-0 pb-4 position-relative">
+    <div class="gradient-bottom-image_gradient-container position-absolute w-100" style="background-color: {{ backgroundColor }}; z-index: -1;"></div>
+    <div class="container wow fadeInUp" {%- if limitWidth -%} style="max-width: 920px;" {%- endif -%}>
+      <div class="gkit-p-20 gkit-light px-3 px-md-0 text-{{ textPosition }}">
+        {{ renderText }}
+      </div>
+    </div>
+    <div class="text-center">
+      <figure class="mb-0 ml-auto mr-auto" style="max-width: 650px;">
+        {%- render 'image', 
+          image: section.settings.image,
+          class: 'w-100'
+        -%}
+      </figure>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Background Bottom Image",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "limitWidth",
+      "label": "Limit Width on Desktop",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "titlePosition",
+      "label": "Title Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "titleHighlight",
+      "label": "Highlight Title Text"
+    },
+    {
+      "type": "select",
+      "id": "textPosition",
+      "label": "Text Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "gradient",
+      "label": "Gradient?",
+      "options": [
+          { "value": "no", "label": "No gradient" },
+          { "value": "top-to-bottom", "label": "Top to bottom" },
+          { "value": "bottom-to-top", "label": "Bottom-to-top" }
+      ],
+      "default": "no"
+    },
+    {
+      "type": "color",
+      "id": "backgroundColor",
+      "label": "Background Colour",
+      "default": "#fff"
+    }
+  ]
+}
+{% endschema %}

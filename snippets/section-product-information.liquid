@@ -1,0 +1,79 @@
+<article class="block-product-information mb-0">
+    <div class="container">
+        <div class="row">
+
+            {%- if section.settings.background_image != blank -%}
+                <div class="col-12 d-none d-lg-block">
+                    <div class="block-product-information__background-image">
+                        <figure class="mb-0">
+                            {%- render 'image',
+                                    image: section.settings.background_image,
+                                    class: 'img-fluid',
+                                    size: '310x',
+                                    size_sm: '310x',
+                                    size_md: '310x',
+                                    size_lg: '310x',
+                                    size_xl: '310x',
+                                    size_xxl: '310x' -%}
+                        </figure>
+                    </div>
+                </div>
+            {%- endif -%}
+
+            {%- if section.settings.title != blank -%}
+                <div class="col-12">
+                    <h2 class="block-product-information__title mb-4">{{ section.settings.title | escape }}</h2>
+                </div>
+            {%- endif -%}
+
+            {%- if section.settings.column_title_1 != blank or section.settings.column_text_1 != blank -%}
+                <div class="col-12 col-md-4 col-lg-3">
+
+                    {%- if section.settings.column_title_1 != blank -%}
+                        <h3 class="gkit-p-17 font-weight-bold">{{ section.settings.column_title_1 | escape }}</h3>
+                    {%- endif -%}
+
+                    {%- if section.settings.column_text_1 != blank -%}
+                        <div class="gkit-p-13">
+                            {{ section.settings.column_text_1 }}
+                        </div>
+                    {%- endif -%}
+
+                </div>
+            {%- endif -%}
+
+            {%- if section.settings.column_title_2 != blank or section.settings.column_text_2 != blank -%}
+                <div class="col-12 col-md-4 col-lg-3">
+
+                    {%- if section.settings.column_title_2 != blank -%}
+                        <h3 class="gkit-p-17 font-weight-bold">{{ section.settings.column_title_2 | escape }}</h3>
+                    {%- endif -%}
+
+                    {%- if section.settings.column_text_2 != blank -%}
+                        <div class="gkit-p-13">
+                            {{ section.settings.column_text_2 }}
+                        </div>
+                    {%- endif -%}
+
+                </div>
+            {%- endif -%}
+
+            {%- if section.settings.column_title_3 != blank or section.settings.column_text_3 != blank -%}
+                <div class="col-12 col-md-4 col-lg-3">
+
+                    {%- if section.settings.column_title_3 != blank -%}
+                        <h3 class="gkit-p-17 font-weight-bold">{{ section.settings.column_title_3 | escape }}</h3>
+                    {%- endif -%}
+
+                    {%- if section.settings.column_text_3 != blank -%}
+                        <div class="gkit-p-13">
+                            {{ section.settings.column_text_3 }}
+                        </div>
+                    {%- endif -%}
+
+                </div>
+            {%- endif -%}
+
+        </div>
+    </div>
+</article>

@@ -1,0 +1,87 @@
+{% assign isDarkMode = section.settings.isDarkMode %}
+{% assign offset = section.settings.offsetImage %}
+{% assign backgroundColor = section.settings.backgroundColor %}
+<section class="container-fluid px-0" style="background-color: {{ backgroundColor }};">
+    <div class="container section-2020-double-product {% if isDarkMode %}dark-mode{% endif %}">
+        <div class="row">
+            {% for block in section.blocks %}
+            <div class="block-container col-lg-6">
+                <div class="row align-items-center">
+                    <div class="col-sm-5 img-container">
+                        <img loading="lazy" src="{{ block.settings.productImage | img_url: '300x' }}" />
+                    </div>
+                    <div class="col-sm-7 d-flex flex-column align-items-start justify-content-center">
+                        <h2>{{ block.settings.title }}</h2>
+                        <p>{{ block.settings.body }}</p>
+                        <a href="{{ block.settings.url }}" class="btn btn-sm btn-outline-2020">{{ block.settings.buttonText }}</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% schema %}
+{
+    "name": "Section - Double Product",
+    "blocks": [
+        {
+            "type": "product",
+            "name": "Product",
+            "limit": 2,
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "productImage",
+                    "label": "Product Image"
+                },
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title",
+                    "default": "Put a Title On It"
+                },
+                {
+                    "type": "textarea",
+                    "id": "body",
+                    "label": "Body Content",
+                    "default": "Integer ac metus check it out arcu interdum aliquizzle. Quisque posuere. Dawg ass mofo. Dizzle leo pede, check it out izzle, condimentum izzle, phat shiznit, check it out. Vestibulizzle feugiat. Ut vehicula ultricies fo shizzle my nizzle."
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "CTA Link",
+                    "info": "The URL that the CTA will take the customer to"
+                },
+                {
+                    "type": "text",
+                    "id": "buttonText",
+                    "label": "CTA Text",
+                    "default": "Shop now"
+                }
+            ]
+        }
+    ],
+    "settings": [
+        {
+            "type": "color",
+            "id": "backgroundColor",
+            "label": "Background Colour",
+            "default": "#26292D"
+        },
+        {
+            "type": "checkbox",
+            "id": "isDarkMode",
+            "label": "Dark Background Mode",
+            "info": "This will turn content light - suitable for dark background colours.",
+            "default": true
+        }
+    ],
+    "presets": [
+        {
+            "name": "Section - Double Product",
+            "category": "Content"
+        }
+    ]
+}
+{% endschema %}

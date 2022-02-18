@@ -1,0 +1,91 @@
+{% for block in section.blocks %}
+    {% case block.type %}
+
+    {% when 'marketing-popup' %}
+      {% render 'marketing-popup', options: block.settings %}
+
+    {% when 'marketing-toasty' %}
+      {% render 'marketing-toasty', options: block.settings %}
+
+  {% endcase %}
+{% endfor %}
+
+
+{% schema %}
+{
+  "name": "Popup section",
+  "max_blocks": 2,
+  "blocks": [
+    {
+      "type": "marketing-popup",
+      "name": "Marketing Pop-up",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "popupEnabled",
+          "label": "Enabled?",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "titleText",
+          "label": "Title Text",
+          "default": "Sign up to our newsletter for discounts and rewards!"
+        },
+        {
+          "type": "text",
+          "id": "bodyText",
+          "label": "Body Text"
+        },
+        {
+          "type": "text",
+          "id": "buttonText",
+          "label": "Button Text",
+          "default": "Sign up"
+        }
+      ]
+    },
+    {
+      "type": "marketing-toasty",
+      "name": "Marketing Toasty",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "popup_enabled",
+          "label": "Enabled?",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background Colour",
+          "default": "#FFF0D2"
+        },
+        {
+          "type": "text",
+          "id": "title_text",
+          "label": "Title Text",
+          "default": "Get free shipping with code DOINGGOOD"
+        },
+        {
+          "type": "text",
+          "id": "body_text",
+          "label": "Body Text",
+          "default": "Whilst you're at it, sign up to receive email updates on the things you’ll want to know about, including openings, launches and giveaways. Unsubscribe anytime."
+        },
+        {
+          "type": "text",
+          "id": "buttontext",
+          "label": "Button Text",
+          "default": "Sign up"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marketing Popup / Toasty"
+    }
+  ]
+}
+{% endschema %}

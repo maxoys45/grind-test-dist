@@ -1,0 +1,36 @@
+<div
+  class="container-fluid px-0"
+  style="background-color: {{ section.settings.backgroundColor }}"
+>
+  <div class="container d-flex">
+    <div
+      class="
+        row
+        justify-content-md-between
+        align-items-md-center align-items-lg-stretch
+      "
+    >
+      <div class="col-md-6 shop-hero-content text-center text-md-left">
+        <h1 class="gkit-h0 d-none d-md-block">{{ section.settings.title }}</h1>
+        <h1 class="gkit-h2 d-md-none mt-0">{{ section.settings.title }}</h1>
+        <p class="d-none d-md-block gkit-p-20 mt-3">
+          {{ section.settings.body }}
+        </p>
+        <p class="d-md-none gkit-p-15 mt-3">{{ section.settings.body }}</p>
+        <a
+          class="gkit-btn-md gkit-primary mt-3"
+          href="{{ section.settings.ctaURL }}"
+          >{{ section.settings.cta }}</a
+        >
+        {% if section.settings.secondaryCta and section.settings.secondaryCta != blank %}
+        <a class="gkit-btn-md gkit-secondary mt-3 ml-2" href="{{ section.settings.secondaryCtaUrl }}">
+          {{ section.settings.secondaryCta }}
+        </a>
+        {% endif %}
+      </div>
+      <div class="d-none d-md-block col-md-5">
+        <img loading="lazy" class="" src="{{ section.settings.image | img_url: '1200x' }}" />
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+{% assign isFullWidth = section.settings.isFullWidth %}
+
+<section class="container-fluid px-0 d-none d-md-block">
+  <div class="{% if isFullWidth %}container-fluid {% else %}container {% endif %}d-flex flex-row px-0">
+    {% for block in section.blocks %}
+      <figure class="w-100 mb-0 wow fadeInUp" style="height: calc(100vw / {{ forloop.length }});">
+        <img loading="lazy" src="{{ block.settings.image | img_url: '600x', crop: 'center' }}" alt="{{ block.settings.title }}" class="w-100 h-100" style="object-fit: cover;">
+      </figure>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Static Image Gallery",
+  "blocks": [
+    {
+      "type": "images",
+      "name": "Images",
+      "limit": 6,
+      "settings": [
+        {
+            "id": "image",
+            "type": "image_picker",
+            "label": "Image"
+        },
+        {
+            "id": "title",
+            "type": "text",
+            "label": "Title"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "isFullWidth",
+      "label": "Full Width?",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

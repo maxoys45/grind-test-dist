@@ -1,0 +1,37 @@
+{% assign gradient = options.gradient %}
+{% assign backgroundColor = options.background_color | color_to_rgb %}
+
+{% case gradient %}
+    {% when 'no' %}
+        {% assign backgroundStyle = backgroundColor %}
+    {% when 'top-to-bottom' %}
+        {% assign backgroundStyle = "linear-gradient(180deg, " | append: backgroundColor | append: "0%, rgba(255,255,255,1) 35%);"%}
+    {% when 'bottom-to-top' %}
+        {% assign backgroundStyle = "linear-gradient(180deg, rgba(255,255,255,1) 65%, " | append: backgroundColor | append: " 100%);" %}
+{% endcase %}
+
+<section class="container-fluid px-0" style="background: {{ backgroundStyle }}">
+    <div class="py-4 py-sm-5 container section-2020-positives  horizontal-positive-points row">
+        <div class="positive-point campaign-positive-point col-lg-4 col-md-12 d-flex flex-row p-0 px-md-2 mt-3 mt-md-0" >
+            <img loading="lazy" src="{{ options.image_1 | img_url: "200x" }}" width="56" height="56"/>
+            <div class="point-content mx-0">
+                <h3 class="gkit-h3">{{ options.title_1 }}</h3>
+                <p class="gkit-p-15">{{ options.subtitle_1 }}</p>
+            </div>
+        </div>
+        <div class="positive-point campaign-positive-point col-lg-4 col-md-12 d-flex flex-row p-0 px-md-2 mt-lg-0">
+            <img loading="lazy" src="{{ options.image_2 | img_url: "200x" }}" width="56" height="56"/>
+            <div class="point-content mx-0">
+                <h3 class="gkit-h3">{{ options.title_2 }}</h3>
+                <p class="gkit-p-15">{{ options.subtitle_2 }}</p>
+            </div>
+        </div>
+        <div class="positive-point campaign-positive-point col-lg-4 col-md-12 d-flex flex-row p-0 px-md-2 mt-lg-0">
+            <img loading="lazy" src="{{ options.image_3 | img_url: "200x" }}" width="56" height="56"/>
+            <div class="point-content mx-0">
+                <h3 class="gkit-h3">{{ options.title_3 }}</h3>
+                <p class="gkit-p-15">{{ options.subtitle_3 }}</p>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,44 @@
+{% if testimonial_image == blank %}
+    {% assign testimonial_image = section.settings.testimonialImage %}
+{% endif %}
+
+{% if testimonial_mobile_image == blank %}
+    {% assign testimonial_mobile_image = section.settings.testimonialMobileImage %}
+{% endif %}
+
+{% if testimonial_source == blank %}
+    {% assign testimonial_source = section.settings.testimonialSource %}
+{% endif %}
+
+{% if testimonial_quote == blank %}
+    {% assign testimonial_quote = section.settings.testimonialQuote %}
+{% endif %}
+
+{% if testimonial_subtitle == blank %}
+    {% assign testimonial_subtitle = section.settings.testimonialSubTitle %}
+{% endif %}
+
+<div id="shopify-section-product-full-image" class="shopify-section">
+  <div class="{% unless no_container_margin %} pb-4 {% endunless %}">
+      <blockquote class="mb-0 blockquote blockquote-simple full">
+
+          {% unless testimonial_image == blank %}
+              <div class="wow">
+                  <img loading="lazy" src="{{ testimonial_image | img_url: '1200x720', crop: 'center' }}" alt="{{ testimonial_image.alt }}" class="image background md-none">
+                  <img loading="lazy" src="{{ testimonial_mobile_image | img_url: 'full', crop: 'center' }}" alt="{{ testimonial_mobile_image.alt }}" class="image background md-show">
+              </div>
+          {% endunless %}
+          <div class="container-f">
+            <div class="bg-primary p-4 blockquote-content wow fadeInUp full-p-4" data-wow-delay=".1s">
+                {% if testimonial_source != blank %}
+                <img loading="lazy" src="{{ testimonial_source | img_url}}" class="icon_image" width="70px" height="70px">
+                {% endif %}
+                <p class="mt-3 mb-5 gkit-blockquote font-bold">{{ testimonial_quote }}</p>
+                <p class="mb-0 font-thin small sub-title">{{ testimonial_subtitle }}</p>
+
+            </div>
+        </div>
+
+      </blockquote>
+  </div>
+</div>

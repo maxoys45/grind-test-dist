@@ -1,0 +1,16 @@
+<article class="feature-excerpt">
+    <div class="row half-gutters">
+        <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+            <img loading="lazy" src="{{ article.image | img_url: '360x360', crop: 'center' }}" alt="{{ article.title }}" class="d-block mx-auto mb-4 mb-sm-0 mb-md-4 mb-lg-0 w-100 thumbnail">
+        </div>
+        <div class="col-12 col-sm-6 col-md-12 col-lg-7">
+            <div class="d-sm-flex flex-sm-column h-100">
+                <h3 class="mb-lg-3">{{ article.title }}</h3>
+                <div class="content-no-margin">
+                    {{ article.excerpt }}
+                </div>
+                <a href="{{ article.url }}" class="d-block mt-4 mt-sm-auto mt-md-4 mt-lg-auto text-body text-no-decoration">Read more<i class="ml-4 fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</article>

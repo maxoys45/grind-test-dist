@@ -1,0 +1,311 @@
+<aside data-cart-view="data-cart-view" class="bg-white side-cart hide-no-js" id="js-side-cart">
+    <div class="cart" rv-class-empty="cart.item_count | lt 1">
+        <div class="px-4 inner" rv-class-py-4="cart.item_count | lt 1" rv-class-pt-4="cart.item_count | gt 0">
+            <div class="d-flex justify-content-between align-items-center mb-4 w-100">
+                <p class="mb-0 gkit-h2">Your Order</p>
+                <i class="mb-0 p-2 h3 fas fa-times side-cart-close" id="js-cart-toggle-close"></i>
+            </div>
+
+            <div class="row">
+                <div class="col-12 text-center js-shipping-counter-container">
+
+                    <p class="mb-0 gkit-p-15">
+                        <span rv-if="cart.items | isSubscription">Yay! Free UK shipping on all subscription orders.</span>
+                      {% if cart.currency.iso_code == 'GBP' %}<span rv-unless="cart.items | isSubscription">You're <strong>{{ cart.currency.symbol }}<span class="js-shipping-counter"></span></strong> away from free UK shipping.
+</span>{% endif %}</p>
+                </div>
+
+                <div class="col-12 py-4" rv-each-item="cart.items">
+                    <div class="row half-gutters">
+                        <div class="col-3">
+                            <a rv-unless="item.handle | messagecard" rv-href="item.url">
+                                <img loading="lazy" rv-src="item.image | product_image_size '180x180'" rv-alt="item.title" class="d-block w-100 thumbnail">
+                            </a>
+
+                            <img loading="lazy" rv-if="item.handle | messagecard" rv-src="item.image | product_image_size '180x180'" rv-alt="item.title" class="d-block w-100 thumbnail">
+                        </div>
+                        <div class="d-flex col col-lg-6 justify-content-start">
+                            <div class="d-flex flex-column inner">
+                                <h2 class="mb-0 h6 mb-2">
+                                    <a rv-unless="item.handle | messagecard" rv-href="item.url" class="text-black-50">
+                                        <span class="gkit-p-17 font-weight-bold d-block mb-1" rv-text="item.product_title" class="cart-item-name"></span>
+                                        <span rv-text="item.variant_title" class="gkit-p-15 gkit-light"></span>
+
+                                        <span class="gkit-p-15 gkit-light" rv-show="item.properties.subscription">
+                                            Subscription - Every <span rv-text="cart.attributes.subscription_interval"></span> weeks.
+                                        </span>
+
+                                        <span class="gkit-p-15 gkit-light" rv-show="item.properties.shipping_interval_frequency">
+                                            every <span rv-text="item.properties.shipping_interval_frequency"></span>
+                                            <span rv-text="item.properties.shipping_interval_unit_type"></span>
+                                        </span>
+                                    </a>
+
+                                    <span rv-if="item.handle | messagecard">
+                                        <span class="gkit-p-17 font-weight-bold d-block mb-1" rv-text="item.product_title" class="cart-item-name"></span>
+                                        <span rv-text="item.variant_title" class="gkit-p-15 gkit-light"></span>
+                                        <span class="gkit-p-15 gkit-light" rv-show="item.properties.shipping_interval_frequency">
+                                            every <span rv-text="item.properties.shipping_interval_frequency"></span>
+                                            <span rv-text="item.properties.shipping_interval_unit_type"></span>
+                                        </span>
+                                    </span>
+                                </h2>
+
+                                <div class="d-none d-lg-flex align-items-center mt-auto">
+                                    <div class="d-flex align-items-center mr-3 border border-dark">
+                                        <a href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | plus 1" class="d-inline-block px-2 quantity-icon">+</a>
+                                        <span rv-text="item.quantity" class="d-inline-block"></span>
+                                        <a href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | minus 1" class="d-inline-block px-2 quantity-icon">-</a>
+                                    </div>
+
+                                    <a href="#" rv-data-cart-remove="index | plus 1" class="gkit-p-15 d-inline-block">{{ 'cart.general.remove' | t }}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex col-12 col-lg">
+                            <div class="d-flex align-items-end justify-content-between justify-content-lg-end mt-3 w-100">
+                                <div class="d-flex d-lg-none">
+                                    <div class="d-flex align-items-center mr-3 border border-dark">
+                                        <a href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | plus 1" class="d-inline-block px-2 quantity-icon">+</a>
+                                        <span rv-text="item.quantity" class="d-inline-block"></span>
+                                        <a href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | minus 1" class="d-inline-block px-2 quantity-icon">-</a>
+                                    </div>
+
+                                    <a href="#" rv-data-cart-remove="index | plus 1" class="d-inline-block">{{ 'cart.general.remove' | t }}</a>
+                                </div>
+                                <span class="discounted-price" rv-if="item.total_discount | gt 0">
+                                    <span class="strikethrough" rv-text="item.original_line_price | money Currency.currentCurrency"></span> <span class="green" rv-text="item.line_price | money Currency.currentCurrency"></span>
+                                </span>
+                                <span rv-unless="item.total_discount | gt 0">
+                                    <span class="gkit-p-15" rv-html="item.price | money Currency.currentCurrency"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div rv-if="cart.items | isSubscription" class="col-12">
+                    <div class="free-tin-block">
+                        <div class="row">
+                            <div class="col-3 text-center">
+                                <img loading="lazy" alt="Free Grind Tin" src="{{ 'grind-tin.svg' | asset_url }}" />
+                            </div>
+                            <div class="col tin-text-container">
+                                <p class="gkit-p-15 mb-0">Plus your Grind tin.</p>
+                                <p class="gkit-p-15 gkit-light my-0">It's free with your subscription.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div rv-show="cart.item_count | lt 1" class="col-12">
+                    <p class="gkit-p-17 mb-1"><strong>You don't have any items in your cart.</strong></p>
+                    <p class="gkit-p-15 my-0 gkit-light">You should really add something, we spent ages making this.</p>
+                </div>
+
+                {% assign collection = collections.all.products %}
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white p-4 w-100 checkout-btn" rv-show="cart.item_count | gt 0">
+        <p class="mb-3 text-center gkit-p-15">
+           <span class="mr-2  font-weight-bold">{{ 'cart.general.subtotal' | t }}:</span>
+            <span rv-html="cart.total_price | money Currency.currentCurrency"></span>
+        </p>
+
+        <a rv-show="cart.item_count | gt 0" id="checkoutBtn" href="#"
+           class="gkit-btn-lg gkit-primary btn-block">Checkout</a>
+    </div>
+</aside>
+
+{% if gift_card_product and gift_card_product.available and gift_card_product.variants.size > 0 %}
+    <div id="gift-card-modal" class="gift-card-selector modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="mx-4 p-4 rounded-0 modal-content">
+                <div class="step-one">
+                    <div class="row">
+                        {% for variant in gift_card_product.variants %}
+                            {% if variant.image.src %}
+                                {% assign variant_image = variant.image %}
+                            {% else %}
+                                {% assign variant_image = gift_card_product.featured_image %}
+                            {% endif %}
+
+                            <div class="col-6 col-md-4">
+                                <a href="javascript:;" class="d-block mb-4 gift-card js-gift-card" data-card-id="{{ variant.id }}">
+                                    <img loading="lazy" src="{{ variant_image | img_url: '300x' }}" alt="{{ variant.title }}" class="w-100">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button id="gift-card-select-btn" class="gkit-btn-md gkit-primary" disabled>Select Card</button>
+                    </div>
+                </div>
+
+                <div class="d-none step-two">
+                    <div class="row">
+                        <div class="d-none d-md-block col-5">
+                            <img loading="lazy" id="selected-card-preview" src="" alt="" class="w-100">
+                            <img loading="lazy" id="selected-card-preview" src="" alt="" class="w-100">
+                        </div>
+
+                        <div class="col-12 col-md">
+                            <textarea id="gift-card-text" class="px-3 py-3 w-100 h-100 gkit-input resize-none" maxlength="300" placeholder="Type your message here..."></textarea>
+                            <p class="remaining-chars">300</p>
+                        </div>
+                    </div>
+
+                    <div id="gift-card-error" class="d-none row justify-content-end">
+                        <div class="col-12 col-md-7">
+                            <span class="gkit-p-13 text-danger">Please enter a gift card message</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 row">
+                        <div class="col-5">
+                            <div class="d-flex align-items-center justify-content-center h-100">
+                                <button id="add-gift-card-btn" class="gkit-btn-md gkit-primary">Add to cart</button>
+                            </div>
+                        </div>
+
+                        {% if settings.cardModalText %}
+                            <div class="col">
+                                <div class="d-flex align-items-center h-100">
+                                    <p class="mb-0">
+                                        {{ settings.cardModalText }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<script>
+    $(document).ready(function(){
+
+        function itemChange() {
+            var shippingCost = {{ settings.ukShippingCost }};
+            jQuery.getJSON('/cart.js', function(cart) {
+
+                if  (cart.item_count >= 1) {
+
+                    var priceDifference = shippingCost - (cart.total_price / 100);
+
+                    if (priceDifference <= 0) {
+                        $('.js-shipping-counter').text(0);
+                    } else {
+                        priceDifference = priceDifference.toFixed(2);
+                        $('.js-shipping-counter').text(priceDifference);
+                    }
+
+                    $('.js-shipping-counter-container').removeClass('d-none');
+                    $('.js-related-products').addClass('d-none');
+
+                } else {
+                    $('.js-shipping-counter-container').addClass('d-none');
+                    $('.js-related-products').removeClass('d-none');
+                }
+            });
+        } itemChange();
+
+        $(document).on('cart.requestComplete', function() {
+            itemChange();
+        });
+
+        function reChargeProcessCart() {
+            function get_cookie(name){ return( document.cookie.match('(^|; )'+name+'=([^;]*)')||0 )[2] }
+            do {
+                token=get_cookie('cart');
+            }
+            while(token == undefined);
+
+            var myshopify_domain='{{ shop.permanent_domain }}'
+            try { var ga_linker = ga.getAll()[0].get('linkerParam') } catch(err) { var ga_linker ='' }
+            var customer_param = '{% if customer %}customer_id={{customer.id}}&customer_email={{customer.email}}{% endif %}'
+            checkout_url= "https://checkout.rechargeapps.com/r/checkout?myshopify_domain="+myshopify_domain+"&cart_token="+token+"&"+ga_linker+"&"+customer_param;
+            return checkout_url;
+        }
+
+        $('#checkoutBtn').click(function() {
+            var contains_gcharge_item = false;
+            var contains_subscription_item = false;
+            var cart_token = null;
+            var checkout_url;
+
+            jQuery.getJSON('/cart.js', function(cart) {
+                if(window.ttq) {
+                  window.ttq.track('InitiateCheckout', {
+                    'content_type': 'product_group',
+                    'contents': cart.items.map(function(item) {
+                      return {
+                        'id': item.id,
+                        'quantity': item.quantity
+                      };
+                    }),
+                    'currency': cart.currency,
+                    'value': parseFloat(cart.total_price) / 100
+                  });
+                }
+
+                if(cart.attributes && cart.attributes.subscription_start_date) {
+                    for (let itemIdx = 0; itemIdx < cart.items.length; itemIdx++) {
+                        const item = cart.items[itemIdx];
+                        if(item.properties && (item.properties.subscription || item.properties.recipient_email)) {
+                            cart_token = cart.token;
+                            contains_gcharge_item = true;
+                            return;
+                        }
+                    }
+                } else {
+                    for (let itemIdx = 0; itemIdx < cart.items.length; itemIdx++) {
+                        const item = cart.items[itemIdx];
+                        if(item.properties && item.properties.recipient_email) {
+                            cart_token = cart.token;
+                            contains_gcharge_item = true;
+                            return;
+                        }
+                    }
+                }
+                var items = cart.items;
+
+                for (let i = 0, itemsLength = items.length; i < itemsLength; i++) {
+                    let item = items[i];
+
+                    if (item.properties !== null && typeof item.properties.subscription_id !== "undefined" && typeof item.properties.shipping_interval_frequency !== "undefined") {
+                        contains_subscription_item = true;
+                        break;
+                    }
+                }
+            }).always(function() {
+                if (contains_gcharge_item) {
+                  
+                    const checkoutPrefix = ['grind-testing.myshopify.com', 'the-grind-website-eur.myshopify.com', 'the-grind-website-gbp.myshopify.com'].indexOf(window.theme.domain || window.location.hostname) > -1 ? 'https://checkout.dev.grind.co.uk/?token=' : 'https://checkout.grind.co.uk/?token=';
+                    checkout_url = checkoutPrefix + cart_token;
+                    document.location.href = checkout_url;
+
+                    // $.post('https://web-api.grind.co.uk/v1/shop/cart', {
+                    //     token: cart_token
+                    // }, function(data) {
+                        
+                    // })
+                    //checkout_url = 'https://checkout.dev.grind.co.uk/?token=' + cart_token;
+                } else if (contains_subscription_item) {
+                    checkout_url = reChargeProcessCart();
+                    document.location.href = checkout_url;
+                } else {
+                    checkout_url = '/cart/checkout/'
+                    document.location.href = checkout_url;
+                }
+
+                
+            });
+        });
+    });
+</script>

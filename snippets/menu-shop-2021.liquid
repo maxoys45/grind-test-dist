@@ -1,0 +1,159 @@
+{% comment %}
+Each image which will be used in the navigation has to be called in liquid before.
+{% endcomment %}
+
+{% assign navShopDefault = 'nav_shop-default.jpg' | asset_url %}
+{% assign navShopMachines = 'nav_shop-machines.jpg' | asset_url %}
+{% assign navShopPodTins = 'nav_shop-pod-tins.jpg' | asset_url %}
+{% assign navShopBeanGround = 'nav_shop-bean-ground.jpg' | asset_url %}
+{% assign navShopKiloBean = 'nav_shop-whole-bean.jpg' | asset_url %}
+{% assign navShopCoffeeRoastery = 'nav_shop-coffee-roastery.jpg' | asset_url %}
+{% assign navShopPodRefills = 'nav_shop-pod-refills.jpg' | asset_url %}
+{% assign navShopBeanRefills = 'nav_shop-bean-refills.jpg' | asset_url %}
+{% assign navShopGroundRefills = 'nav_shop-ground-refills.jpg' | asset_url %}
+{% assign navShopGiftSubscription = 'nav_shop-gift-subscription.jpg' | asset_url %}
+
+<div class="position-absolute w-100 desktop-menu desktop-menu-2021" id="js-shop-menu-2021">
+    <div class="container container-fluid row m-0 m-xl-auto">
+
+        <a class="close-button" id="js-shop-menu-2021-close" data-toggle="collapse" role="button" data-target="#js-shop-menu-2021">
+            <img loading="lazy" src="{{ 'close.svg' | asset_url}}" height="24" width="24" />
+        </a>
+
+        <div class="col-7 p-0 d-flex desktop-menu-submenu">
+
+            <div class="menu-list">
+
+                {% assign shopMenu = linklists.shop-services %}
+                {% if shopMenu != blank %}
+                    <div class="col-12 col-lg-auto p-0">
+                        {% include 'menu-group-2021',
+                            groupTitle: shopMenu.title,
+                            groupLinks: shopMenu.links
+                        %}
+                    </div>
+                {% endif %}
+
+                {% assign subscriptionMenu = linklists.shop-subscriptions %}
+                {% if subscriptionMenu != blank %}
+                    <div class="col-12 col-lg-auto p-0">
+                        {% include 'menu-group-2021',
+                            groupTitle: subscriptionMenu.title,
+                            groupLinks: subscriptionMenu.links
+                        %}
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div class="menu-helper-image-col">
+                <a id="shop-menu-image-link" href="">
+                    <div class="menu-helper-image">
+                        {% assign defaultImg = 'nav_shop-default.jpg' %}
+                        <div id="shop-menu-image" class="square-img" style="background: url('{{ defaultImg | asset_img_url: '720x480' }}')"></div>
+                        <div class="d-flex flex-column justify-content-center h-100">
+                            <p id="shop-menu-image-text" class="gkit-p-15 m-0 helper-image-text d-flex btn-arrow-right btn-arrow-right-full">
+                                <span class="mr-auto">Shop our products</span>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="menu-vertical-line"></div>
+
+        <div class="col-5 featured-content">
+            <div class="featured-content__card">
+                <h2 class="cta-title">{{ section.settings.desktop_ad_title}}</h2>
+                {% if section.settings.desktop_ad_img %}
+                    {% assign thumbnail = section.settings.desktop_ad_img | img_url: '720x480' %}
+                {% else %}
+                    {% assign thumbnail = 'nav_shop-featured.jpg' | asset_img_url: '720x480' %}
+                {% endif %}
+                <div class="featured-content__image" style="background-image: url('{{ thumbnail }}')">
+                    <p class="gkit-p-13 text-center">{{ section.settings.desktop_ad_message}}</p>
+                </div>
+                {% if section.settings.desktop_ad_link %}
+                    <a href="{{section.settings.desktop_ad_link}}" class="gkit-btn-lg gkit-secondary w-100">{{ section.settings.desktop_ad_btn_text}}</a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+(function($) {
+    var $shopSubmenu2021 = $("#js-shop-menu-2021 .submenu-item");
+
+  var shopSubmenu2021Assets = {
+    "/collections/all": {
+        "image": {{ navShopDefault | json }},
+        "title": "Shop all products"
+        },
+    "/products/grind-machine": {
+        "image": {{ navShopMachines | json }},
+        "title": "Grind One, our Nespresso® Pod Machine"
+        },
+    "/products/nespressopods": {
+        "image": {{ navShopPodTins | json }},
+        "title": "Compostable Nespresso® Pods"
+        },
+    "/products/beanandground": {
+        "image": {{ navShopBeanGround | json }},
+        "title": "Whole Bean & Ground Coffee Tin "
+        },
+    "/products/kilo-bean": {
+        "image": {{ navShopKiloBean | json }},
+        "title": "Whole Bean Coffee"
+        },
+    "/pages/roastery": {
+        "image": {{ navShopCoffeeRoastery | json }},
+        "title": "Our Coffee Roastery"
+        },
+    "/products/nespresso-pods-letterbox-pack": {
+        "image": {{ navShopPodRefills | json }},
+        "title": "Compostable Nespresso® Pods Letterbox Refill Pack"
+        },
+    "/products/whole-bean-letterbox-pack": {
+        "image": {{ navShopBeanRefills | json }},
+        "title": "Whole Bean Letterbox Refill Pack"
+        },
+    "/products/ground-coffee-letterbox-pack": {
+        "image": {{ navShopGroundRefills | json }},
+        "title": "Ground Coffee Letterbox Refill Pack"
+        },
+    "#/gcharge-create-plan?tab=0": {
+        "image": {{ navShopPodRefills | json }},
+        "title": "Compostable Nespresso® Pods Letterbox Refill Pack"
+        },
+    "#/gcharge-create-plan?tab=1": {
+        "image": {{ navShopBeanRefills | json }},
+        "title": "Whole Bean Letterbox Refill Pack"
+        },
+    "#/gcharge-create-plan?tab=2": {
+        "image": {{ navShopGroundRefills | json }},
+        "title": "Ground Coffee Letterbox Refill Pack"
+        },
+    "/products/gift-subscription": {
+        "image": {{ navShopGiftSubscription | json }},
+        "title": "Gift Subscription"
+        }
+  };
+
+  $shopSubmenu2021.hover(function () {
+    var href = $(this).attr("href");
+    var imageSrc = shopSubmenu2021Assets[href]["image"]
+    $("#shop-menu-image").css('background-image', 'url(' + imageSrc + ')');
+    $("#shop-menu-image").attr("src",imageSrc);
+    $("#shop-menu-image-link").attr("href",this.href);
+    $("#shop-menu-image-text span").text(shopSubmenu2021Assets[href]["title"]);
+    $("#shop-menu-image-text span").addClass("btn-inner");
+  });
+    $("#js-shop-menu-2021-close").click(function () {
+        $("#js-shop-menu-2021-nav").removeClass("active");
+        $("#nav-slider").css({"width":0});
+    });
+})(jQuery);
+</script>

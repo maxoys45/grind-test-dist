@@ -1,0 +1,9 @@
+<div class="reason-container">
+    <div class="mt-2">
+    {% for block in section.blocks %}
+        {% if block.type == blockType %}
+        {% include "pod-point" %}
+        {% endif %}
+    {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,30 @@
+{% assign blocks = "testimonialOne testimonialTwo testimonialThree" | split: " " %}
+{% assign title = section.settings.title %}
+
+<div class="my-5 py-5 container testimonials">
+    {% if title != blank %}
+        <h2 class="mb-5 text-center font-weight-extra-bold section-heading">{{ title }}</h2>
+    {% endif %}
+
+    <div class="row">
+        {% for block in blocks %}
+            {% assign settings = section.settings %}
+            {% assign text = block | append: 'Text' %}
+            {% assign author = block | append: 'Author' %}
+
+            {% if forloop.index == 3 %}
+                {% assign marginClass = 'mb-0' %}
+            {% else %}
+                {% assign marginClass = 'mb-5 mb-md-0' %}
+            {% endif %}
+
+            <div class="col-12 col-md">
+                <div class="{{ marginClass }} px-lg-3 h-100 text-center">
+                    <div class="font-italic font-weight-bold content">{{ settings[text] }}</div>
+                    <p class="mb-0 text-right font-italic font-weight-bold author">- {{ settings[author] }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+

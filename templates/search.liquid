@@ -1,0 +1,73 @@
+<div class="my-4 my-md-5 container">
+
+    {% if search.performed %}
+        {% if search.results_count == 0 %}
+            {% assign customTitle = 'general.search.no_results_html' | t: terms: search.terms %}
+        {% else %}
+            {% assign customTitle = 'general.search.results_for_html' | t: number: search.results_count, terms: search.terms %}
+        {% endif %}
+    {% else %}
+        {% assign customTitle = 'general.search.title' | t %}
+    {% endif %}
+
+    {% include 'page-title', title: customTitle %}
+
+    {% paginate search.results by 9 %}
+
+        {% if search.performed %}
+            <div class="mt-3 mt-md-4 row">
+
+                {% for item in search.results %}
+                    {% assign featured_image = item.image | default: item.featured_image %}
+
+                    <div class="col-6 col-md-4 mb-5">
+                        {% if featured_image != blank %}
+                            <img loading="lazy" src="{{ featured_image | img_url: '480x480' | crop: 'center' }}" alt="{{ item.title }}" class="img-fluid">
+                        {% else %}
+                            <img loading="lazy" src="{{ 'thumbnail_search_default.png' | asset_img_url: '480x480' | crop: 'center' }}" alt="{{ item.title }}" class="img-fluid">
+                        {% endif %}
+                        <h2 class="mt-3 mb-0 h6">
+                            <a href="{{ item.url }}" class="text-no-decoration">{{ item.title }}</a>
+                        </h2>
+                        {% if item.object_type == 'article' %}
+                            <p class="mb-0"><a href="{{ item.url }}" class="text-no-decoration">Read more</a></p>
+                        {% elsif item.object_type == 'page' %}
+                            <p class="mb-0"><a href="{{ item.url }}" class="text-no-decoration">View page</a></p>
+                        {% elsif item.object_type == 'product' %}
+                            <p class="mb-0">
+                                <a href="{{ item.url }}" class="text-no-decoration">
+                                    {% if item.compare_at_price > item.price %}
+                                        {% if item.price_varies %}
+                                            {% assign sale_price = item.price | money %}
+                                            {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                                        {% else %}
+                                            {{ 'products.product.on_sale' | t }}
+                                            <span itemprop="price">{{ item.price | money }}</span>
+                                        {% endif %}
+                                        <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+                                        <s>{{ item.compare_at_price | money }}</s>
+                                    {% else %}
+                                        {% if item.price_varies %}
+                                            {% assign price = item.price | money %}
+                                            <span itemprop="price">{{ 'products.product.from_text_html' | t: price: price }}</span>
+                                        {% else %}
+                                            From <span itemprop="price">{{ item.price | money }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </a>
+                            </p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {% if paginate.pages > 1 %}
+                    <div class="col-12">
+                        {% include 'pagination' %}
+                    </div>
+                {% endif %}
+
+            </div>
+        {% endif %}
+
+    {% endpaginate %}
+</div>

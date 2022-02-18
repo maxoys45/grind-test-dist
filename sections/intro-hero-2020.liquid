@@ -1,0 +1,73 @@
+{% assign backgroundColor = section.settings.backgroundColor %}
+{% assign heroImage = section.settings.heroImage %}
+{% assign contentTitle = section.settings.contentTitle %}
+{% assign contentBody = section.settings.contentBody %}
+{% assign ctaText = section.settings.ctaText %}
+{% assign ctaLink = section.settings.ctaLink %}
+<section class="container-fluid px-0 intro-hero-2020" style="background-color: {{ backgroundColor }};">
+    <div class="img-container d-none d-lg-flex">
+        <img loading="lazy" class="img" src="{{ heroImage | img_url: '1200x' }}"/>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <h1>{{ contentTitle }}</h1>
+                <p>{{ contentBody }}</p>
+                <a class="btn btn-dark" href="{{ ctaLink }}">{{ ctaText }}</a>
+            </div>
+            <div class="col-12 d-lg-none">
+                <div class="img-container">
+                    <img loading="lazy" class="img" src="{{ heroImage | img_url: '1200x' }}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+    {
+        "name": "Intro Hero (2020)",
+        "settings": [
+            {
+                "type": "color",
+                "id": "backgroundColor",
+                "label": "Background Colour",
+                "default": "#FFFFFF"
+            },
+            {
+                "type": "image_picker",
+                "id": "heroImage",
+                "label": "Hero Image"
+            },
+            {
+                "type": "text",
+                "id": "contentTitle",
+                "label": "Content Title",
+                "default": "Great coffee.<br/>Now at home."
+            },
+            {
+                "type": "textarea",
+                "id": "contentBody",
+                "label": "Content Body",
+                "default": "You might not be able to join us for coffee, food or cocktails right now - so we'll come to you. With our coffee pods, fresh bean, or ground coffee, you'll be supporting Grind, as well as our teams across London."
+            },
+            {
+                "type": "text",
+                "id": "ctaText",
+                "label": "CTA Text",
+                "default": "Shop coffee for delivery"
+            },
+            {
+                "type": "url",
+                "id": "ctaLink",
+                "label": "CTA Link"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Intro Hero (2020)",
+                "category": "Content"
+            }
+        ]
+    }
+{% endschema %}

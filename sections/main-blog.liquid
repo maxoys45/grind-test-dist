@@ -1,0 +1,193 @@
+{%- assign header_icon = section.settings.header_icon -%}
+
+<div class="blog">
+    <header class="blog__header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    {% if header_icon != blank %}
+                        <figure class="blog__header-icon">
+                            <img class="img-fluid"
+                                 src="{{ header_icon | img_url: '40x', scale: 2 }}"
+                                 alt="{{ header_icon.alt }}"
+                                 role="presentation"/>
+                        </figure>
+                    {% endif %}
+
+                    <h1 class="mb-0 gkit-h1 text-center">{{ blog.title }}</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="d-lg-none">
+        {% render 'blog-tags-select', blog: blog %}
+    </div>
+
+    <div class="blog__posts mt-5 mt-lg-0">
+        <div class="container">
+            <div class="blog__posts-inner">
+
+                {% paginate blog.articles by 7 %}
+
+                <div class="row">
+
+                    {% for article in blog.articles %}
+
+                        {% if forloop.first %}
+
+                            <div class="col-12 wow fadeIn mb-0 mb-lg-5">
+                                {% render 'article-feature', article: article %}
+                            </div>
+                            <div class="col-12 wow fadeIn d-none d-lg-block">
+                                {% render 'blog-tags-links', blog: blog %}
+                            </div>
+
+                        {% else %}
+
+                            <div class="col-12 col-md-6 col-xl-4 wow fadeIn" data-wow-delay="0.{{ forloop.index }}s">
+                                {% render 'article-card', article: article %}
+                            </div>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+        {% render 'product-advert', options: section.settings %}
+
+        {% if paginate.pages > 1 %}
+
+            <div class="container">
+                <div class="blog__posts-inner">
+                    <div class="row">
+                        <div class="col-12 wow fadeInUp">
+                            {% render 'pagination', paginate: paginate %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+
+        {% endpaginate %}
+
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "Blog",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "header_icon",
+            "label": "Header icon"
+        },
+        {
+            "type": "header",
+            "content": "Product advert"
+        },
+        {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Colour",
+            "default": "#E7F1EB"
+        },
+        {
+            "type": "header",
+            "content": "Product"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "default": "Introducing Grind One",
+            "label": "Title"
+        },
+        {
+            "type": "text",
+            "id": "content_body",
+            "default": "Introducing our very own pod machine, designed to get the best from our compostable Nespresso® pods and inspired by the Italian espresso machines we use every day in our London cafés.",
+            "label": "Description"
+        },
+        {
+            "type": "image_picker",
+            "id": "product_image",
+            "label": "Product image"
+        },
+        {
+            "type": "header",
+            "content": "CTA"
+        },
+        {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+        },
+        {
+            "type": "text",
+            "id": "button_text",
+            "default": "Learn more",
+            "label": "Button text"
+        },
+        {
+            "type": "header",
+            "content": "Selling points"
+        },
+        {
+            "type": "image_picker",
+            "id": "selling_point_image_1",
+            "label": "Image 1"
+        },
+        {
+            "type": "text",
+            "id": "selling_point_title_1",
+            "default": "Squeeze Every Drop.",
+            "label": "Title 1"
+        },
+        {
+            "type": "text",
+            "id": "selling_point_content_1",
+            "default": "With 19 bars of pressure, it's designed to make the most of our compostable coffee pods for Nespresso® machines.",
+            "label": "Content 1"
+        },
+        {
+            "type": "image_picker",
+            "id": "selling_point_image_2",
+            "label": "Image 2"
+        },
+        {
+            "type": "text",
+            "id": "selling_point_title_2",
+            "default": "Stainless Steel Design.",
+            "label": "Title 2"
+        },
+        {
+            "type": "text",
+            "id": "selling_point_content_2",
+            "default": "it's built to last - an antidote to the mass-market plastic machines that seem destined for landfill.",
+            "label": "Content 2"
+        },
+        {
+            "type": "image_picker",
+            "id": "selling_point_image_3",
+            "label": "Image 3"
+        },
+        {
+            "type": "text",
+            "id": "selling_point_title_3",
+            "default": "Nespresso® Compatible.",
+            "label": "Title 3"
+        },
+        {
+            "type": "text",
+            "id": "selling_point_content_3",
+            "default": "With 19 bars of pressure, it's designed to make the most of our compostable coffee pods for Nespresso® machines.",
+            "label": "Content 3"
+        }
+    ]
+}
+{% endschema %}

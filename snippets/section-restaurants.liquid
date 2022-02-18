@@ -1,0 +1,47 @@
+<div class="my-4 my-sm-5 container">
+    <div class="row justify-content-center">
+
+        {% if section.settings.restaurantUrl1 %}
+            <div class="col-12 col-sm-6 col-lg-4 wow fadeInUp">
+                <article class="mb-5 text-center">
+                    <a href="{{ section.settings.restaurantUrl1 }}" class="d-block">
+                        {% if section.settings.restaurantThumbnail1 %}
+                            <img loading="lazy" src="{{ section.settings.restaurantThumbnail1 | img_url: '480x304', crop: 'center' }}" alt="{{ section.settings.restaurantTitle1 }}" class="d-block mx-auto mb-3 mb-md-4 thumbnail w-100">
+                        {% endif %}
+                        <h5 class="gkit-p-17 mb-0"><strong>{{ section.settings.restaurantTitle1 }}</strong></h5>
+                        <p class="gkit-p-15 gkit-light mt-1 mb-0">{{ section.settings.restaurantAddress1 }}</p>
+                    </a>
+                </article>
+            </div>
+        {% endif %}
+
+        {% if section.settings.restaurantUrl2 %}
+            <div class="col-12 col-sm-6 col-lg-4 wow fadeInUp" data-wow-delay=".1s">
+                <article class="mb-5 text-center">
+                    <a href="{{ section.settings.restaurantUrl2 }}" class="d-block">
+                        {% if section.settings.restaurantThumbnail2 %}
+                            <img loading="lazy" src="{{ section.settings.restaurantThumbnail2 | img_url: '480x304', crop: 'center' }}" alt="{{ section.settings.restaurantTitle2 }}" class="d-block mx-auto mb-3 mb-md-4 thumbnail w-100">
+                        {% endif %}
+                        <h5 class="gkit-p-17 mb-0"><strong>{{ section.settings.restaurantTitle2 }}</strong></h5>
+                        <p class="gkit-p-15 gkit-light mt-1 mb-0">{{ section.settings.restaurantAddress2 }}</p>
+                    </a>
+                </article>
+            </div>
+        {% endif %}
+
+        {% if section.settings.restaurantUrl3 %}
+            <div class="col-12 col-sm-6 col-lg-4 wow fadeInUp" data-wow-delay=".2s">
+                <article class="mb-5 text-center">
+                    <a href="{{ section.settings.restaurantUrl3 }}" class="d-block">
+                        {% if section.settings.restaurantThumbnail3 %}
+                            <img loading="lazy" src="{{ section.settings.restaurantThumbnail3 | img_url: '480x304', crop: 'center' }}" alt="{{ section.settings.restaurantTitle3 }}" class="d-block mx-auto mb-3 mb-md-4 thumbnail w-100">
+                        {% endif %}
+                        <h5 class="gkit-p-17 mb-0"><strong>{{ section.settings.restaurantTitle3 }}</strong></h5>
+                        <p class="gkit-p-15 gkit-light mt-1 mb-0">{{ section.settings.restaurantAddress3 }}</p>
+                    </a>
+                </article>
+            </div>
+        {% endif %}
+
+    </div>
+</div>

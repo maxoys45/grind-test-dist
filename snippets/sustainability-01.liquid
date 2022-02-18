@@ -1,0 +1,27 @@
+<section class="sustainability-01 sustainability-section__container" style="background-color: {{ background_colour }}; color: {{ text_colour }};">
+    <div class="sustainability-section__content-container">
+      <div class="overflow-container">
+        {% if background_image != blank %}
+        <div class="sustainability-01__background" id="animatable-section-one-background" style="background-image: url({{ background_image | img_url: '1440x' }});"></div>
+        <div class="sustainability-section__gradient" id="animatable-section-one-gradient"></div>
+        {% endif %}
+        <div class="sustainability-section__inner-content text-center" id="animatable-section-one-content-container">
+          {% if video != blank %}
+          <div class="sustainability-01__video mb-5" id="animatable-section-one-pod">
+            <video height="120" autoplay playsinline loop muted>
+              <source src="{{ video }}" type="video/mp4">
+            </video>
+          </div>
+          {% endif %}
+
+          {% if title != blank %}
+          <h1 class="sustainability-section__title gkit-h0 text-center my-0">{{ title | escape }}</h1>
+          {% endif %}
+
+          {% if paragraph != blank %}
+          <div class="sustainability-section__body gkit-p-20 mt-4" id="animatable-section-one-body">{{ paragraph }}</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+</section>

@@ -1,0 +1,66 @@
+<div class="my-4 my-sm-5 container">
+
+    {% include 'page-title', title: 'My Account' %}
+
+    <div class="row">
+
+        <div class="mb-4 mb-lg-0 col-12">
+            <h2 class="mb-4 font-weight-bold">{{ 'customer.orders.title' | t }}</h2>
+
+            {% if customer.metafields.subscriptions.customer_string %}
+                <!--BeginRechargeCode-->
+                <p><a class="btn-block btn-outline btn-outline-primary text-dark border-dark" href="/tools/recurring/customer/{{customer.metafields.subscriptions.customer_string}}/subscriptions/">Manage Subscriptions</a></p>
+                <!--EndRechargeCode-->
+            {% endif %}<br>
+
+            {% paginate customer.orders by 20 %}
+
+                {% if customer.orders.size != 0 %}
+                    <div class="pr-lg-5">
+                        <table class="mb-0 table table-borderless">
+                            <thead>
+                                <tr class="border-bottom">
+                                    <th scope="col">{{ 'customer.orders.order_number' | t }}</th>
+                                    <th scope="col">{{ 'customer.orders.date' | t }}</th>
+                                    <th scope="col">{{ 'customer.orders.payment_status' | t }}</th>
+                                    <th scope="col">{{ 'customer.orders.fulfillment_status' | t }}</th>
+                                    <th scope="col">{{ 'customer.orders.total' | t }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in customer.orders %}
+                                    <tr>
+                                        <td data-label="{{ 'customer.orders.order_number' | t }}">
+                                            <a href="{{ order.customer_url }}" class="text-black-50 text-no-decoration">{{ order.name }}</a>
+                                        </td>
+                                        <td data-label="{{ 'customer.orders.date' | t }}">{{ order.created_at | date: format: 'month_day_year' }}</td>
+                                        <td data-label="{{ 'customer.orders.payment_status' | t }}">{{ order.financial_status_label }}</td>
+                                        <td data-label="{{ 'customer.orders.fulfillment_status' | t }}">{{ order.fulfillment_status_label }}</td>
+                                        <td data-label="{{ 'customer.orders.total' | t }}">{{ order.total_price | money }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                {% else %}
+                    <p class="mb-0">{{ 'customer.orders.none' | t }}</p>
+
+                {% endif %}
+
+                {% if paginate.pages > 1 %}
+                    {% include 'pagination' %}
+                {% endif %}
+
+            {% endpaginate %}
+        </div>
+
+        <div class="col-12">
+            <div class="d-flex justify-content-end pt-4 pt-md-5">
+                <a href="/account/logout" class="btn btn-primary">Log out</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,13 @@
+<article class="mb-lg-4 feature-excerpt-large">
+
+    <img loading="lazy" src="{{ article.image | img_url: '800x500', crop: 'center' }}" alt="{{ article.title }}" class="breakout thumbnail">
+
+    <div class="bg-white p-4 p-lg-5 excerpt-content">
+        <h3 class="mb-lg-3 title">{{ article.title }}</h3>
+        <div class="mb-3 mb-md-4 mb-lg-5 content-no-margin summary">
+            {{ article.excerpt }}
+        </div>
+        <a href="{{ article.url }}" class="btn btn-primary btn-sm btn-wide">Read more<i class="ml-4 fas fa-arrow-right"></i></a>
+    </div>
+
+</article>

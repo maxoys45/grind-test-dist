@@ -1,0 +1,48 @@
+{% assign fullHeight = section.settings.mastheadFullHeight %}
+{% assign includeOverlay = section.settings.mastheadOverlay %}
+{% assign showTitle = section.settings.mastheadShowTitle %}
+{% assign title = section.settings.mastheadTitle | default: page.title %}
+{% assign subTitle = section.settings.mastheadSubTitle %}
+{% assign opacity = section.settings.mastheadOpacity %}
+{% assign templateSuffix = page.template_suffix %}
+
+{% if template == "index" or templateSuffix == "london-grind" or templateSuffix == "clerkenwell-grind" or templateSuffix == "exmouth-market-grind" or templateSuffix == "covent-garden-grind" %}
+    {% assign marginClasses = "mb-0" %}
+{% endif %}
+
+{% if fullHeight %}
+    {% if template == 'index' %}
+        {% assign mastheadClasses = "masthead masthead-full-height masthead-md-half-height" %}
+    {% else %}
+        {% assign mastheadClasses = "masthead masthead-full-height" %}
+    {% endif %}
+{% else %}
+    {% assign mastheadClasses = "masthead" %}
+{% endif %}
+
+{% if includeOverlay and mastheadClasses == "masthead masthead-full-height masthead-md-half-height" %}
+    {% assign paddingClasses = 'pt-5 pb-md-5 pt-md-0' %}
+{% endif %}
+
+<div class="{{ marginClasses | default: 'mb-4 mb-md-5' }} {{ mastheadClasses }} js-masthead" {% if section.settings.mastheadBackground and section.settings.mastheadBackgroundVideo == blank %}style="background-image: url({{ section.settings.mastheadBackground | img_url: '1800x' }});"{% endif %}>
+    {% if section.settings.mastheadBackgroundVideo %}
+        <video loading="lazy" class="video" muted autoplay loop playsinline>
+            <source src="{{ section.settings.mastheadBackgroundVideo }}" type="video/mp4">
+        </video>
+    {% endif %}
+
+    <div class="d-flex h-100 {{ paddingClasses | default: 'py-5 pb-md-0' }} masthead-content" style="background: rgba(0,0,0, {{ opacity }})">
+        <div class="d-flex align-self-center flex-column text-center container">
+            {% if showTitle %}
+                {% if section.settings.mastheadReverse %}
+                    <p class="mb-3 gkit-p-17 text-white wow fadeInUp" data-wow-delay=".75s">{{ subTitle }}</p>
+                    <h1 class="mb-0 gkit-h1 text-white wow fadeInUp" data-wow-delay="1s">{{ title }}</h1>
+                {% else %}
+                    <h1 class="mb-3 gkit-h1 text-white wow fadeInUp" data-wow-delay=".75s">{{ title }}</h1>
+                    <p class="mb-0 gkit-p-17 text-white wow fadeInUp" data-wow-delay="1s">{{ subTitle }}</p>
+                {% endif %}
+            {% endif %}
+
+        </div>
+    </div>
+</div>

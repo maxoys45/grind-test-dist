@@ -1,0 +1,52 @@
+{% assign automatic = section.settings.automatic %}
+{% assign opacity = section.settings.opacity %}
+{% assign carousel_title = section.settings.title %}
+{% assign carousel_summary = section.settings.summary %}
+{% assign blog = blogs[section.settings.blog] %}
+
+{% if automatic %}
+    {% assign articles = blog.articles | sort: 'published_at' %}
+{% else %}
+    {% assign articles = 'slideOne slideTwo slideThree slideFour slideFive slideSix slideSeven slideEight slideNine slideTen slideEleven slideTwelve' | split: ' ' %}
+    {% assign article_settings = section.settings %}
+{% endif %}
+
+<div class="my-5">
+    <div class="container">
+        {% if carousel_title or carousel_summary %}
+            <div class="mb-5 pt-4 mt-md-5 row justify-content-center">
+                {% if carousel_title %}
+                    <div class="col-12">
+                        <h2 class="mb-3 text-center font-weight-bold">{{ carousel_title }}</h2>
+                    </div>
+                {% endif %}
+
+                {% if carousel_summary %}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="text-center font-weight-light h5 rich-text-block">{{ carousel_summary }}</div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if articles %}
+            <div class="blog-carousel js-blog-carousel">
+                {% for article in articles %}
+                    {% if automatic %}
+                        {% include 'blog-slide', title: article.title, image: article.image, link: article.url, opacity: opacity %}
+                    {% else %}
+                        {% assign title = article | append: 'Title' %}
+                        {% assign image = article | append: 'Image' %}
+                        {% assign link = article | append: 'Link' %}
+
+                        {% if article_settings[title] and article_settings[image] and article_settings[link] %}
+                            {% include 'blog-slide', title: article_settings[title], image: article_settings[image], link: article_settings[link], opacity: opacity %}
+                        {% else %}
+                            {% break %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,48 @@
+{% if size == blank %}
+    {% assign size = '345x' %}
+{% endif %}
+
+{% if size_sm == blank %}
+    {% assign size_sm = '546x' %}
+{% endif %}
+
+{% if size_md == blank %}
+    {% assign size_md = '708x' %}
+{% endif %}
+
+{% if size_lg == blank %}
+    {% assign size_lg = '932x' %}
+{% endif %}
+
+{% if size_xl == blank %}
+    {% assign size_xl = '1160x' %}
+{% endif %}
+
+{% if size_xxl == blank %}
+    {% assign size_xxl = '1380x' %}
+{% endif %}
+
+{% if classes == blank %}
+    {% assign classes = '' %}
+{% endif %}
+
+{% if cropType == blank %}
+    {% assign cropType = '' %}
+{% endif %}
+
+<picture>
+    <source srcset="{{ image.src | img_url: size_xxl, crop: cropType }} 1x, {{ image.src | img_url: size_xxl, crop: cropType, scale: 2 }} 2x"
+            media="(min-width: 1440px)">
+    <source srcset="{{ image.src | img_url: size_xl, crop: cropType }} 1x, {{ image.src | img_url: size_xl, crop: cropType, scale: 2 }} 2x"
+            media="(min-width: 1220px)">
+    <source srcset="{{ image.src | img_url: size_lg, crop: cropType }} 1x, {{ image.src | img_url: size_lg, crop: cropType, scale: 2 }} 2x"
+            media="(min-width: 992px)">
+    <source srcset="{{ image.src | img_url: size_md, crop: cropType }} 1x, {{ image.src | img_url: size_md, crop: cropType, scale: 2 }} 2x"
+            media="(min-width: 768px)">
+    <source srcset="{{ image.src | img_url: size_sm, crop: cropType }} 1x, {{ image.src | img_url: size_sm, crop: cropType, scale: 2 }} 2x"
+            media="(min-width: 576px)">
+    <img loading="lazy" class="{{ class }}"
+         alt="{{ image.alt }}"
+         src="{{ image.src | img_url: size, crop: cropType }}"
+         srcset="{{ image.src | img_url: size, crop: cropType }} 1x, {{ image.src | img_url: size, crop: cropType, scale: 2 }} 2x"/>
+</picture>

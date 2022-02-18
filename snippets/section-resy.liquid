@@ -1,0 +1,207 @@
+<!-- TODO: check if still needed. page-test1 and page.test2 using it -->
+
+<div class="my-4 my-sm-5 container">
+  <div class="row half-gutters">
+    <div class="mb-3 mb-lg-0 col-12 col-lg-4 wow fadeInUp">
+      <div class="d-lg-flex align-items-lg-center bg-light p-4 p-lg-5 h-100">
+        <div class="w-100">
+          <h2 class="mb-3 mb-lg-4 font-weight-bold">Book a Table Now</h2>
+          <form>
+            <div class="row align-items-center">
+              <div class="col-12">
+                <div class="form-custom-select">
+                  <select
+                    class="
+                      mb-4
+                      bg-transparent
+                      text-uppercase
+                      form-control form-control-branded
+                      js-form-custom-select
+                    "
+                    id="resyHomeVenue"
+                    required
+                  >
+                    {% render 'resy-dropdown-options' %}
+                  </select>
+                  <i class="fas fa-arrow-down"></i>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-custom-select">
+                  <input
+                    type="text"
+                    autocomplete="false"
+                    class="
+                      mb-4
+                      bg-transparent
+                      text-uppercase
+                      form-control form-control-branded
+                      js-form-custom-select
+                    "
+                    data-toggle="datepicker"
+                    id="resyHomeDate"
+                    name="resDate"
+                    placeholder="Select a date"
+                    readonly
+                    required
+                  />
+                  <i class="fas fa-arrow-down"></i>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-custom-select">
+                  <select
+                    class="
+                      mb-4
+                      bg-transparent
+                      text-uppercase
+                      form-control form-control-branded
+                      js-form-custom-select
+                    "
+                    id="resyHomeSeats"
+                    required
+                  >
+                    <option value="" selected disabled hidden>
+                      Number of guests
+                    </option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                  </select>
+                  <i class="fas fa-arrow-down"></i>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <input
+                  class="btn btn-block btn-primary btn-wide"
+                  onClick="resyHomeSubmit()"
+                  type="button"
+                  value="Book a Table"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {% assign pageOne = section.settings.featuredPageUrlOne %} {% assign pageTwo
+    = section.settings.featuredPageUrlTwo %} {% unless pageOne == blank %}
+    <div class="col-12 col-md-6 col-lg wow fadeInUp">
+      <article
+        class="featured-page d-flex flex-column"
+        style="min-height: 100%"
+      >
+        <img
+          loading="lazy"
+          src="{{ section.settings.featuredPageThumbnailOne | img_url: '900x600', crop: 'center' }}"
+          alt="{{ section.settings.featuredPageThumbnailOne.alt }}"
+          class="breakout thumbnail"
+        />
+        <div
+          class="d-flex flex-column mb-4 mb-md-0 px-md-4 px-xl-5"
+          style="flex: 1 1 auto"
+        >
+          <div
+            class="
+              d-flex
+              flex-column
+              align-items-start
+              position-relative
+              bg-white
+              p-4
+              pb-md-0
+              content-wrap
+            "
+            style="flex: 1 1 auto"
+          >
+            <h2 class="mb-0 font-weight-bold">
+              {{ section.settings.featuredPageTitleOne }}
+            </h2>
+            <p class="my-3 w-100">
+              {{ section.settings.featuredPageDescriptionOne }}
+            </p>
+            <a
+              href="{{ pageOne }}"
+              class="mt-auto btn btn-arrow-right btn-primary"
+            >
+              <span class="btn-inner">Discover More</span>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+    {% endunless %} {% unless pageTwo == blank %}
+    <div class="col-12 col-md-6 col-lg wow fadeInUp" data-wow-delay=".1s">
+      <article
+        class="featured-page d-flex flex-column"
+        style="min-height: 100%"
+      >
+        <img
+          loading="lazy"
+          src="{{ section.settings.featuredPageThumbnailTwo | img_url: '900x600', crop: 'center' }}"
+          alt="{{ section.settings.featuredPageThumbnailTwo.alt }}"
+          class="breakout thumbnail"
+        />
+        <div
+          class="d-flex flex-column mb-4 mb-md-0 px-md-4 px-xl-5"
+          style="flex: 1 1 auto"
+        >
+          <div
+            class="
+              d-flex
+              flex-column
+              align-items-start
+              position-relative
+              bg-white
+              p-4
+              pb-md-0
+              content-wrap
+            "
+            style="flex: 1 1 auto"
+          >
+            <h2 class="mb-0 font-weight-bold">
+              {{ section.settings.featuredPageTitleTwo }}
+            </h2>
+            <p class="my-3 w-100">
+              {{ section.settings.featuredPageDescriptionTwo }}
+            </p>
+            <a
+              href="{{ pageTwo }}"
+              class="mt-auto btn btn-arrow-right btn-primary"
+            >
+              <span class="btn-inner">Discover More</span>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+    {% endunless %}
+  </div>
+</div>
+
+<script type="text/javascript">
+  function resyHomeSubmit() {
+    var resyHomeVenueObj = document.getElementById("resyHomeVenue").value;
+    var resyHomeVenue = JSON.parse(resyHomeVenueObj);
+    var resyHomeSeats = document.getElementById("resyHomeSeats").value;
+    var resyHomeDate = document.getElementById("resyHomeDate").value;
+    resyWidget.openModal({
+      venueId: resyHomeVenue.venueID,
+      apiKey: resyHomeVenue.apiKey,
+      date: resyHomeDate,
+      seats: resyHomeSeats,
+    });
+  }
+</script>

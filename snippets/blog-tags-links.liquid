@@ -1,0 +1,32 @@
+{% if blog.all_tags != blank %}
+
+<!-- {{ blog.tags | json }} -->
+<!-- {{ current_tags | json }} -->
+
+    {% liquid
+        assign current_tag = ''
+
+        if current_tags and current_tags.size > 0
+            assign current_tag = current_tags.first
+        else
+            assign current_tag = ''
+        endif
+    %}
+
+    <div class="blog-tags-links">
+        <h2 class="mb-0 font-weight-normal">{{ 'blogs.general.categories' | t }}:</h2>
+        <ul class="blog-tags-links__list">
+            <li class="blog-tags-links__list-item">
+                <a class="pill{% if current_tag == '' %} pill--active{% endif %}" href="{{ blog.url }}" aria-label="{{ 'blogs.general.all_articles' | t }}">{{ 'blogs.general.all_articles' | t }}</a>
+            </li>
+
+            {% for tag in blog.all_tags %}
+                <li class="blog-tags-links__list-item">
+                    <a class="pill{% if current_tag == tag %} pill--active{% endif %}" href="{{ blog.url }}/tagged/{{ tag | handleize }}" aria-label="{{ tag }}">{{ tag }}</a>
+                </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+
+{% endif %}

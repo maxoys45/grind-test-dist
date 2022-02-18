@@ -1,0 +1,11 @@
+{% if section.settings.richTextReduceWidth %}
+    {% assign classes = 'inner reduced' %}
+{% else %}
+    {% assign classes = 'inner' %}
+{% endif %}
+
+<div class="mb-4 mb-sm-5 container content-block wow fadeInUp">
+    <div class="content-no-margin {{ classes }} gkit-p-17">
+        {{ section.settings.richText }}
+    </div>
+</div>

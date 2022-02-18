@@ -1,0 +1,19 @@
+<div class="my-4 my-sm-5 container">
+    <div class="row">
+
+        {% for product in collections[section.settings.productsCollection].all_products limit: limit %}
+            <div class="col-6 col-md-4">
+                {% include 'excerpt-product',
+                    compareAtPrice: product.compare_at_price,
+                    price: product.price,
+                    showPrice: true,
+                    tags: product.tags,
+                    thumbnail: product.featured_image,
+                    title: product.title,
+                    url: product.url
+                %}
+            </div>
+        {% endfor %}
+
+    </div>
+</div>

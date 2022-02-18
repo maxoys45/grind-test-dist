@@ -1,0 +1,54 @@
+<a href="{{section.settings.page_link}}" id="floating-cta-btn" class="position-fixed d-flex d-md-none w-100 px-4"  style="bottom: 2rem; z-index: 100">
+  <button class="gkit-btn-lg gkit-primary w-100" style="background-color: {{ section.settings.button_colour }}; color: {{ section.settings.text_colour }}">{{section.settings.button_text}}</button> 
+</a>
+<!-- This handles the footeer padding when floating CTA is present -->
+<script type="text/javascript">
+  (function ($) {
+    $(function() {
+      $('#footer-2020').addClass('footer-floating-cta-fix');
+    })
+  })(jQuery);
+</script>
+<style>
+@media only screen and (max-width: 768px) {
+  #gorgias-chat-container #chat-button {
+    bottom: 80px !important;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Floating CTA",
+  "settings": [
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "Shop now",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "page_link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "text_colour",
+      "label": "Text Colour",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_colour",
+      "label": "Button Colour",
+      "default": "#2d2926"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Floating CTA"
+    }
+  ]
+}
+{% endschema %}

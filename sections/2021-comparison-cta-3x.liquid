@@ -1,0 +1,115 @@
+{% assign title = section.settings.title %}
+{% assign subtitle = section.settings.subtitle %}
+{% assign isImageOffset = section.settings.isImageOffset %}
+
+<section class="container my-4 my-md-5">
+    <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-6 text-center">
+        <h2 class="gkit-h1">{{title}}</h2>
+        <p class="gkit-p-17 gkit-light">{{subtitle}}</p>
+    </div>
+    </div>
+    <div class="row justify-content-center">
+    <div class="col-md-12 col-lg-10 col-xl-8 d-md-flex align-items-center justify-content-center">
+    {% for block in section.blocks %}
+        {% if forloop.index == 1 %}
+            {% assign containerClass = "no-border-right" %}
+        {% elsif forloop.index == 3 %}
+            {% assign containerClass = "no-border-left" %}
+        {% else %}
+            {% assign containerClass = "" %}
+        {% endif %}
+        {% assign imageBackgroundColor = block.settings.imageBackgroundColor %}
+        {% assign cardImage = block.settings.image %}
+        {% assign cardTitle = block.settings.title %}
+        {% assign cardPrice = block.settings.price %}
+        {% assign cardContent = block.settings.content %}
+        {% assign cardUrl = block.settings.url %}
+        {% assign cardButtonText = block.settings.buttonText %}
+        {% if forloop.index == 2 %}
+            {% assign isFeatured = true %}
+        {% else %}
+            {% assign isFeatured = false %}
+        {% endif %}
+
+        {% include "cta-card" %}
+    {% endfor %}
+    </div>
+    </div>
+</section>
+
+{% schema %}
+    {
+        "name": "2021 Comparison CTA 3x",
+        "blocks": [
+            {
+                "type": "Card",
+                "name": "Card",
+                "limit": 3,
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title Text"
+                    },
+                    {
+                        "type": "text",
+                        "id": "price",
+                        "label": "Price"
+                    },
+                    {
+                        "type": "text",
+                        "id": "content",
+                        "label": "Content Text"
+                    },
+                    {
+                        "type": "url",
+                        "id": "url",
+                        "label": "Select the page to use"
+                    },
+                    {
+                        "type": "text",
+                        "id": "buttonText",
+                        "label": "Button text"
+                    },
+                    {
+                        "type": "color",
+                        "id": "imageBackgroundColor",
+                        "label": "Image Background Colour",
+                        "info": "Setting this will put your card image in a coloured circle"
+                    }
+                ]
+            }
+        ],
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title Text"
+            },
+            {
+                "type": "text",
+                "id": "subtitle",
+                "label": "Subtitle Text"
+            },
+            {
+                "type": "checkbox",
+                "id": "isImageOffset",
+                "label": "Offset Image",
+                "default": false,
+                "info": "This determines if your card images will peek outside of the container"
+            }
+        ],
+        "presets": [
+            {
+                "name": "2021 Comparison CTA 3x",
+                "category": "Content"
+            }
+        ]
+    }
+{% endschema %}

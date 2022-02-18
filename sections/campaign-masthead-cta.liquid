@@ -1,0 +1,105 @@
+{% include 'section-masthead-cta' %}
+
+{% schema %}
+{
+  "name": "Campaign Masthead Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "backgroundColour",
+      "label": "Background Colour",
+      "options": [
+        {
+          "value": "transparent",
+          "label": "Transparent"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "primary",
+          "label": "Pink"
+        },
+        {
+          "value": "light",
+          "label": "Light Grey"
+        },
+        {
+          "value": "dark",
+          "label": "Dark Grey"
+        }
+      ],
+      "default": "transparent"
+    },
+    {
+      "type": "checkbox",
+      "id": "addTopMargin",
+      "label": "Add Top Margin"
+    },
+    {
+      "type": "checkbox",
+      "id": "addBottomMargin",
+      "label": "Add Bottom Margin"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "url",
+      "id": "btnLink",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "btnText",
+      "label": "Button Text"
+    },
+    {
+      "type": "select",
+      "id": "btnColour",
+      "label": "Button Colour",
+      "options": [
+        {
+          "value": "black",
+          "label": "Black"
+        },
+        {
+          "value": "primary",
+          "label": "Pink"
+        },
+        {
+          "value": "light",
+          "label": "Light Grey"
+        },
+        {
+          "value": "dark",
+          "label": "Dark Grey"
+        }
+      ],
+      "default": "dark"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Campaign Masthead Hero"
+    }
+  ]
+}
+
+{% endschema %}

@@ -1,0 +1,328 @@
+<article class="grind-away-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6 order-lg-2">
+                <div class="grind-away-content__text">
+                    <h1 class="grind-away-content__logos">
+                        <span>GRIND</span> <span>&times;</span> <span>AWAY</span>
+                    </h1>
+
+                    {% if section.settings.page_title != blank %}
+                        <h2 class="grind-away-content__title gkit-h1 mb-4">{{ section.settings.page_title | escape }}</h2>
+                    {% endif %}
+
+                    <div class="grind-away-content__media grind-away-content__media--md-down">
+
+                        {% if section.settings.image != blank %}
+                            <figure class="grind-away-content__figure">
+                                {%- render 'image',
+                                        image: section.settings.image,
+                                        class: 'img-fluid',
+                                        size: '250x',
+                                        size_sm: '250x',
+                                        size_md: '250x',
+                                        size_lg: '250x',
+                                        size_xl: '250x',
+                                        size_xxl: '250x' -%}
+                            </figure>
+                        {% endif %}
+
+                        {% if section.settings.badge_title != blank or section.settings.badge_subtitle != blank %}
+                            <div class="grind-away-content__badge">
+                                {% if section.settings.badge_title != blank %}
+                                    <h3 class="grind-away-content__badge-text gkit-p-15 mb-1 font-weight-extra-bold">{{ section.settings.badge_title }}</h3>
+                                {% endif %}
+
+                                {% if section.settings.badge_subtitle != blank %}
+                                    <p class="grind-away-content__badge-text gkit-p-11 m-0">{{ section.settings.badge_subtitle }}</p>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                    {% if section.settings.introduction != blank %}
+                        <div class="grind-away-content__intro gkit-p-20">{{ section.settings.introduction }}</div>
+                    {% endif %}
+
+                </div>
+                <div class="grind-away-content__form">
+                    <form id="grind-away-submission-form">
+                        <div class="form-group">
+                            <label for="formQuestion" class="gkit-p-17 font-weight-extra-bold">{{ section.settings.form_input_label }}</label>
+                            <input id="formQuestion"
+                                   class="form-control"
+                                   aria-describedby="formQuestion"
+                                   name="guess"
+                                   type="number"
+                                   step="1"
+                                   min="1"
+                                   autocomplete="off"
+                                   onkeydown="return event.keyCode >= 48 && event.keyCode <= 57 || event.keyCode === 8 || event.keyCode === 9 || event.keyCode >= 37 && event.keyCode <= 40"
+                                   required />
+                        </div>
+                        <div class="form-group">
+                            <label for="formEmail" class="gkit-p-17 font-weight-extra-bold">{{ 'away.form.email' | t }}</label>
+                            <input id="formEmail"
+                                   class="form-control"
+                                   aria-describedby="formEmail"
+                                   name="email"
+                                   type="email"
+                                   autocomplete="off"
+                                   required />
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input id="formGdprGrind"
+                                   name="grindMarketing"
+                                   type="checkbox"
+                                   aria-describedby="formGdprGrind"
+                                   class="custom-control-input" />
+                            <label for="formGdprGrind" class="custom-control-label">{{ 'away.form.gdpr_grind' | t }}</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input id="formGdprAway"
+                                   name="awayMarketing"
+                                   type="checkbox"
+                                   aria-describedby="formGdprAway"
+                                   class="custom-control-input" />
+                            <label for="formGdprAway" class="custom-control-label">{{ 'away.form.gdpr_away' | t }}</label>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-black btn-block" aria-label="{{ 'away.form.submit' | t }}">{{ 'away.form.submit' | t }}</button>
+                        </div>
+
+                        {% if section.settings.small_print != blank %}
+                            <div class="grind-away-content__small-print mt-4 mt-lg-3 px-md-5 text-md-center gkit-p-17 mb-0 px-md-2">
+                                {{ section.settings.small_print }}
+                            </div>
+                        {% endif %}
+
+                    </form>
+                </div>
+                <div class="terms-box mt-3">
+                    <p class="gkit-p-15 gkit-light">
+                        *Competition entries are limited to one entry per person. The competition closes on the 16th of July and the winner will be announced on the 18th of July.
+                    </p>
+                </div>
+            </div>
+            <div class="d-none d-lg-block col-lg-6 order-lg-1">
+                <div class="grind-away-content__media grind-away-content__media--lg-up">
+
+                    {% if section.settings.image != blank %}
+                        <figure class="grind-away-content__figure">
+                            {%- render 'image',
+                                    image: section.settings.image,
+                                    class: 'img-fluid',
+                                    size: '412x',
+                                    size_sm: '412x',
+                                    size_md: '412x',
+                                    size_lg: '412x',
+                                    size_xl: '412x',
+                                    size_xxl: '412x' -%}
+                        </figure>
+                    {% endif %}
+
+                    {% if section.settings.badge_title != blank or section.settings.badge_subtitle != blank %}
+                        <div class="grind-away-content__badge">
+                            {% if section.settings.badge_title != blank %}
+                                <h3 class="grind-away-content__badge-text gkit-p-15 mb-1 font-weight-extra-bold">{{ section.settings.badge_title }}</h3>
+                            {% endif %}
+
+                            {% if section.settings.badge_subtitle != blank %}
+                                <p class="grind-away-content__badge-text gkit-p-11 m-0">{{ section.settings.badge_subtitle }}</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if section.settings.passport_title != blank or section.settings.passport_text != blank %}
+
+        <div class="grind-away-content__passport">
+            <div class="container">
+                <div class="row justify-content-md-end align-items-md-center">
+                    <div class="col-12 col-md-9">
+
+                        {% if section.settings.passport_title != blank %}
+                            <h2 class="grind-away-content__passport-title font-weight-extra-bold mb-3 mb-md-4">{{ section.settings.passport_title }}</h2>
+                        {% endif %}
+
+                        {% if section.settings.passport_text != blank %}
+                            <div class="grind-away-content__passport-text">{{ section.settings.passport_text }}</div>
+                        {% endif %}
+
+                    </div>
+                    <div class="col-12 col-md-3">
+
+                        {% if section.settings.passport_image != blank %}
+                            <figure class="grind-away-content__passport-figure">
+                                {%- render 'image',
+                                        image: section.settings.passport_image,
+                                        class: 'img-fluid',
+                                        size: '375x',
+                                        size_sm: '400x',
+                                        size_md: '250x',
+                                        size_lg: '250x',
+                                        size_xl: '250x',
+                                        size_xxl: '250x' -%}
+                            </figure>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+</article>
+
+{% render 'section-full-image',
+        testimonial_image: section.settings.testimonial_image,
+        testimonial_mobile_image: section.settings.testimonial_mobile_image,
+        testimonial_source: section.settings.testimonial_source,
+        testimonial_quote: section.settings.testimonial_quote,
+        testimonial_subtitle: section.settings.testimonial_subtitle %}
+
+{% schema %}
+{
+    "name": "GRIND × AWAY",
+    "settings": [
+        {
+            "type": "text",
+            "id": "page_title",
+            "default": "Title",
+            "label": "Page title"
+        },
+        {
+            "type": "richtext",
+            "id": "introduction",
+            "label": "Introduction",
+            "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+        },
+        {
+            "type": "header",
+            "content": "Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+        },
+        {
+            "type": "text",
+            "id": "badge_title",
+            "default": "Title",
+            "label": "Badge title"
+        },
+        {
+            "type": "text",
+            "id": "badge_subtitle",
+            "default": "Subtitle",
+            "label": "Badge subtitle"
+        },
+        {
+            "type": "header",
+            "content": "Form"
+        },
+        {
+            "type": "text",
+            "id": "form_input_label",
+            "default": "Question label",
+            "label": "Label"
+        },
+        {
+            "type": "text",
+            "id": "form_button_text",
+            "default": "Submit",
+            "label": "Button text"
+        },
+        {
+            "type": "richtext",
+            "id": "small_print",
+            "label": "Small print",
+            "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+        },
+        {
+            "type": "header",
+            "content": "Passport"
+        },
+        {
+            "type": "text",
+            "id": "passport_title",
+            "default": "Title",
+            "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "passport_text",
+            "label": "Text",
+            "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+        },
+        {
+            "type": "image_picker",
+            "id": "passport_image",
+            "label": "Image"
+        },
+        {
+            "type": "header",
+            "content": "Testimonial"
+        },
+        {
+            "type": "image_picker",
+            "id": "testimonial_image",
+            "label": "Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "testimonial_mobile_image",
+            "label": "Mobile image"
+        },
+        {
+            "type": "image_picker",
+            "id": "testimonial_source",
+            "label": "Source"
+        },
+        {
+            "type": "text",
+            "id": "testimonial_quote",
+            "default": "Quote",
+            "label": "Quote"
+        },
+        {
+            "type": "text",
+            "id": "testimonial_subtitle",
+            "default": "Subtitle",
+            "label": "Subtitle"
+        }
+    ]
+}
+{% endschema %}
+
+{% javascript %}
+console.log('Ready for Submissions.');
+$('#grind-away-submission-form').submit(function(e) {
+    e.preventDefault();
+
+    const guess = $('#formQuestion').val()
+    const email = $('#formEmail').val();
+    const grindMarketing = $('#formGdprGrind').is(':checked') ? 'Yes' : 'No';
+    const awayMarketing = $('#formGdprAway').is(':checked') ? 'Yes' : 'No';
+
+    if(guess && email) {
+        $.post('https://docs.google.com/forms/d/e/1FAIpQLSexmag0LcC09Em26DpitgGgPd0TDJ9ILfMlUncy4zjyyuw66g/formResponse', {
+            'entry.1316406592': email,
+            'entry.1567622691': guess,
+            'entry.371070314': grindMarketing,
+            'entry.436880255': awayMarketing
+        }, function(data) {
+            console.log('DATA: ', data);
+        });
+    }
+
+    window.location.href = '/pages/grind-x-away-confirmation';
+});
+{% endjavascript %}

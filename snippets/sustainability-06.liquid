@@ -1,0 +1,79 @@
+<section class="sustainability-06 sustainability-section__container" style="background-color: {{ background_colour }}; color: {{ text_colour }};">
+  <div class="sustainability-section__content-container">
+    <div class="overflow-container">
+      {% if background_image != blank %}
+      <div class="sustainability-section__background" id="animatable-section-six-background" style="background-image: url({{ background_image | img_url: '1440x' }});"></div>
+      {% endif %}
+      <div class="sustainability-section__inner-content text-center">
+        <div class="d-flex flex-column align-items-center">
+          {% if title != blank %}
+          <h2 class="sustainability-section__title gkit-h0 mb-4">{{ title | escape }}</h2>
+          {% endif %}
+
+          {% if paragraph != blank %}
+          <div class="sustainability-section__body gkit-p-20">{{ paragraph }}</div>
+          {% endif %}
+        </div>
+
+
+        <div class="sustainability-06__image-container d-none d-md-block mt-5">
+          {% if image_1 != blank %}
+          <figure class="sustainability-06__image sustainability-06__image--1" id="animatable-section-six-image-1">
+            <img srcset="{{ image_1 | img_url: '330x' }} 1x, {{ image_1 | img_url: '330x', scale: 2 }} 2x"
+                  src="{{ image_1 | img_url: '330x' }}"
+                  alt="{{ image_1.alt }}"
+                  class="img-fluid w-100" />
+          </figure>
+          {% endif %}
+
+          {% if image_2 != blank %}
+          <figure class="sustainability-06__image sustainability-06__image--2" id="animatable-section-six-image-2">
+            <img srcset="{{ image_2 | img_url: '330x' }} 1x, {{ image_2 | img_url: '330x', scale: 2 }} 2x"
+                  src="{{ image_2 | img_url: '330x' }}"
+                  alt="{{ image_2.alt }}"
+                  class="img-fluid w-100" />
+          </figure>
+          {% endif %}
+
+          {% if image_3 != blank %}
+          <figure class="sustainability-06__image sustainability-06__image--3" id="animatable-section-six-image-3">
+            <img srcset="{{ image_3 | img_url: '330x' }} 1x, {{ image_3 | img_url: '330x', scale: 2 }} 2x"
+                  src="{{ image_3 | img_url: '330x' }}"
+                  alt="{{ image_3.alt }}"
+                  class="img-fluid w-100" />
+          </figure>
+          {% endif %}
+        </div>
+
+        <div class="sustainability-06__image-container d-block d-md-none mt-5">
+          {% if image_1 != blank %}
+          <figure class="sustainability-06__image sustainability-06__image--1" id="animatable-section-six-image-1-mobile">
+            <img srcset="{{ image_1 | img_url: '330x' }} 1x, {{ image_1 | img_url: '330x', scale: 2 }} 2x"
+                  src="{{ image_1 | img_url: '330x' }}"
+                  alt="{{ image_1.alt }}"
+                  class="img-fluid w-100" />
+          </figure>
+          {% endif %}
+
+          {% if image_2 != blank %}
+          <figure class="sustainability-06__image sustainability-06__image--2" id="animatable-section-six-image-2-mobile">
+            <img srcset="{{ image_2 | img_url: '330x' }} 1x, {{ image_2 | img_url: '330x', scale: 2 }} 2x"
+                  src="{{ image_2 | img_url: '330x' }}"
+                  alt="{{ image_2.alt }}"
+                  class="img-fluid w-100" />
+          </figure>
+          {% endif %}
+
+          {% if image_3 != blank %}
+          <figure class="sustainability-06__image sustainability-06__image--3" id="animatable-section-six-image-3-mobile">
+            <img srcset="{{ image_3 | img_url: '330x' }} 1x, {{ image_3 | img_url: '330x', scale: 2 }} 2x"
+                  src="{{ image_3 | img_url: '330x' }}"
+                  alt="{{ image_3.alt }}"
+                  class="img-fluid w-100" />
+          </figure>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,58 @@
+{% if options.popupEnabled == true %}
+<div
+  class="fade modal"
+  id="marketing-popup"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <img loading="lazy" src="{{ 'close.svg' | asset_url }}" />
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <img loading="lazy" class="email-icon" src="{{ 'icon-email.svg' | asset_url }}" /> -->
+        <div class="email-animation"></div>
+        <h3 class="content-title">{{ options.titleText }}</h3>
+        <p class="content-body">{{ options.bodyText }}</p>
+        {% render 'newsletter-signup-field' %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script
+  defer
+  src="//cdnjs.cloudflare.com/ajax/libs/bodymovin/5.6.10/lottie.min.js"
+  type="text/javascript"
+></script>
+<script type="text/javascript">
+  (function ($) {
+    let shown = false;
+
+    $(document).on("mouseleave", "body", function (e) {
+      if (shown) {
+        return;
+      }
+      shown = true;
+
+      $("#marketing-popup").modal("show");
+      lottie.loadAnimation({
+        container: $("#marketing-popup .email-animation")[0],
+        renderer: "svg",
+        loop: false,
+        autoplay: true,
+        path: "{{ 'lottie-email.json' | asset_url }}",
+      });
+    });
+  })(jQuery);
+</script>
+{% endif %}

@@ -1,0 +1,12 @@
+{% assign gift_card_product = all_products['message-card'] %}
+{% if gift_card_product and gift_card_product.available and gift_card_product.variants.size > 0 %}
+    <div rv-hide="cart.item_count | lt 1" rv-unless="cart.items | hasGiftSubscription">
+        <div class="gift-message-block p-3 mt-3" rv-unless="cart.items | isMessage">
+            <p class="gkit-p-15 mb-1 font-bold">{{ 'products.product.gift_card_cta_heading' | t }}</p>
+            <div class="check-gift-message">
+                <p class="mb-0 gkit-p-15 check-gift"
+                   style="background-color: transparent; text-align: left; cursor: pointer;">{{ 'products.product.gift_card_cta_input' | t }} <span class="gkit-p-13 d-inline ml-2">(£1.00)</span></p>
+            </div>
+        </div>
+    </div>
+{% endif %}

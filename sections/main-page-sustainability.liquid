@@ -1,0 +1,387 @@
+<section class="bg-black">
+    
+    {% render 'sustainability-01',
+            background_colour: section.settings.s1_background_colour,
+            background_image: section.settings.s1_background_image, 
+            video: section.settings.s1_video,
+            title: section.settings.s1_title, 
+            paragraph: section.settings.s1_paragraph,
+            text_colour: section.settings.s1_text_colour %}
+    
+    {% render 'sustainability-02',
+            show_section: section.settings.s2_show_section,
+            background_colour: section.settings.s2_background_colour,
+            background_image: section.settings.s2_background_image, 
+            main_image: section.settings.s2_main_image, 
+            title: section.settings.s2_title, 
+            paragraph: section.settings.s2_paragraph,
+            text_colour: section.settings.s2_text_colour %}
+    
+    {% render 'sustainability-03',
+            show_section: section.settings.s3_show_section,
+            background_colour: section.settings.s3_background_colour,
+            main_image: section.settings.s3_main_image,
+            title: section.settings.s3_title,
+            paragraph: section.settings.s3_paragraph,
+            text_colour: section.settings.s3_text_colour %}
+
+    {% render 'sustainability-04',
+            show_section: section.settings.s4_show_section,
+            background_colour: section.settings.s4_background_colour,
+            capsule_image_1: section.settings.s4_capsule_image_1,
+            capsule_image_2: section.settings.s4_capsule_image_2,
+            title: section.settings.s4_title,
+            paragraph: section.settings.s4_paragraph,
+            text_colour: section.settings.s4_text_colour %}
+
+    {% render 'sustainability-05',
+            show_section: section.settings.s5_show_section,
+            background_colour: section.settings.s5_background_colour,
+            video: section.settings.s5_video,
+            image: section.settings.s5_image,
+            title: section.settings.s5_title,
+            paragraph: section.settings.s5_paragraph,
+            text_colour: section.settings.s5_text_colour %}
+    
+    {% render 'sustainability-06',
+            show_section: section.settings.s6_show_section,
+            background_colour: section.settings.s6_background_colour,
+            background_image: section.settings.s6_background_image,
+            image_1: section.settings.s6_image_1,
+            image_2: section.settings.s6_image_2,
+            image_3: section.settings.s6_image_3,
+            title: section.settings.s6_title,
+            paragraph: section.settings.s6_paragraph,
+            text_colour: section.settings.s6_text_colour %}
+    
+    {% render 'sustainability-07',
+            show_section: section.settings.s7_show_section,
+            background_colour: section.settings.s7_background_colour,
+            background_image: section.settings.s7_background_image,
+            title: section.settings.s7_title,
+            link_url: section.settings.s7_link_url,
+            link_title: section.settings.s7_link_title,
+            paragraph: section.settings.s7_paragraph,
+            text_colour: section.settings.s7_text_colour %}
+</section>
+<script>
+  const updateScrollProgress = function() {
+    const yOffset = window.pageYOffset;
+  };
+  document.addEventListener('scroll', updateScrollProgress);
+</script>
+
+{% schema %}
+{
+    "name": "Sustainability",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Section 1"
+        },
+        {
+            "type": "checkbox",
+            "id": "s1_show_section",
+            "label": "Show section",
+            "default": true
+        },
+        {
+            "type": "color",
+            "id": "s1_background_colour",
+            "label": "Background colour",
+            "default": "#000"
+        },
+        {
+            "type": "image_picker",
+            "id": "s1_background_image",
+            "label": "Background image"
+        },
+        {
+            "type": "url",
+            "id": "s1_video",
+            "label": "Video",
+            "info": "Upload the MP4 file (using the ‘Files’ admin area) and enter the url above."
+        },
+        {
+            "type": "text",
+            "id": "s1_title",
+            "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "s1_paragraph",
+            "label": "Paragraph"
+        },
+        {
+            "type": "color",
+            "id": "s1_text_colour",
+            "label": "Text colour",
+            "default": "#fff"
+        },
+        {
+            "type": "header",
+            "content": "Section 2"
+        },
+        {
+            "type": "checkbox",
+            "id": "s2_show_section",
+            "label": "Show section",
+            "default": true
+        },
+        {
+            "type": "color",
+            "id": "s2_background_colour",
+            "label": "Background colour",
+            "default": "#000"
+        },
+        {
+            "type": "image_picker",
+            "id": "s2_background_image",
+            "label": "Background image"
+        },
+        {
+            "type": "image_picker",
+            "id": "s2_main_image",
+            "label": "Main image"
+        },
+        {
+            "type": "text",
+            "id": "s2_title",
+            "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "s2_paragraph",
+            "label": "Paragraph"
+        },
+        {
+            "type": "color",
+            "id": "s2_text_colour",
+            "label": "Text colour",
+            "default": "#fff"
+        },
+        {
+            "type": "header",
+            "content": "Section 3"
+        },
+        {
+            "type": "checkbox",
+            "id": "s3_show_section",
+            "label": "Show section",
+            "default": true
+        },
+        {
+            "type": "color",
+            "id": "s3_background_colour",
+            "label": "Background colour",
+            "default": "#000"
+        },
+        {
+            "type": "image_picker",
+            "id": "s3_main_image",
+            "label": "Main image"
+        },
+        {
+            "type": "text",
+            "id": "s3_title",
+            "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "s3_paragraph",
+            "label": "Paragraph"
+        },
+        {
+            "type": "color",
+            "id": "s3_text_colour",
+            "label": "Text colour",
+            "default": "#fff"
+        },
+        {
+            "type": "header",
+            "content": "Section 4"
+        },
+        {
+            "type": "checkbox",
+            "id": "s4_show_section",
+            "label": "Show section",
+            "default": true
+        },
+        {
+            "type": "color",
+            "id": "s4_background_colour",
+            "label": "Background colour",
+            "default": "#fff"
+        },
+        {
+            "type": "image_picker",
+            "id": "s4_capsule_image_1",
+            "label": "Capsule image 1"
+        },
+        {
+            "type": "image_picker",
+            "id": "s4_capsule_image_2",
+            "label": "Capsule image 2"
+        },
+        {
+            "type": "text",
+            "id": "s4_title",
+            "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "s4_paragraph",
+            "label": "Paragraph"
+        },
+        {
+            "type": "color",
+            "id": "s4_text_colour",
+            "label": "Text colour",
+            "default": "#2d2926"
+        },
+        {
+            "type": "header",
+            "content": "Section 5"
+        },
+        {
+            "type": "checkbox",
+            "id": "s5_show_section",
+            "label": "Show section",
+            "default": true
+        },
+        {
+            "type": "color",
+            "id": "s5_background_colour",
+            "label": "Background colour",
+            "default": "#f3dbdf"
+        },
+        {
+            "type": "url",
+            "id": "s5_video",
+            "label": "Video",
+            "info": "Upload the MP4 file (using the 'Files' admin area) and enter the url above."
+        },
+        {
+          "type": "image_picker",
+          "id": "s5_image",
+          "label": "Image",
+          "info": "An image can be uploaded in place of a video."
+        },
+        {
+            "type": "text",
+            "id": "s5_title",
+            "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "s5_paragraph",
+            "label": "Paragraph"
+        },
+        {
+            "type": "color",
+            "id": "s5_text_colour",
+            "label": "Text colour",
+            "default": "#2d2926"
+        },
+        {
+            "type": "header",
+            "content": "Section 6"
+        },
+        {
+            "type": "checkbox",
+            "id": "s6_show_section",
+            "label": "Show section",
+            "default": true
+        },
+        {
+            "type": "color",
+            "id": "s6_background_colour",
+            "label": "Background colour",
+            "default": "#000"
+        },
+        {
+            "type": "image_picker",
+            "id": "s6_background_image",
+            "label": "Background image"
+        },
+        {
+            "type": "image_picker",
+            "id": "s6_image_1",
+            "label": "Image 1"
+        },
+        {
+            "type": "image_picker",
+            "id": "s6_image_2",
+            "label": "Image 2"
+        },
+        {
+            "type": "image_picker",
+            "id": "s6_image_3",
+            "label": "Image 3"
+        },
+        {
+            "type": "text",
+            "id": "s6_title",
+            "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "s6_paragraph",
+            "label": "Paragraph"
+        },
+        {
+            "type": "color",
+            "id": "s6_text_colour",
+            "label": "Text colour",
+            "default": "#fff"
+        },
+        {
+            "type": "header",
+            "content": "Section 7"
+        },
+        {
+            "type": "checkbox",
+            "id": "s7_show_section",
+            "label": "Show section",
+            "default": true
+        },
+        {
+            "type": "color",
+            "id": "s7_background_colour",
+            "label": "Background colour",
+            "default": "#000"
+        },
+        {
+            "type": "image_picker",
+            "id": "s7_background_image",
+            "label": "Background image"
+        },
+        {
+            "type": "text",
+            "id": "s7_title",
+            "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "s7_paragraph",
+            "label": "Paragraph"
+        },
+        {
+            "type": "url",
+            "id": "s7_link_url",
+            "label": "Link url"
+        },
+        {
+            "type": "text",
+            "id": "s7_link_title",
+            "label": "Link title"
+        },
+        {
+            "type": "color",
+            "id": "s7_text_colour",
+            "label": "Text colour",
+            "default": "#fff"
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,152 @@
+<div class="mobile-menu-2021 d-lg-none {{ classes }}" id="{{ id }}">
+    <div class="pb-lg-4 container mobile-search-container global-search__search-container">
+      <div class="nav-options mb-3">
+        <a href="{{ shop.url }}">
+          <img loading="lazy" alt="Home" src="{{ 'icon-home.svg' | asset_url}}" height="24" width="24"/>
+        </a>
+        <a id="js-discover-menu-close" class="close-button">
+          <img alt="Close Menu" loading="lazy" src="{{ 'close.svg' | asset_url}}"  height="24" width="24"/>
+        </a>
+      </div>
+
+      <div class="mobile-search__input-container w-100 py-1 mb-3 px-1">
+        <img alt="Search" class="ml-1" src="{{ 'icon-search.svg' | asset_url }}" width="18" height="18" />
+        <input class="mobile-search__input global-search__input ml-1" placeholder="Search by typing a keyword..." />
+        <a class="mobile-search__clear-search global-search__clear-input gkit-p-15 mr-2" style="cursor: pointer;" rv-if="hasSearchTerm">
+          Clear
+          <img src="{{ 'icon-search-clear.svg' | asset_url }}" alt="Clear search" width="8" height="8" />
+        </a>
+        <img alt="Loading..." class="search__spinner mr-2" src="{{ 'spinner-black.svg' | asset_url }}" rv-if="isLoading" />
+      </div>
+
+      <div class="mobile-search__results-container row pb-2" rv-if="results">
+        {% render '2021-search-results' %}
+      </div>
+
+      <!-- When search is not active, show the menu -->
+      <div rv-unless="results">
+        {% if section.settings.mobile_ad_img %}
+            {% assign imageURL = section.settings.mobile_ad_img | img_url: '720x480' %}
+        {% else %}
+            {% assign imageURL = 'nav_mobile-advert.jpg' | asset_url %}
+        {% endif %}
+        <div style="background: url('{{ imageURL }}')" class="nav-mobile-advert">
+            <div class="navbar-image-overlay">
+                <h1 class="text-white nav-mobile-advert__text">{{ section.settings.mobile_ad_title}}</h1>
+                {% if section.settings.mobile_ad_link %}
+                    <a href="{{section.settings.mobile_ad_link}}" class="nav-mobile-advert__button">{{ section.settings.mobile_ad_btn_text}}</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row d-flex flex-column flex-lg-nowrap justify-content-lg-between">
+            <div class="mobile-menu has-children hide">
+                <h2 class="heading mobile-menu-title js-discover-parent-toggler">Shop</h2>
+                <div class="js-discover-links mobile-submenu">
+                    {% assign shopMenu = linklists.shop-services %}
+                    {% if shopMenu != blank %}
+                        <div class="col-12 col-lg-auto">
+                            {% include 'menu-group-2021',
+                                groupTitle: shopMenu.title,
+                                groupLinks: shopMenu.links
+                            %}
+                        </div>
+                    {% endif %}
+
+                    {% assign subscriptionMenu = linklists.shop-subscriptions %}
+                    {% if subscriptionMenu != blank %}
+                        <div class="col-12 col-lg-auto">
+                            {% include 'menu-group-2021',
+                                groupTitle: subscriptionMenu.title,
+                                groupLinks: subscriptionMenu.links
+                            %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% comment %}
+            Only Show Visit Us For UK
+            {% endcomment %}
+            {% if localization.country.iso_code == 'GB' %}
+            <div class="mobile-menu has-children hide">
+                <h2 class="heading mobile-menu-title js-discover-parent-toggler">Visit us</h2>
+                <div class="js-discover-links mobile-submenu">
+                    {% if section.settings.mobile_booking_img %}
+                        {% assign reserveTableImage = section.settings.mobile_booking_img | img_url: '720x480' %}
+                    {% else %}
+                        {% assign reserveTableImage = 'nav_reserve-table.jpg' | asset_url %}
+                    {% endif %}
+                    <div style="background: url('{{ reserveTableImage }}')" class="nav-mobile-advert nav-mobile-advert__inside-sub">
+                        <div class="navbar-image-overlay">
+                            <h1 class="text-white nav-mobile-advert__text">Reserve a Table<br>Now</h1>
+                            <a href="/pages/book" class="nav-mobile-advert__button">Book now</a>
+                        </div>
+                    </div>
+
+                    {% assign locationsMenu = linklists.locations %}
+                    {% if locationsMenu != blank %}
+                        <div class="col-12 col-lg-auto">
+                            {% include 'menu-group-2021',
+                                groupTitle: locationsMenu.title,
+                                groupLinks: locationsMenu.links
+                            %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="mobile-menu has-children hide">
+                <h2 class="heading mobile-menu-title js-discover-parent-toggler">Everything else</h2>
+                <div class="js-discover-links mobile-submenu">
+                    {% assign everythingElseMenu = linklists.everything-else %}
+                    {% if everythingElseMenu != blank %}
+                        <div class="col-12 col-lg-auto">
+                            {% include 'menu-group-2021',
+                            groupLinks: everythingElseMenu.links
+                            %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="mobile-menu has-children hide">
+                <h2 class="heading mobile-menu-title js-discover-parent-toggler">Account</h2>
+                <ul class="js-discover-links mobile-submenu nav pl-3">
+                    <li class="nav-item"><a href="https://my.grind.co.uk" class="text-no-decoration">My Account</a></li>
+                    <li class="nav-item"><a href="https://my.grind.co.uk/orders" class="text-no-decoration">My Orders</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <ul class="d-lg-none pl-3 mt-3 nav">
+            <li class="mr-4 nav-item">
+                <a href="https://www.instagram.com/grind/" target="_blank">
+                    <span class="sr-only">Instagram</span>
+                    <i class="h3 fab fa-instagram"></i>
+                </a>
+            </li>
+            <li class="mr-4 nav-item">
+                <a href="https://twitter.com/grind" target="_blank">
+                    <span class="sr-only">Twitter</span>
+                    <i class="h3 fab fa-twitter"></i>
+                </a>
+            </li>
+            <li class="mr-4 nav-item">
+                <a href="https://facebook.com/grind" target="_blank">
+                    <span class="sr-only">Facebook</span>
+                    <i class="h3 fab fa-facebook"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://open.spotify.com/user/grindstudio" target="_blank">
+                    <span class="sr-only">Spotify</span>
+                    <i class="h3 fab fa-spotify"></i>
+                </a>
+            </li>
+        </ul>
+      </div>
+    </div>
+</div>

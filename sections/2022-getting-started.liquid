@@ -1,0 +1,107 @@
+{% liquid 
+  assign bottomColorStart = section.settings.bottomColorStart
+  assign bottomColorEnd = section.settings.bottomColorEnd
+  assign bottomColorExtra = section.settings.bottomColorExtra
+  assign title = section.settings.title
+%}
+
+<section class="getting-started">
+  <!-- Cards -->
+  <div class="py-5 position-relative">
+    <div class="position-absolute" style="top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, {{ bottomColorStart }} 0%, {{ bottomColorEnd }} 100%), {{ bottomColorExtra }};"></div>
+    {% if title != blank %}<h1 class="position-relative gkit-h1 text-center mb-4" style="z-index: 1;">{{ title }}</h1>{% endif %}
+    <div class="container">
+      <div class="getting-started__grid row">
+        {%- for block in section.blocks -%}
+        {%- case block.type -%}
+        {%- when 'getting_started_card' -%}
+        <!-- Image generation -->
+        <!-- Card markup -->
+        <div class="getting-started-card col-12 col-sm-6 col-lg-3">
+          <div class="getting-started-card__content">
+            <div class="getting-started-card__icon-wrapper">
+              {% if block.settings.image != blank %}
+                <img loading="lazy" class="getting-started-card__icon" src="{{ block.settings.image | image_url }}" />
+              {% endif %}
+            </div>
+            
+            <div class="getting-started-card__text">
+              {% if block.settings.heading != blank %}
+                <h3 class="getting-started-card__heading">{{ block.settings.heading | escape}}</h3>
+              {% endif %}
+        
+              {% if block.settings.description != blank %}
+                <div class="getting-started-card__description">{{ block.settings.description }}</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Getting started",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "getting_started_card",
+      "name": "Getting started card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Lorem ipsum"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "How it works"
+    },
+    {
+      "type": "color",
+      "id": "bottomColorStart",
+      "label": "Bottom Section Gradient Start",
+      "default": "#F6DBE0"
+    },
+    {
+      "type": "color",
+      "id": "bottomColorEnd",
+      "label": "Bottom Section Gradient End",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "bottomColorExtra",
+      "label": "Bottom Section Gradient Extra",
+      "default": "#F6DBE0"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter How It Works"
+    }
+  ]
+}
+{% endschema %}

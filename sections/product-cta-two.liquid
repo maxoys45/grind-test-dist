@@ -1,0 +1,48 @@
+{% include 'section-product-cta-two' %}
+
+{% schema %}
+    {
+    "name": "Product CTA (x2)",
+    "max_blocks": 2,
+    "settings": [],
+    "blocks": [
+    {
+    "type": "product-cta",
+    "name": "Product CTA",
+    "settings": [
+    {
+    "type": "image_picker",
+    "id": "image",
+    "label": "Product Image"
+    },
+    {
+    "type": "text",
+    "id": "title",
+    "label": "Title"
+    },
+    {
+    "type": "richtext",
+    "id": "summary",
+    "label": "Summary"
+    },
+    {
+    "type": "text",
+    "id": "buttonText",
+    "label": "Button Text"
+    },
+    {
+    "type": "url",
+    "id": "buttonLink",
+    "label": "Button Link"
+    }
+    ]
+    }
+    ],
+    "presets": [
+    {
+    "name": "Large Product CTA (x2)",
+    "category": "Content"
+    }
+    ]
+    }
+{% endschema %}

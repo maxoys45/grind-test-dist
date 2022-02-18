@@ -1,0 +1,14 @@
+{% assign ctaImage = section.settings.callToActionImage %}
+
+{% unless ctaImage == blank %}
+    <div class="my-4 my-sm-5 wow fadeInUp">
+        <div class="call-to-action" style="background-image: url({{ ctaImage | img_url: '1400x1000', crop: 'center' }});">
+            <div class="px-4 py-5 text-center text-white content-wrap">
+                <div class="d-block mx-auto inner">
+                    <p class="mb-0 content gkit-h2 text-white">{{ section.settings.callToActionContent }}</p>
+                    <a href="{{ section.settings.callToActionUrl }}" class="mt-4 gkit-btn-md gkit-tertiary btn-wide">{{ section.settings.callToActionButtonText }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endunless %}

@@ -1,0 +1,280 @@
+<section class="howToLandingContainer">
+    <div class="container">
+
+        <h1 class="gkit-h0 pb-5">{{ section.settings.title }}</h1>
+
+        {% if section.settings.featured_article_link %}
+
+            <div class="row mx-0 mt-2 mb-3 my-md-4 p-3 p-md-5 overflow-hidden" {% if section.settings.featured_article_bg_image %} style="background: url({{section.settings.featured_article_bg_image | image_url}})" {% endif %}>
+
+                <div class="col-12 col-md-6">
+
+                    <img loading="lazy" class="howToFeaturedImage" src="{{ section.settings.featured_article_image | image_url }}" />
+
+                </div>
+
+                <div class="col-12 col-md-5 offset-lg-1 py-4">
+
+                    {% assign modTextColour = "" %}
+                    {% if section.settings.featured_article_text_colour == "white" %}
+                        {% assign modTextColour = "text-white" %}
+                    {% endif %}
+
+                    {% if section.settings.featured_article_title %}
+                        <h2 class="gkit-h2 {{modTextColour}} mt-2">{{section.settings.featured_article_title}}</h2>
+                    {% endif %}
+
+                    {% if section.settings.featured_article_description %}
+                        <p class="gkit-p-20 {{modTextColour}} text-with-07-opacity">{{section.settings.featured_article_description}}</p>
+                    {% endif %}
+
+                    <a class="btn gkit-btn gkit-tertiary gkit-btn-md mt-3 mb-2" style="padding-left: 55px; padding-right: 55px" href="{{section.settings.featured_article_link}}">Find out how</a>
+
+                </div>
+            </div>
+
+        {% endif %}
+        
+        {% assign i = 0 %}
+
+        {% for block in section.blocks %}
+            {% assign i = i | plus: 1 %}
+
+            {% if i == 1 or i == 3 %}
+                <div class="row">
+            {% endif %}
+            
+                <div class="col-12 {% if i == 1 or i == 2 %} col-md-6 {% else %} col-md-4 {% endif %} my-3 my-md-4 d-flex flex-column">
+
+                    {% if block.settings.image %}
+                        <div style="background: url('{{ block.settings.image | image_url }}'); padding-bottom: 45%; background-size: cover; background-position: center;"></div>
+                    {% endif %}
+
+                    {% if block.settings.title %}
+                        <h2 class="gkit-h2 mt-4 mb-0">{{block.settings.title}}</h2>
+                    {% endif %}
+
+                    {% if block.settings.excerpt %}
+                        <p class="gkit-p-17 gkit-light text-with-07-opacity">{{block.settings.excerpt}}</p>
+                    {% endif %}
+
+                    <div>
+                        <a class="btn gkit-btn gkit-tertiary gkit-btn-md mt-2" href="{{block.settings.link}}">Find out how</a>
+                    </div>
+
+                </div>
+
+            {% if i == 2 or i == 5 %}
+                </div>
+            {% endif %}
+
+        {% endfor %}
+
+        {% if section.settings.recipes_link %}
+
+            <div class="row mx-0 mt-3 mt-md-2 mb-3 my-md-4 p-3 p-md-5 overflow-hidden position-relative" style="background: #DFC4CD">
+
+                {% if section.settings.recipes_bg_image %} 
+                  <div class="position-absolute w-100 h-100 d-none d-md-block" style="left:0; top: 0; background: url({{section.settings.recipes_bg_image | image_url}}); background-size: cover;" ></div>
+                {% endif %}
+
+                {% if section.settings.recipes_bg_mobile_image %} 
+                  <div class="position-absolute w-100 h-100 d-md-none" style="left:0; top: 0; background: url({{section.settings.recipes_bg_mobile_image | image_url}}); background-size: cover;" ></div>
+                {% endif %}
+
+                {% if section.settings.recipes_featured_mobile_image %}
+                  <img loading="lazy" class="d-block w-100 d-md-none" src="{{ section.settings.recipes_featured_mobile_image | image_url }}" style="z-index: 1;"/>
+                {% endif %}
+
+                <div class="col-12 col-md-6 offset-md-6 py-4">
+                  {% if section.settings.recipes_featured_desktop_image %}
+                    <img class="position-absolute d-none d-md-block" src="{{ section.settings.recipes_featured_desktop_image | image_url }}" style="right: 90%; top: -150px; z-index: 0;"/>
+                  {% endif %}
+
+                  <div class="position-relative" style="z-index: 1">
+                    {% assign modTextColour = "" %}
+                    {% if section.settings.recipes_text_colour == "white" %}
+                        {% assign modTextColour = "text-white" %}
+                    {% endif %}
+  
+                    {% if section.settings.recipes_title %}
+                        <h2 class="gkit-h2 {{modTextColour}} mt-2">{{section.settings.recipes_title}}</h2>
+                    {% endif %}
+  
+                    {% if section.settings.recipes_description %}
+                        <p class="gkit-p-20 {{modTextColour}} text-with-07-opacity">{{section.settings.recipes_description}}</p>
+                    {% endif %}
+  
+                    <a class="btn gkit-btn d-none d-md-inline-block {% if section.settings.recipes_text_colour == "white" %}gkit-tertiary{% else %}gkit-primary{% endif %} gkit-btn-lg mt-3 mb-2" style="padding-left: 55px; padding-right: 55px" href="{{section.settings.recipes_link}}">{{section.settings.recipes_button_text}}</a>
+                    <a class="btn gkit-btn d-block d-md-none {% if section.settings.recipes_text_colour == "white" %}gkit-tertiary{% else %}gkit-primary{% endif %} gkit-btn-lg mt-4 mb-2" style="padding-left: 55px; padding-right: 55px" href="{{section.settings.recipes_link}}">{{section.settings.recipes_button_text}}</a>
+                  </div>
+
+                </div>
+            </div>
+
+        {% endif %}
+                    
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Landing",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Title",
+      "label": "Title"
+    },
+    {
+      "type": "header",
+      "content": "Featured article"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_article_image",
+      "label": "Featured article image"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_article_bg_image",
+      "label": "Featured article background image"
+    },
+    {
+      "type": "select",
+      "id": "featured_article_text_colour",
+      "label": "Featured article text colour",
+      "options": [
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "dark",
+          "label": "Dark Grey"
+        }
+      ],
+      "default": "white"
+    },
+    {
+      "type": "text",
+      "id": "featured_article_title",
+      "default": "Using the Grind One Machine.",
+      "label": "Featured article title"
+    },
+    {
+      "type": "text",
+      "id": "featured_article_description",
+      "default": "It’s designed to get the best from our compostable Nespresso® pods, but how do you get the best out of it?",
+      "label": "Featured article description"
+    },
+    {
+      "type": "text",
+      "id": "featured_article_link",
+      "default": "Featured article link",
+      "label": "Featured article link"
+    },
+    {
+      "type": "header",
+      "content": "Recipes section"
+    },
+    {
+      "type": "image_picker",
+      "id": "recipes_bg_image",
+      "label": "Desktop Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "recipes_bg_mobile_image",
+      "label": "Mobile Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "recipes_featured_desktop_image",
+      "label": "Featured desktop image"
+    },
+    {
+      "type": "image_picker",
+      "id": "recipes_featured_mobile_image",
+      "label": "Featured mobile image"
+    },
+    {
+      "type": "select",
+      "id": "recipes_text_colour",
+      "label": "Featured article text colour",
+      "options": [
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "dark",
+          "label": "Dark Grey"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "text",
+      "id": "recipes_title",
+      "default": "Grind Recipes",
+      "label": "Recipes title"
+    },
+    {
+      "type": "text",
+      "id": "recipes_description",
+      "default": "Take a look at all of our wonderful Grind Recipes and recreate the delight of visiting Grind in your own home (well...almost as good!)",
+      "label": "Recipes description"
+    },
+    {
+      "type": "text",
+      "id": "recipes_button_text",
+      "default": "View Recipes",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "recipes_link",
+      "label": "Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "Article",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "excerpt",
+          "label": "Excerpt"
+        },
+        {
+          "type": "text",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How To Landing Content"
+    }
+  ]
+}
+{% endschema %}

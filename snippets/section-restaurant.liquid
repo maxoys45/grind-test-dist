@@ -1,0 +1,15 @@
+{% if section.settings.restaurantReverse %}
+    {% assign classes = 'restaurant-excerpt restaurant-excerpt-rev' %}
+{% else %}
+    {% assign classes = 'restaurant-excerpt' %}
+{% endif %}
+
+<div class="my-4 my-sm-5 container wow fadeInUp">
+    {% include 'excerpt-restaurant',
+        address: section.settings.restaurantAddress,
+        description: section.settings.restaurantDescription,
+        thumbnail: section.settings.restaurantThumbnail,
+        title: section.settings.restaurantTitle,
+        url: section.settings.restaurantUrl
+    %}
+</div>

@@ -1,0 +1,16 @@
+{% if title and image and link and opacity %}
+<div>
+  <img
+    src="{{ image | img_url: '400x400', crop: 'center' }}"
+    alt="{{ image.alt | default: title }}"
+    class="w-100"
+    loading="lazy"
+  />
+  <div class="d-flex flex-column">
+    <p class="my-4 text-center h5">{{ title }}</p>
+    <a href="{{ link }}" class="align-self-center mt-auto btn btn-outline-dark"
+      >Read More</a
+    >
+  </div>
+</div>
+{% endif %}

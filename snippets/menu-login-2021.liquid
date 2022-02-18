@@ -1,0 +1,28 @@
+<div class="position-absolute w-100 desktop-menu desktop-menu-2021 menu-login" id="js-login-menu-2021">
+
+    <a id="js-login-menu-2021-close" data-toggle="collapse" role="button" data-target="#js-login-menu-2021">
+        <img loading="lazy" src="{{ 'close.svg' | asset_url}}" class="close-button" height="24" width="24" style="top: 11px"/>
+    </a>
+
+    <div class="login-container">
+        <form class="mt-4 mt-md-0 p-md-4">
+            <h2 class="gkit-h2 text-md-center">Log in or register</h2>
+            <p class="gkit-p-17 gkit-light text-md-center">Please enter your email address to continue.</p>
+            <div class="form-group mt-3">
+                <label class="gkit-input-label">Email</label>
+                <div class="control">
+                    <input name="email" class="form-control gkit-input-md" type="text" autocomplete="off" placeholder="jane@email.com" value="">
+                </div>
+            </div>
+            <button class="gkit-btn-md gkit-primary w-100 mt-3" type="submit" id="submit-button">Continue</button>
+        </form>
+    </div>
+</div>
+
+<script>
+(function($) {
+  $("#js-login-menu-2021-close").click(function () {
+    $("#js-login-menu-2021-nav").removeClass("active");
+  });
+})(jQuery);
+</script>

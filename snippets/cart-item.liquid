@@ -1,0 +1,79 @@
+<div class="d-flex position-relative mt-3">
+    <!-- Thumbnail -->
+    <div class="width-thumbnail">
+        <a rv-href="item.url" style="position: relative;" >
+            <!-- Gift Icon for Gift Subcriptions -->
+            <div rv-if="item.properties.giftSubscription" class="gift-icon">
+                <img loading="lazy" src="{{ 'gift.svg' | asset_url }}" />
+            </div>
+            <img loading="lazy"
+                rv-src="item.image | product_image_size '240x240'"
+                rv-alt="item.title"
+                class="d-block position-relative width-thumbnail thumbnail"
+            />
+        </a>
+    </div>
+    <div class="ml-3 flex-grow-1">
+        <!-- Upper Level, Title etc -->
+        <div>
+            <a rv-href="item.url">
+                <del rv-unless="item | itemIsRegionallyValid">
+                  <p class="gkit-p-17 gkit-bold gkit-light my-0" rv-text="item.product_title"></p>
+                </del>
+                <p class="gkit-p-17 gkit-bold my-0" rv-if="item | itemIsRegionallyValid" rv-text="item.product_title"></p>
+            </a>
+            <p class="gkit-p-15 gkit-light mt-1 mb-0" rv-text="item.variant_title"></p>
+            <p class="gkit-p-15 mt-1 mb-0" rv-show="item.properties.subscription">
+            Repeats every <span rv-text="cart.attributes.subscription_interval"></span> weeks.
+            </p>
+
+            <div class="unavailable-item-container d-flex mb-2" rv-unless="item | itemIsRegionallyValid">
+              <div class="unavailable-item-warning">
+                <p class="gkit-p-13 gkit-bold mb-0">Unavailable in your country</p>
+              </div>
+            </div>
+        </div>
+        <!-- Lower Level, Quantity + Price -->
+        <div class="d-flex justify-content-between align-items-center mt-2">
+            <!-- Quantity -->
+            <div
+                class="d-flex align-items-center justify-content-between add-minus mr-3"
+            >
+                <a
+                    href="#"
+                    rv-data-cart-update="index | plus 1"
+                    rv-data-cart-quantity="item.quantity | minus 1"
+                    class="border border-dark rounded-circle circle-add"
+                >-</a>
+                <span
+                    rv-text="item.quantity"
+                    class="d-inline-block gkit-p-17 font-bold"
+                ></span>
+                <a
+                    href="#"
+                    rv-data-cart-update="index | plus 1"
+                    rv-data-cart-quantity="item.quantity | plus 1"
+                    class="border border-dark rounded-circle circle-add"
+                >+</a>
+            </div>
+
+            <!-- Price -->
+            <div class="d-flex ml-auto align-items-end h-100">
+                <p class="gkit-p-17 my-0" rv-if="item.total_discount | gt 0">
+                    <s
+                        rv-text="item.original_line_price | money Currency.currentCurrency"
+                    ></s>
+                    <span
+                        class="green ml-2"
+                        rv-text="item.line_price | money Currency.currentCurrency"
+                    ></span>
+                </p>
+                <p 
+                    class="gkit-p-17 my-0"
+                    rv-html="item.price | money Currency.currentCurrency"
+                    rv-unless="item.total_discount | gt 0"
+                ></p>
+            </div>
+        </div>
+    </div>
+</div>

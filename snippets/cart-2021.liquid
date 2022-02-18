@@ -1,0 +1,342 @@
+<aside data-cart-view="data-cart-view" class="bg-white side-cart hide-no-js" id="js-side-cart">
+    <div class="cart" rv-class-empty="cart.item_count | lt 1">
+        <div class="px-4 pt-4 inner" rv-class-py-4="cart.item_count | lt 1" rv-class-pt-4="cart.item_count | gt 0">
+            <div class="d-flex justify-content-between align-items-center mb-4 w-100">
+                <p class="mb-0 gkit-h2">Your Cart</p>
+                <img loading="lazy" alt="Close" class="mb-0 p-2 h3 fal fa-times side-cart-close" id="js-cart-toggle-close" src="{{ 'close.svg' | asset_url }}" />
+            </div>
+
+            <div class="js-shipping-counter-container">
+                <p rv-if="cart.items | isSubscription" class="mb-0 gkit-p-15 banner">
+                    <span>Free shipping on all subscription orders!</span>
+                </p>
+
+                <div class="d-none" rv-unless="cart.items | isSubscription">
+                    <p rv-if="cart.total_price | cartTotalLessThan {{ settings.ukShippingCost }}" class="my-0 gkit-p-15 text-center">
+                        {% if cart.currency.iso_code == 'GBP' %}<span>You're <strong>{{ cart.currency.symbol }}<span class="js-shipping-counter"></span></strong> away from free UK shipping.<br></span>{% endif %}
+                    </p>
+                    <p rv-unless="cart.total_price | cartTotalLessThan {{ settings.ukShippingCost }}" class="my-0 gkit-p-15 banner text-center">
+                        {% if cart.currency.iso_code == 'GBP' %}<span>Good news! You've got free UK shipping on this order.<br></span>{% endif %}
+                    </p>
+                </div>
+            </div>
+
+            {% assign subscriptions = cart.items.properties | where: "subscription", true %}
+            {% assign subscription_item = subscriptions.first %}
+            <div rv-each-item="cart.items">
+                <div rv-unless="item.handle | messagecard">
+                    {% include 'cart-item' %}
+                </div>
+                <div rv-if="cart.items | firstSubscription item.key">
+                    {% include 'cart-tin' %}
+                </div>
+            </div>
+            <!-- This ensures gift messages are always last. -->
+            <div rv-each-item="cart.items">
+                <!-- Only message cards will render. -->
+                {% include '2021-cart-item-message-card' %}
+            </div>
+
+
+            {% assign gift_card_product = all_products['message-card'] %}
+            {% if gift_card_product and gift_card_product.available and gift_card_product.variants.size > 0 %}
+            <div rv-hide="cart.item_count | lt 1" rv-unless="cart.items | hasGiftSubscription">
+                <div class="gift-message-block ml-5 p-3 mt-3 d-flex align-items-center justify-content-between" rv-unless="cart.items | isMessage">
+                    <p class="gkit-p-15 mb-0 font-bold flex-grow-1">Add a gift message.</p>
+                    <p class="m-0 p-0 mr-2 gkit-p-15">+ £1.00</p>
+                    <div class="form-check form-check-inline check-gift-message">
+                        <i class="fas check-circle check-gift" style="cursor: pointer;"></i>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div rv-show="cart.item_count | lt 1">
+                <p class="gkit-p-17 mb-1">
+                    <strong>You don't have any items in your cart.</strong>
+                </p>
+                <p class="gkit-p-15 my-0 gkit-light">You should really add something, we spent ages making this.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="bg-white p-4 w-100 checkout-btn subtotal-block" rv-show="cart.item_count | gt 0">
+        <div class="d-flex align-items-center w-100 justify-content-between">
+            <p class="gkit-p-17 my-0">{{ 'cart.general.subtotal' | t }}</p>
+            <p class="gkit-p-17 gkit-bold my-0" rv-html="cart.total_price | money Currency.currentCurrency"></p>
+        </div>
+        <div class="d-flex align-items-center w-100 mt-3" rv-if="cart.items | cartIsRegionallyValid">
+            <a
+                rv-show="cart.item_count | gt 0" id="checkoutBtn" href="#"
+                class="gkit-btn-lg gkit-primary flex-grow-1"
+            >Securely Checkout</a>
+            <div class="ml-2 d-none d-md-block">
+                <img loading="lazy" class="card-width" src="{{ 'payment-visa-gray.svg' | asset_url }}" />
+                <img loading="lazy" class="card-width" src="{{ 'payment-mastercard-gray.svg' | asset_url }}" />
+                <img loading="lazy" class="card-width" src="{{ 'payment-amex-gray.svg' | asset_url }}" />
+            </div>
+        </div>
+        <div class="mt-4 alert alert-warning text-left" role="alert" rv-unless="cart.items | cartIsRegionallyValid">
+          <p class="gkit-p-17 gkit-bold mb-0">Unavailable in your country.</p>
+          <p class="gkit-p-15 gkit-light mt-2 mb-0">
+            We're sorry, some items in your cart are unavailable in your country.<br/>
+            Please remove the relevant items and try again.
+          </p>
+        </div>
+    </div>
+</aside>
+
+{% if gift_card_product and gift_card_product.available and gift_card_product.variants.size > 0 %}
+    <div id="gift-card-modal" class="gift-card-selector modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="mx-4 p-4 rounded-0 modal-content">
+                <div class="step-one">
+                    <div class="row">
+                        {% for variant in gift_card_product.variants %}
+                            {% if variant.image.src %}
+                                {% assign variant_image = variant.image %}
+                            {% else %}
+                                {% assign variant_image = gift_card_product.featured_image %}
+                            {% endif %}
+
+                            <div class="col-6 col-md-4">
+                                <a href="javascript:;" class="d-block mb-4 gift-card js-gift-card" data-card-id="{{ variant.id }}">
+                                    <img loading="lazy" src="{{ variant_image | img_url: '300x' }}" alt="{{ variant.title }}" class="w-100">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button id="gift-card-select-btn" class="gkit-btn-md gkit-primary" disabled>Select Card</button>
+                    </div>
+                </div>
+
+                <div class="d-none step-two">
+                    <div class="row">
+                        <div class="d-none d-md-block col-5">
+                            <img loading="lazy" id="selected-card-preview" src="" alt="" class="w-100">
+                        </div>
+                        
+
+                        <div class="col-12 col-md d-flex flex-column">
+                          <div class="form-row">
+                            <div class="col-6">
+                              <div class="form-group">
+                                <label class="gkit-input-label mt-3">From:</label>
+                                <input type="text" class="gkit-input-md" id="gift-card-from" placeholder="Jane" />
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div class="form-group">
+                                <label class="gkit-input-label mt-3">To:</label>
+                                <input type="text" class="gkit-input-md" id="gift-card-to" placeholder="Nick" />
+                              </div>
+                            </div>
+                          </div>
+
+                          <textarea id="gift-card-text" class="px-3 py-3 w-100 gkit-input resize-none" maxlength="300" placeholder="Type your message here..." style="flex: 1;"></textarea>
+                          <p class="remaining-chars">300</p>
+                        </div>
+                    </div>
+
+                    <div id="gift-card-error" class="d-none row justify-content-end">
+                        <div class="col-12 col-md-7">
+                            <span class="gkit-p-13 text-danger">Please enter a from, to and gift card message</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 row">
+                        <div class="col-12 col-md-5 mt-md-4">
+                            <div class="d-flex align-items-center justify-content-center h-100">
+                                <button id="add-gift-card-btn-modal" class="gkit-btn-md gkit-primary">Add to cart</button>
+                            </div>
+                        </div>
+
+                        {% if settings.cardModalText %}
+                            <div class="col">
+                                <div class="d-flex align-items-center h-100">
+                                    <p class="mb-0">
+                                        {{ settings.cardModalText }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+
+<script>
+    $(document).ready(function(){
+
+        const getCookie = function (cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+            }
+            return "";
+        };
+    
+        function itemChange() {
+            var shippingCost = {{ settings.ukShippingCost }};
+            jQuery.getJSON('/cart.js', function(cart) {
+
+                if  (cart.item_count >= 1) {
+
+                    var priceDifference = shippingCost - (cart.total_price / 100);
+
+                    if (priceDifference <= 0) {
+                        $('.js-shipping-counter').text(0);
+                        $("#free-shipping").addClass("banner");
+                    } else {
+                        priceDifference = priceDifference.toFixed(2);
+                        $('.js-shipping-counter').text(priceDifference);
+                        $("#free-shipping").removeClass("banner")
+                    }
+
+                    $('.js-shipping-counter-container').removeClass('d-none');
+                    $('.js-related-products').addClass('d-none');
+
+                } else {
+                    $('.js-shipping-counter-container').addClass('d-none');
+                    $('.js-related-products').removeClass('d-none');
+                }
+            });
+        };
+
+        itemChange();
+
+        $(document).on('cart.requestComplete', function() {
+            itemChange();
+        });
+
+        function reChargeProcessCart() {
+            function get_cookie(name){ return( document.cookie.match('(^|; )'+name+'=([^;]*)')||0 )[2] }
+            do {
+                token=get_cookie('cart');
+            }
+            while(token == undefined);
+
+            var myshopify_domain='{{ shop.permanent_domain }}'
+            try { var ga_linker = ga.getAll()[0].get('linkerParam') } catch(err) { var ga_linker ='' }
+            var customer_param = '{% if customer %}customer_id={{customer.id}}&customer_email={{customer.email}}{% endif %}'
+            checkout_url= "https://checkout.rechargeapps.com/r/checkout?myshopify_domain="+myshopify_domain+"&cart_token="+token+"&"+ga_linker+"&"+customer_param;
+            return checkout_url;
+        }
+
+        $('#checkoutBtn').click(function() {
+            $(this).addClass('gkit-loading');
+            
+            var contains_gcharge_item = false;
+            var contains_subscription_item = false;
+            var cart_token = null;
+            var discount_code = null;
+            var checkout_url;
+
+            jQuery.getJSON('/cart.js', function(cart) {
+                if(window.ttq) {
+                  window.ttq.track('InitiateCheckout', {
+                    'content_type': 'product_group',
+                    'contents': cart.items.map(function(item) {
+                      return {
+                        'id': item.id,
+                        'quantity': item.quantity
+                      };
+                    }),
+                    'currency': cart.currency,
+                    'value': parseFloat(cart.total_price) / 100
+                  });
+                }
+
+                // Check for discount code
+                if(cart.attributes && cart.attributes.plan_creator_discount_code) {
+                    discount_code = cart.attributes.plan_creator_discount_code;
+                }
+
+                if(cart.attributes && cart.attributes.subscription_start_date) {
+                    for (let itemIdx = 0; itemIdx < cart.items.length; itemIdx++) {
+                        const item = cart.items[itemIdx];
+                        if(item.properties && (item.properties.subscription || item.properties.recipient_email)) {
+                            cart_token = cart.token;
+                            contains_gcharge_item = true;
+                            return;
+                        }
+                    }
+                } else {
+                    for (let itemIdx = 0; itemIdx < cart.items.length; itemIdx++) {
+                        const item = cart.items[itemIdx];
+                        if(item.properties && item.properties.recipient_email) {
+                            cart_token = cart.token;
+                            contains_gcharge_item = true;
+                            return;
+                        }
+                    }
+                }
+                var items = cart.items;
+
+                for (let i = 0, itemsLength = items.length; i < itemsLength; i++) {
+                    let item = items[i];
+
+                    if (item.properties !== null && typeof item.properties.subscription_id !== "undefined" && typeof item.properties.shipping_interval_frequency !== "undefined") {
+                        contains_subscription_item = true;
+                        break;
+                    }
+                }
+            }).always(function() {
+                if (contains_gcharge_item) {
+                  function redirectToCheckout() {
+                    const checkoutPrefix = ['grind-testing.myshopify.com', 'the-grind-website-eur.myshopify.com', 'the-grind-website-gbp.myshopify.com'].indexOf(window.theme.domain || window.location.hostname) > -1 ? 'https://checkout.dev.grind.co.uk/?token=' : 'https://checkout.grind.co.uk/?token=';
+                    checkout_url = checkoutPrefix + cart_token;
+                    if(discount_code) {
+                        checkout_url = checkout_url + '&discount_code=' + discount_code;
+                    }
+                    
+                    const impactClickId = getCookie('irclickid');
+                    if(impactClickId) {
+                        checkout_url = checkout_url + '&irclickid=' + impactClickId;
+                    }
+
+                    document.location.href = checkout_url;
+                  }
+
+                  CartJS.setAttributes({
+                    country_code: window.theme.currentCountryCode,
+                    currency: window.theme.currentCurrencyCode
+                  }, {
+                    'success': redirectToCheckout,
+                    'error': redirectToCheckout,
+                    
+                  });
+                } else if (contains_subscription_item) {
+                    checkout_url = reChargeProcessCart();
+                    document.location.href = checkout_url;
+                } else {
+                    checkout_url = '/cart/checkout/'
+                    document.location.href = checkout_url;
+                }
+
+                
+            });
+        });
+
+        $(".check-gift").on("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          $("#gift-card-modal").modal('toggle');
+        });
+    });
+</script>

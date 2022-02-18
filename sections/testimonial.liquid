@@ -1,0 +1,61 @@
+{% assign i18nVisibility = section.settings.internationalVisibility %}
+<!-- i18nVisibility: {{ i18nVisibility }}, {{ localization.country.iso_code }} -->
+{% unless i18nVisibility == 'eu' and localization.country.iso_code == 'GB' %}
+{% unless i18nVisibility == 'gb' and localization.country.iso_code != 'GB' %}
+{% include "section-testimonial" %}
+{% endunless %}
+{% endunless %}
+
+{% schema %}
+    {
+        "name": "Testimonial",
+        "settings": [
+            {
+                "type": "image_picker",
+                "id": "testimonialImage",
+                "label": "Image"
+            },
+            {
+                "type": "text",
+                "id": "testimonialSubTitle",
+                "label": "Sub-title"
+            },
+            {
+                "type": "text",
+                "id": "testimonialQuote",
+                "label": "Quote"
+            },
+            {
+                "type": "text",
+                "id": "testimonialSource",
+                "label": "Source"
+            },
+            {
+              "type": "select",
+              "id": "internationalVisibility",
+              "label": "International Visibility",
+              "options": [
+                {
+                  "value": "all",
+                  "label": "All"
+                },
+                {
+                  "value": "eu",
+                  "label": "EU Only"
+                },
+                {
+                  "value": "gb",
+                  "label": "UK Only"
+                }
+              ],
+              "default": "all"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Testimonial",
+                "category": "Content"
+            }
+        ]
+    }
+{% endschema %}

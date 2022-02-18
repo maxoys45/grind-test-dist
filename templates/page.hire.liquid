@@ -1,0 +1,18 @@
+{% section 'content-builder-hire' %}
+
+<div class="my-4 my-sm-5 container">
+    {% include 'page-title', summary: 'When we first had the idea to turn our little espresso bar Shoreditch Grind into a late night cocktail bar back in 2012, it was just because we wanted somewhere to party.', title: 'We Love a Party' %}
+
+    <div class="row">
+        <div class="col-12 col-md-6 gkit-p-17">
+            {{ page.content }}
+        </div>
+
+        <div class="col-12 col-md-6">
+            {% include 'form-contact',
+                formClass: 'form-hire',
+                formName: 'Hire form'
+            %}
+        </div>
+    </div>
+</div>

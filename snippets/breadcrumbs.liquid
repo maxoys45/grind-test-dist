@@ -1,0 +1,94 @@
+{% unless template == 'index' or template == 'cart' or template == 'list-collections' %}
+
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="breadcrumbs__nav"
+                         role="navigation"
+                         aria-label="{{ 'breadcrumbs.title' | t }}">
+                        <ul class="breadcrumbs__list"
+                            role="menu">
+                            <li class="breadcrumbs__list-item"
+                                role="menuitem">
+                                <a href="{{ shop.url }}"
+                                   aria-label="{{ 'breadcrumbs.home' | t }}">{{ 'breadcrumbs.home' | t }}</a>
+                            </li>
+
+                            {% if template contains 'page' %}
+
+                                <li class="breadcrumbs__list-item"
+                                    role="menuitem">
+                                    <div class="breadcrumbs__list-sep" aria-hidden="true">/</div>
+                                    <span>{{ page.title }}</span>
+                                </li>
+
+                            {% elsif template contains 'product' %}
+
+                                <li class="breadcrumbs__list-item"
+                                    role="menuitem">
+                                    {% if collection.url %}
+                                        <div class="breadcrumbs__list-sep" aria-hidden="true">/</div>
+                                        {{ collection.title | link_to: collection.url }}
+                                    {% endif %}
+                                    <div class="breadcrumbs__list-sep" aria-hidden="true">/</div>
+                                    <span>{{ product.title }}</span>
+                                </li>
+
+                            {% elsif template contains 'collection' and collection.handle %}
+
+                                <li class="breadcrumbs__list-item"
+                                    role="menuitem">
+                                    <div class="breadcrumbs__list-sep" aria-hidden="true">/</div>
+                                    {% if current_tags %}
+                                        {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+                                        {{ collection.title | link_to: url }}
+                                        <div class="breadcrumbs__list-sep" aria-hidden="true">/</div>
+                                        <span>{{ current_tags | join: " + " }}</span>
+                                    {% else %}
+                                        <span>{{ collection.title }}</span>
+                                    {% endif %}
+                                </li>
+
+                            {% elsif template == 'blog' %}
+
+                                <li class="breadcrumbs__list-item"
+                                    role="menuitem">
+                                    <div class="breadcrumbs__list-sep" aria-hidden="true">/</div>
+                                    {% if current_tags %}
+                                        {{ blog.title | link_to: blog.url }}
+                                        <span class="breadcrumbs__list-sep" aria-hidden="true">/</span>
+                                        <span>{{ current_tags | join: " + " }}</span>
+                                    {% else %}
+                                        <span>{{ blog.title }}</span>
+                                    {% endif %}
+                                </li>
+
+                            {% elsif template == 'article' %}
+
+                                <li class="breadcrumbs__list-item"
+                                    role="menuitem">
+                                    <div class="breadcrumbs__list-sep" aria-hidden="true">/</div>
+                                    {{ blog.title | link_to: blog.url }}
+                                    <span class="breadcrumbs__list-sep" aria-hidden="true">/</span>
+                                    <span>{{ article.title }}</span>
+                                </li>
+
+                            {% else %}
+
+                                <li class="breadcrumbs__list-item"
+                                    role="menuitem">
+                                    <div class="breadcrumbs__list-sep" aria-hidden="true">/</div>
+                                    <span>{{ page_title }}</span>
+                                </li>
+
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endunless %}

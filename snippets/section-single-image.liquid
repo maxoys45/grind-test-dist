@@ -1,0 +1,9 @@
+{% assign image = section.settings.singleImageSelect %}
+
+{% if image != blank %}
+    <div class="my-4 my-sm-5 container wow fadeInUp">
+        <figure class="d-block mb-0 figure">
+            <img loading="lazy" src="{{ image | img_url: '1800x' }}" alt="{{ image.alt }}" class="mb-0 figure-img img-fluid breakout">
+        </figure>
+    </div>
+{% endif %}

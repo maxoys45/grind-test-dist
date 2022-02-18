@@ -1,0 +1,18 @@
+<article class="position-relative {{ classes }}">
+
+    {% if thumbnail != "" %}
+        <img loading="lazy" src="{{ thumbnail | img_url: '900x600', crop: 'center' }}" alt="{{ title }}" class="d-block mx-auto mb-3 thumbnail">
+    {% endif %}
+
+    <div class="bg-white text-center text-md-left py-md-4 px-md-5 content">
+        <h2 class="title">{{ title }}</h2>
+        {% if address != "" %}
+            <p class="text-black address">{{ address }}</p>
+        {% endif %}
+        {% if description != "" %}
+            <p class="description">{{ description }}</p>
+        {% endif %}
+        <a href="{{ url }}" class="btn btn-primary">Discover more</a>
+    </div>
+
+</article>

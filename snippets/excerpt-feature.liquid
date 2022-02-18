@@ -1,0 +1,27 @@
+<article class="feature-excerpt">
+    <div class="row half-gutters">
+
+        {% if thumbnail != "" %}
+            <div class="col-12 col-sm-6 col-md-12 col-lg-5">
+                <a href="{{ url }}">
+                    <img loading="lazy" src="{{ thumbnail | img_url: '360x360', crop: 'center' }}" alt="{{ title }}" class="d-block mx-auto mb-4 mb-sm-0 mb-md-4 mb-lg-0 w-100 thumbnail">
+                </a>
+            </div>
+        {% endif %}
+
+        <div class="col-12 col-sm-6 col-md-12 col-lg-7">
+            <div class="d-sm-flex flex-sm-column h-100">
+                <h3 class="gkit-p-20 mb-3"><strong><a href="{{ url }}">{{ title }}</a></strong></h3>
+                {% if excerpt != "" %}
+                    <div class="gkit-p-15 gkit-light content-no-margin">
+                        {{ excerpt }}
+                    </div>
+                {% endif %}
+                <a href="{{ url }}" class="mt-3 gkit-btn-sm gkit-secondary align-self-start">
+                    Read more
+                </a>
+            </div>
+        </div>
+
+    </div>
+</article>

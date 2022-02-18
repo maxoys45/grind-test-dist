@@ -1,0 +1,79 @@
+{%- assign collection = collections[section.settings.collection] -%}
+{% assign title = section.settings.title %}
+
+<div class="my-4 pt-2 my-sm-5 pt-sm-5 container">
+
+    {% unless title == blank %}
+        <h2 class="mt-2 mb-3 mt-sm-3 mb-sm-4">{{ title | escape }}</h2>
+    {% endunless %}
+
+    <div id="js-list-products-slider" class="list-products-slider">
+
+        {% for product in collection.products %}
+            {% unless product.title contains 'Test' %}
+                <div class="slide">
+                    {% include 'excerpt-product',
+                        showPrice: true,
+                        price: product.price,
+                        tags: product.tags,
+                        thumbnail: product.featured_image,
+                        title: product.title,
+                        url: product.url
+                    %}
+                </div>
+            {% endunless %}
+        {% endfor %}
+    </div>
+
+    {% comment %}
+    <div class="row half-gutters">
+
+        <div class="col-12">
+            {% if section.settings.title != blank %}
+                <h2 class="mt-2 mb-3 mt-sm-3 mb-sm-4">{{ section.settings.title | escape }}</h2>
+            {% endif %}
+        </div>
+
+        {%- assign collection = collections[section.settings.collection] -%}
+        {% for product in collection.products limit: 6 %}
+
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-5 wow fadeInUp" data-wow-delay="0.{{ forloop.index }}s">
+                {% include 'excerpt-product',
+                    price: product.price,
+                    tags: product.tags,
+                    thumbnail: product.featured_image,
+                    title: product.title,
+                    url: product.url
+                %}
+            </div>
+
+        {% endfor %}
+
+    </div>
+    {% endcomment %}
+</div>
+
+{% schema %}
+    {
+        "name": "Featured collection",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                 "label": "Heading",
+                "default": "Featured collection"
+            },
+            {
+                "id": "collection",
+                "type": "collection",
+                "label": "Collection"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Featured collection",
+                "category": "Products"
+            }
+        ]
+    }
+{% endschema %}

@@ -1,0 +1,35 @@
+<div class="shopify-section-collections-2021-upsell container-fluid px-0" style="background-color: {{ section.settings.backgroundColor }};">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-4 order-3 order-md-1{% if section.settings.mobileOffset %} mobile-offset-img{% endif %}{% unless section.settings.mobileOffset %} mt-5 mt-md-0{% endunless %}">
+        <img loading="lazy" alt="{{ section.settings.title }}" class="sub-img" src="{{ section.settings.image | img_url: '800x' }}" style="{% unless section.settings.mobileOffset %}position: static;{% endunless %}left: {{ section.settings.xOffset }}px; top: {{ section.settings.yOffset }}px; max-width: 100%;" />
+      </div>
+      <div class="col-md-4 order-1 order-md-2">
+        <h3 class="gkit-h2">{{ section.settings.title }}</h3>
+        <p class="gkit-p-15 gkit-light">{{ section.settings.body }}</p>
+        <a class="gkit-btn-md gkit-primary mt-3" id="gcharge-create-plan" {% if section.settings.ctaURL %}href="{{ section.settings.ctaURL }}"{% endif %}>{{ section.settings.cta }}</a>
+      </div>
+      <div class="col-md-4 upsell-points mt-5 mt-md-0 order-2 order-md-3">
+      {% if section.blocks == empty %}
+        {% assign numbers = "1,2,3" | split: "," %}
+        {% for n in numbers %}
+          {% assign titleKey = "upsellTitle" | append: n %}
+          {% assign iconKey = "upsellIcon" | append: n %}
+          {% assign bodyKey = "upsellBody" | append: n %}
+          {% assign title = block.settings[titleKey] %}
+          {% assign icon = block.settings[iconKey] %}
+          {% assign body = block.settings[bodyKey] %}
+          {% include '2021-collections-upsell-item' %}
+        {% endfor %}
+      {% else %}
+        {% for block in section.blocks %}
+          {% assign title = block.settings.title %}
+          {% assign icon = block.settings.icon %}
+          {% assign body = block.settings.body %}
+          {% include '2021-collections-upsell-item' %}
+        {% endfor %}
+      {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+{% capture positive_1 %}{% section 'section-positives-product' %}{% endcapture %}
+{% assign positive = positive_1 | replace: 'class="shopify-section"', 'class="shopify-section-nested md-show"' %}
+{% assign positive = positive | replace: 'md-none', 'md-show' %}
+
+{% capture image_slider_section %}{% section 'section-image-slider' %}{% endcapture %}
+{% assign image_slider_section = image_slider_section | replace: "%%insert-positive-section%%", positive %}
+
+{% section 'intro-hero-product' %}
+
+{% section 'product-2021' %}
+
+{% section 'section-positives-product' %}
+
+{{ image_slider_section }}
+
+{% section 'product-full-image' %}
+
+{% section 'misc-collection-product' %}
+
+{% schema %}
+    {
+        "name": "Product Pods Refill 2021",
+        "settings": [],
+        "presets": [
+            {
+                "name": "Product Pods Refill 2021",
+                "category": "Content"
+            }
+        ]
+    }
+{% endschema %}

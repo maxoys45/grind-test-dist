@@ -1,0 +1,17 @@
+{% liquid
+  assign image = block.image
+  assign heading = block.heading
+  assign description = block.description
+  assign imageTransform = imageHeight | prepend: 'x'
+  assign maxWidth = maxWidth
+%}
+
+<div class="d-flex flex-column px-3 h-100 text-center w-100" {% if maxWidth %} style="max-width: {{ maxWidth }};" {% endif %}>
+  <img loading="lazy" src="{{ image | img_url: imageTransform }}" alt="{{ image.alt }}" class="align-self-center h-100" style="max-height: {{ imageHeight | append: 'px' }}"/>
+  <div class="d-flex flex-column flex-grow-1 px-4 mt-4 mb-5 mb-md-0">
+    <p class="gkit-p-26 gkit-bold mb-0">{{ heading }}</p>
+    <div class="mt-3 gkit-p-20">
+      {{ description }}
+    </div>
+  </div>
+</div>

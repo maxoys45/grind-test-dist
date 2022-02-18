@@ -1,0 +1,117 @@
+<div class="modal modal--stock fade" id="StockModal" tabindex="-1" role="dialog" aria-labelledby="StockModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close">
+                    <img alt="Close"
+                         loading="lazy"
+                         src="{{ 'close.svg' | asset_url }}" />
+                </button>
+            </div>
+            <div class="modal-body">
+                <figure class="mb-3">
+                    <img class="img-fluid d-block mx-auto"
+                         role="presentation"
+                         loading="lazy"
+                         src="{{ 'icon-error.svg' | asset_url }}"  />
+                </figure>
+                <h3 class="text-center py-1">{{ 'products.product.no_stock_modal_title' | t }}</h3>
+                <div class="d-flex align-items-center justify-content-center my-3">
+
+                    {% liquid
+                        assign image = product.featured_image
+                        assign crop = '40x'
+                    %}
+
+                    <figure class="mb-0 mr-3">
+                        <img class="img-fluid"
+                             alt="{{ product.title }}"
+                             loading="lazy"
+                             src="{{ image | img_url: crop }}"
+                             srcset="{{ image | img_url: crop }} 1x, {{ image | img_url: crop, scale: 2 }} 2x" />
+                    </figure>
+                    <h4 class="gkit-p-13 mb-0"><strong>{{ product.title }}</strong></h4>
+                </div>
+                <div class="modal-message pt-1">
+                    <p class="gkit-p-17 gkit-light text-center mb-0">{{ 'products.product.no_stock_modal_message' | t }}</p>
+                </div>
+
+                <form id="StockModalForm">
+                    <div class="input-group"
+                         data-action="https://manage.kmail-lists.com/ajax/subscriptions/subscribe"
+                         data-method="POST">
+                        <label class="sr-only"
+                               id="stockFormEmail">{{ 'products.product.no_stock_modal_email_input' | t }}</label>
+                        <input type="email"
+                               name="email"
+                               class="form-control mr-2"
+                               placeholder="{{ 'products.product.no_stock_modal_email_input' | t }}"
+                               aria-label="{{ 'products.product.no_stock_modal_email_input' | t }}"
+                               aria-describedby="stockFormEmail" required>
+                        <input type="hidden" name="g" value="{{ section.settings.list_id | escape }}" />
+                        <button type="submit"
+                                class="btn btn-dark"
+                                aria-label="">{{ 'products.product.no_stock_modal_button' | t }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal--stock fade" id="StockModalConfirmation" tabindex="-1" role="dialog" aria-labelledby="StockModalConfirmationTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close">
+                    <img alt="Close"
+                         loading="lazy"
+                         src="{{ 'close.svg' | asset_url }}" />
+                </button>
+            </div>
+            <div class="modal-body">
+                <figure class="mb-3">
+                    <img class="img-fluid d-block mx-auto"
+                         role="presentation"
+                         loading="lazy"
+                         src="{{ 'icon-tick.svg' | asset_url }}"  />
+                </figure>
+                <h3 class="text-center py-1">{{ 'products.product.no_stock_modal_confirmation_title' | t }}</h3>
+                <div class="modal-message pt-1">
+                    <p class="gkit-p-17 gkit-light text-center mb-0">{{ 'products.product.no_stock_modal_confirmation_message' | t }}</p>
+                </div>
+                <button type="button"
+                        aria-label="Close"
+                        class="btn btn-dark d-block mx-auto"
+                        data-dismiss="modal">{{ 'products.product.no_stock_modal_confirmation_button' | t }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+    {
+        "name": "Stock Modal",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Klaviyo"
+            },
+            {
+                "type": "text",
+                "id": "list_id",
+                "label": "List ID"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Stock Modal"
+            }
+        ]
+    }
+{% endschema %}

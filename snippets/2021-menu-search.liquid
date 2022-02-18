@@ -1,0 +1,53 @@
+<div class="position-absolute w-100 desktop-menu desktop-menu-2021 desktop-search-container" id="js-2021-menu-search">
+  <div class="container-fluid search__outer-container global-search__search-container">
+    <div class="search-input__outer-container">
+      <div class="container py-0">
+        <div class="search-input__inner-container px-5 py-3">
+          <input class="global-search__input" type="text" placeholder="Search by typing a keyword..." />
+          <a class="search-input__clear-search global-search__clear-input" style="cursor: pointer;" rv-if="hasSearchTerm">
+            Clear search
+            <img src="{{ 'icon-search-clear.svg' | asset_url }}" alt="Clear search" width="8" height="8" />
+          </a>
+          <img alt="Loading..." class="search__spinner mr-2" src="{{ 'spinner-black.svg' | asset_url }}" rv-if="isLoading" />
+        </div>
+      </div>
+    </div>
+    <div class="container search-results__outer-container py-4" rv-if="results">
+      <div class="row">
+        {% render '2021-search-results' %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function($) {
+  $(function() {
+    const $searchContainer = $('#js-2021-menu-search');
+    const $searchNavButton = $('#js-2021-menu-search-nav');
+    const $navSlider = $('#nav-slider');
+
+    $searchNavButton.on('click', function() {
+      if($searchContainer.hasClass('active') && $searchContainer.hasClass('show')) {
+        $searchContainer.removeClass('active').removeClass('show');
+        $navSlider.css({'width': 0});
+        $searchNavButton.removeClass('active');
+      } else {
+        $('.desktop-menu-2021.desktop-menu').removeClass('active show');
+        $searchContainer.addClass('active show');
+        setTimeout(function() {
+          const $input = $searchContainer.find('input');
+          console.log('Input: ', $input);
+          $input.focus();
+        }, 250);
+      }
+    });
+
+    $searchContainer.on('mouseleave', function() {
+      $searchContainer.removeClass('active').removeClass('show');
+      $searchNavButton.removeClass('active');
+      $navSlider.css({'width': 0});
+    });
+  });
+})(jQuery);
+</script>

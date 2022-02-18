@@ -1,0 +1,110 @@
+{% include 'section-icons-text' %}
+
+{% schema %}
+{
+  "name": "Icon/Image & Text (x3)",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "backgroundColour",
+      "label": "BackgroundColour",
+      "options": [
+        {
+          "value": "transparent",
+          "label": "Transparent"
+        },
+        {
+          "value": "primary",
+          "label": "Pink"
+        },
+        {
+          "value": "light",
+          "label": "Light Grey"
+        },
+        {
+          "value": "dark",
+          "label": "Dark Grey"
+        }
+      ],
+      "default": "transparent"
+    },
+    {
+      "type": "range",
+      "id": "imageHeight",
+      "min": 15,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Image Height",
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Block One"
+    },
+    {
+      "type": "image_picker",
+      "id": "imageOne",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "imageOneTitle",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "imageOneText",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Block Two"
+    },
+    {
+      "type": "image_picker",
+      "id": "imageTwo",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "imageTwoTitle",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "imageTwoText",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Block Three"
+    },
+    {
+      "type": "image_picker",
+      "id": "imageThree",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "imageThreeTitle",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "imageThreeText",
+      "label": "Text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icon/Image & Text (x3)",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}

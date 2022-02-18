@@ -1,0 +1,79 @@
+{% include "section-masthead" %}
+
+{% schema %}
+    {
+    "name": "Masthead",
+    "settings": [
+    {
+    "type": "image_picker",
+    "id": "mastheadBackground",
+    "label": "Background Image"
+    },
+    {
+    "type": "url",
+    "id": "mastheadBackgroundVideo",
+    "label": "Background Video"
+    },
+    {
+    "type": "select",
+    "id": "mastheadOpacity",
+    "label": "Overlay opacity",
+    "options": [
+    { "value": "0", "label": "0" },
+    { "value": "0.1", "label": "0.1" },
+    { "value": "0.15", "label": "0.15" },
+    { "value": "0.2", "label": "0.2" },
+    { "value": "0.25", "label": "0.25" },
+    { "value": "0.3", "label": "0.3" },
+    { "value": "0.35", "label": "0.35" },
+    { "value": "0.4", "label": "0.4" },
+    { "value": "0.45", "label": "0.45" },
+    { "value": "0.5", "label": "0.5" }
+    ],
+    "default": "0.15",
+    "info": "Please select a value between 0 and 0.5."
+    },
+    {
+    "type": "text",
+    "id": "mastheadTitle",
+    "label": "Title",
+    "info": "Leave blank to just use the page title"
+    },
+    {
+    "type": "text",
+    "id": "mastheadSubTitle",
+    "label": "Sub-title"
+    },
+    {
+    "type": "checkbox",
+    "id": "mastheadShowTitle",
+    "label": "Show title",
+    "default": true
+    },
+    {
+    "type": "checkbox",
+    "id": "mastheadFullHeight",
+    "label": "Full height",
+    "default": false
+    },
+    {
+    "type": "checkbox",
+    "id": "mastheadOverlay",
+    "label": "Include overlay",
+    "default": true
+    },
+    {
+    "type": "checkbox",
+    "id": "mastheadReverse",
+    "label": "Reverse order",
+    "default": false
+    }
+    ],
+    "presets": [
+    {
+    "name": "Masthead",
+    "category": "Content"
+    }
+    ]
+    }
+{% endschema %}

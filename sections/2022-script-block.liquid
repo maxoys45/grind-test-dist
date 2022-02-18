@@ -1,0 +1,33 @@
+<div {% if section.settings.background_colour and section.settings.transparent_background != true %} style="background: {{section.settings.background_colour}}" {% endif %}>
+{{ section.settings.tags }}
+</div>
+{% schema %}
+{
+  "name": "Script Block",
+  "settings": [
+    {
+      "type": "textarea",
+      "label": "Script Tags",
+      "id": "tags"
+    },
+    {
+      "type": "color",
+      "id": "background_colour",
+      "label": "Background Colour",
+      "default": "#f1dbdf"
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent_background",
+      "label": "Transparent background?",
+      "default": true,
+      "info": "Overrides the background colour"
+     }
+  ],
+  "presets": [
+    {
+      "name": "Script Block"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,67 @@
+{% assign cta = section.settings %}
+{% assign iconWidth = cta.iconWidth %}
+{% assign transform = iconWidth | append: 'x' %}
+
+{% if cta.image and cta.title != blank %}
+    <section class="px-md-down-0 container banner-image-cta wow fadeInUp" data-wow-duration=".5s">
+        <div class="row no-gutters my-4 my-md-5">
+            <div class="order-md-2 col-12 col-md-6 wow fadeInUp" data-wow-duration=".5s">
+                <div class="pt-md-0 h-md-100 bg-cover bg-square" style="background-image: url('{{ cta.image | img_url: '1200x' }}')"></div>
+            </div>
+
+            <div class="order-md-1 col-12 col-md-6">
+                <div class="p-5 bg-primary text-center">
+                    <div class="wow fadeInUp py-5" data-wow-duration=".75s">
+
+                        <h2 class="gkit-h2 legacy-x-bold">{{ cta.title }}</h2>
+                        {% if cta.text != blank %}
+                            <div class="mb-0 mt-4 gkit-p-17 legacy-h5">{{ cta.text }}</div>
+                        {% endif %}
+
+                        {% if cta.btnLink and cta.btnText != blank %}
+                        <a class="mt-2 gkit-btn-md gkit-secondary gkit-legacy-hide" href="{{ cta.btnLink }}">{{ cta.btnText }}</a>
+                        <a class="mt-2 btn btn-sm btn-lg-md btn-outline-dark btn-long-text gkit-legacy-show" href="{{ cta.btnLink }}">{{ cta.btnText }}</a>
+                        {% endif %}
+
+                        {% if cta.iconOneImage and cta.iconTwoImage and cta.iconThreeImage %}
+                            <div class="row justify-content-md-center pb-md-5">
+
+                                <div class="col">
+                                    <div class="text-center">
+                                        <img loading="lazy" class="mb-3 w-100" src="{{ cta.iconOneImage | img_url: iconWidth }}" alt="{{ cta.iconOneText }}" style="max-width: {{ iconWidth | append: 'px' }}">
+
+                                        {% if cta.iconOneText %}
+                                            <p class="mb-0">{{ cta.iconOneText }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="text-center">
+                                        <img loading="lazy" class="mb-3 w-100" src="{{ cta.iconTwoImage | img_url: iconWidth }}" alt="{{ cta.iconTwoText }}" style="max-width: {{ iconWidth | append: 'px' }}">
+
+                                        {% if cta.iconOneText %}
+                                            <p class="mb-0">{{ cta.iconTwoText }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="text-center">
+                                        <img loading="lazy" class="mb-3 w-100" src="{{ cta.iconThreeImage | img_url: iconWidth }}" alt="{{ cta.iconThreeText }}" style="max-width: {{ iconWidth | append: 'px' }}">
+
+                                        {% if cta.iconOneText %}
+                                            <p class="mb-0">{{ cta.iconThreeText }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}

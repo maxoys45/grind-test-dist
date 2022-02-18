@@ -1,0 +1,702 @@
+{% assign data = section.settings %}
+{% assign products = collections.all.products %}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
+{% assign currentProduct = product %}
+
+{% assign variantImageSize = 0 %}
+
+{% if context %}
+    {% assign productClass = 'product-' | append: context %}
+{% else %}
+    {% assign productClass = 'product-2021' %}
+{% endif %}
+
+<div id="shopify-section-product-2021" class="shopify-section">
+
+  <div class="snippet-2021-product mt-4 mb-4 mt-lg-0 mb-md-5 product-page {{ 'product-' | append: context | default: '2021' }}">
+
+      <div class="container">
+
+          <div class="row no-gutters">
+
+            {% comment %}
+              <div class="mb-4 mb-md-0 col-12 col-md-6 order-md-2 wow fadeInUp">
+                  <figure class="d-block mb-0 figure product-featured-image">
+                      <div id="js-product-image-slider" class="product-image-slider">
+                          {% for variant in product.variants %}
+                              {% if variant.image %}
+                                  {% assign variantImageSize = forloop.index %}
+                                  <div class="slide">
+                                      <img loading="lazy" src="{{ variant.image.src | img_url: '1600x1600' | crop: "center" }}" alt="{{ image.alt | escape }}" class="mb-0 figure-img w-100">
+                                  </div>
+                              {% else %}
+                                  {% continue %}
+                              {% endif %}
+                          {% endfor %}
+
+                          {% if variantImageSize == 0 %}
+                              {% for image in product.images %}
+                                  <div class="slide">
+                                      <img loading="lazy" src="{{ image | img_url: '1600x1600' | crop: "center" }}" alt="{{ image.alt | escape }}" class="mb-0 figure-img w-100">
+                                  </div>
+                              {% endfor %}
+                          {% endif %}
+                      </div>
+                  </figure>
+              </div>
+
+              {% endcomment %}
+              <div class="mb-4 mb-md-0 col-12 col-md-8 col-lg-6 order-md-1 wow fadeInUp dummy" data-wow-delay=".1s">
+                  <div class="product-content-wrap first pl-0">
+                      <div class="">
+                          <h1 class="mr-2 mb-0 gkit-h2">{{ product.title }} </h1>
+
+                          <div data-price-wrapper>
+                              <p data-product-price class="mb-0 mt-2 h-100 gkit-p-20 gkit-light">
+                                  {% if currentProduct.tags contains 'Subscription' or currentProduct.tags contains 'subscription' %}
+                                      {% assign discount = settings.subDiscount | divided_by: 100 %}
+                                      {% assign subDiscount = 1 | minus: discount %}
+                                      {% assign subscriptionPrice = current_variant.price | times: subDiscount %}
+                                  {% endif %}
+
+                                  {{ data.subtitleText }}
+
+                              </p>
+                              {% if product.compare_at_price_max > product.price %}
+                                  <span class="visually-hidden"
+                                        data-compare-text>{{ 'products.product.regular_price' | t }}</span>
+                                  <s data-compare-price>
+                                      {% if current_variant.compare_at_price > current_variant.price %}
+                                          {{ current_variant.compare_at_price | money }}
+                                      {% endif %}
+                                  </s>
+                              {% endif %}
+                          </div>
+                      </div>
+
+                      {% if product.variants.size == 1 %}
+                          {% assign hideOptions = '' %}
+                          {% assign tabMargin = 'mb-3' %}
+                          {% assign inlineForm = '' %}
+                          {% assign inlineFormInputWidth = 'w-100' %}
+                          {% assign inlineFormInputHeight = '' %}
+                          {% assign removeColumns = true %}
+                      {% else %}
+                          {% assign hideOptions = '' %}
+                          {% assign tabMargin = '' %}
+                          {% assign inlineForm = '' %}
+                          {% assign removeColumns = false %}
+                          {% assign inlineFormInputWidth = '' %}
+                          {% assign inlineFormInputHeight = '' %}
+                      {% endif %}
+
+                      {% comment %}
+                          Keeping for future reference:
+                          This product metafield can be edited here: https://the-grind-website.myshopify.com/admin/bulk?resource_name=Product&edit=metafields.description.text%3Astring
+                          <p class="mb-0 mt-3">{{ product.metafields.description.text }}</p>
+                      {% endcomment %}
+
+                      {% comment %}
+                          If the product is coffee, display the tabs with the different blends and main description.
+                          If not, just show the main description.
+                      {% endcomment %}
+                      {% if product.type == 'Coffee' %}
+
+                          <div class="{{ tabMargin }} py-3 content-no-margin mb-0 border-0 product-tabs md-none">
+                              <ul class="row no-gutters justify-content-between justify-content-sm-start nav nav-tabs" id="myTab" role="tablist">
+                                  {% unless data.blendThreeTitle != blank %}
+                                      {% assign tabColumns = 'col-auto' %}
+                                  {% else %}
+                                      {% assign tabColumns = 'col-6 col-lg-3 col-xl' %}
+                                      {% assign tabThreePadding = 'pl-1 pl-xl-3' %}
+                                  {% endunless %}
+
+                                  {% if product.description != blank %}
+                                      <li class="{{ tabColumns }} nav-item">
+                                          <a class="active gkit-p-15 text-no-decoration js-tab-link" id="tab-1" data-toggle="tab" href="#content-1" role="tab" aria-controls="content-1" aria-selected="true"><strong>Description</strong></a>
+                                      </li>
+                                  {% endif %}
+
+                                  {% if data.blendOneTitle != blank %}
+                                      <li class="{{ tabColumns }} nav-item">
+                                          <a class="gkit-p-15 text-no-decoration js-tab-link js-house-blend" id="tab-2" data-toggle="tab" href="#content-2" role="tab" aria-controls="content-2" aria-selected="false"><strong>{{ data.blendOneTitle }}</strong></a>
+                                      </li>
+                                  {% endif %}
+
+                                  {% if data.blendTwoTitle != blank %}
+                                      <li class="{{ tabColumns }} nav-item">
+                                          <a class="gkit-p-15 text-no-decoration js-tab-link js-black-blend" id="tab-3" data-toggle="tab" href="#content-3" role="tab" aria-controls="content-3" aria-selected="false"><strong>{{ data.blendTwoTitle }}</strong></a>
+                                      </li>
+                                  {% endif %}
+
+                                  {% if data.blendThreeTitle != blank %}
+                                      <li class="{{ tabColumns }} nav-item">
+                                          <a class="gkit-p-15 text-no-decoration js-tab-link js-decaf-blend" id="tab-4" data-toggle="tab" href="#content-4" role="tab" aria-controls="content-4" aria-selected="false"><strong>{{ data.blendThreeTitle }}</strong></a>
+                                      </li>
+                                  {% endif %}
+                              </ul>
+
+                              <div class="tab-content md-none" id="myTabContent">
+                                  {% if product.description != blank %}
+                                      <div class="tab-pane fade show active" id="content-1" role="tabpanel" aria-labelledby="tab-1">
+                                          <div class="gkit-p-17">{{ product.description }}</div>
+                                      </div>
+                                  {% endif %}
+
+                                  {% if data.blendOneText != blank %}
+                                      <div class="tab-pane fade js-house-blend" id="content-2" role="tabpanel" aria-labelledby="tab-2">
+                                          <div class="gkit-p-17">{{ data.blendOneText }}</div>
+                                      </div>
+                                  {% endif %}
+
+                                  {% if data.blendTwoText != blank %}
+                                      <div class="tab-pane fade js-black-blend" id="content-3" role="tabpanel" aria-labelledby="tab-3">
+                                          <div class="gkit-p-17">{{ data.blendTwoText }}</div>
+                                      </div>
+                                  {% endif %}
+
+                                  {% if data.blendThreeText != blank %}
+                                      <div class="tab-pane fade js-decaf-blend" id="content-4" role="tabpanel" aria-labelledby="tab-4">
+                                          <div class="gkit-p-17">{{ data.blendThreeText }}</div>
+                                      </div>
+                                  {% endif %}
+                              </div>
+                          </div>
+                      {% else %}
+                          <div class="py-3 product-tabs mb-0 border-0 rich-text gkit-p-17 md-none">{{ product.description }}</div>
+                      {% endif %}
+
+                      {% unless product.variants.size == 1 and product.variants.first.option1 contains 'Default' %}
+                          <!-- We consolidate some variants on some pages -->
+                          {% if product.tags contains "GCharge Gift Subscription" %}
+                              {% assign useSlider = true %}
+                          {% else %}
+                              {% assign useSlider = false %}
+                          {% endif %}
+                          {% if product.tags contains "Consolidated Variants" %}
+                          {% assign consolidate = true %}
+                          {% else %}
+                              {% assign consolidate = false %}
+                          {% endif %}
+                          <form id="variantForm" class="product-form form-radio-group{% if consolidate %} gcharge-consolidate{% endif %}">
+                              {% if useSlider %}
+                              <div class="card gkit-card mt-3" id="gift-iterations-slider">
+                                  <div class="card-body">
+                                      <label class="gkit-input-label">Gift <span>3</span> months of Grind.</label>
+                                      <input class="custom-range gkit-slider" min="2" max="12" step="1" value="3" type="range" />
+                                  </div>
+                              </div>
+                              {% endif %}
+                              {% for option in product.options_with_values %}
+                                  {% if forloop.first == true %}
+                                      {% assign notFirst = false %}
+                                      {% assign customRowPadding = 'pt-3' %}
+                                  {% else %}
+                                      {% assign notFirst = true %}
+                                      {% assign customRowPadding = '' %}
+                                  {% endif %}
+
+                                  {% assign optionIndexValue = forloop.index0 %}
+                                  <fieldset id="{{ option.name }}" {% if useSlider or consolidate and notFirst %}class="d-none"{% endif %}>
+                                      <div class="row no-gutters align-items-center mt-3 pb-0 option-group">
+                                          <div class="col-12 col-lg-12">
+                                              <h3 class="mr-lg-1 mb-2 mb-lg-0 gkit-p-17 choose-blend">{% if consolidate %}Blend{% else %}{{ option.name }}{% endif %}</h3>
+                                          </div>
+
+                                          <div class="col-12 col-lg-12">
+                                              <div class="row small-gutters">
+                                                  {% for value in option.values %}
+                                                      {% assign evenOdd = forloop.index | modulo: 2 %}
+                                                      {% unless evenOdd == 0 %}
+                                                      {% assign customRadioMargin = 'mr-xl-1' %}
+                                                          {% else %}
+                                                      {% assign customRadioMargin = 'ml-xl-1' %}
+                                                      {% endunless %}
+
+                                                      {% assign secondFromLast = option.values.size | minus: 1 %}
+                                                      {% if forloop.last %}
+                                                          {% assign extraClasses = 'mr-0' %}
+                                                      {% else %}
+                                                          {% assign extraClasses = 'mr-2' %}
+                                                      {% endif %}
+
+                                                      <div class="position-relative mb-2 col">
+                                                          <input class="radio-group-input" data-option-index="{{ optionIndexValue }}"
+                                                                  type="radio" value="{{ value }}" name="{{ option.name }}"
+                                                                  {% if forloop.first %}checked{% endif %}>
+                                                          <div class="p-0 brd-1 gkit-toggle-md d-flex align-items-center justify-content-center"><span class="text-capitalize text-center">{{ value }}</span></div>
+                                                      </div>
+                                                  {% endfor %}
+                                                  {% if consolidate and product.options.size == 3 and forloop.first %}
+                                                      <!--
+                                                      No more One of Each!
+                                                      <div class="position-relative mb-2 col-12 col-md-6">
+                                                          <div class="gkit-toggle-md" id="one-of-each-btn">One of Each</div>
+                                                      </div>
+                                                      -->
+                                                  {% endif %}
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </fieldset>
+                              {% endfor %}
+                          </form>
+                      {% endunless %}
+
+                      {% if removeColumns %}
+                          {% assign alignmentClass = 'align-self-end' %}
+                      {% else %}
+                          {% assign alignmentClass = '' %}
+                      {% endif %}
+
+                      <form id="cartForm" action="/cart/add" method="post" enctype="multipart/form-data"
+                            class="{{ inlineForm }} mb-4 mb-md-0 product-form" data-productid="{{ product.id }}" data-cart-submit>
+
+                          <div class="row no-gutters align-items-center {{ inlineFormInputWidth }} pt-1 pb-0 mb-0 border-0 option-group bottom-border">
+                              <div class="{{ hideOptions }} col-12 col-lg-4"></div>
+                              <div class="{{ alignmentClass }} col-12 col-lg-12 {{ inlineFormInputHeight }}">
+                                  <div class="d-flex align-items-center pl-3 pr-2 pr-lg-1 {{ inlineFormInputHeight }} quantity-btn">
+                                    <div class="d-flex align-items-center pl-3 pr-2 pr-lg-1  quantity-btn">
+                                      <label class="gkit-p-13 mb-0 mr-auto" for="productQuantity">Quantity </label>
+
+                                      <div class="d-flex justify-content-center align-items-center quantity-minus" id="productQuantityMinus">
+                                          <p class="m-0">-</p>
+                                      </div>
+
+                                      <input type="number" class="text-dark product-quantity" name="quantity" value="1" min="1" max="99" id="Quantity">
+
+                                      <div class="d-flex justify-content-center align-items-center quantity-plus" id="productQuantityPlus">
+                                          <p class="m-0">+</p>
+                                      </div>
+                                  </div>
+  <!--                                     <label class="gkit-p-13 mb-0 mr-auto" for="productQuantity">How many? </label>
+
+                                      <div class="d-flex justify-content-center align-items-center quantity-minus"
+                                           id="productQuantityMinus">
+                                          <p class="m-0">-</p>
+                                      </div>
+
+                                      <input type="number" class="text-dark product-quantity" name="quantity" value="1"
+                                             min="1" max="99" id="Quantity">
+
+                                      <div class="d-flex justify-content-center align-items-center quantity-plus"
+                                           id="productQuantityPlus">
+                                          <p class="m-0">+</p>
+                                      </div> -->
+                                  </div>
+                              </div>
+                          </div>
+
+                          {% if product.available %}
+                              {% include 'subscription-product' %}
+                          {% endif %}
+
+                          <select id="productSelect" name="id"
+                                  class="d-none no-js form-control form-control-branded js-form-custom-select"
+                                  data-productid="{{ product.id }}" data-product-select>
+                              <option id="productSelectOption" value="{{ product.variants.first.id }}"></option>
+                          </select>
+
+                          {% render 'gift-card-cta' %}
+
+                          <div class="pt-3 row no-gutters {{ inlineFormInputWidth }}">
+                              <div class="{{ hideOptions }} col-0 col-lg-4" style="display:none">
+                                  <div class="d-flex h-100">
+                                      <div class="mb-2 mb-lg-0 pr-2 price-wrapper" data-price-wrapper>
+                                          <span class="gkit-p-17 d-inline">Your order - </span>
+                                          <p class="gkit-p-17 d-inline variantPriceSecond">
+                                              {{ cart.currency.symbol }}<span>{{ product.variants[0].price | money_without_currency }}</span>
+                                          </p>
+                                          {% if product.compare_at_price_max > product.price %}
+                                              <span class="visually-hidden"
+                                                    data-compare-text>{{ 'products.product.regular_price' | t }}</span>
+                                              <span data-compare-price>
+                                                  {% if current_variant.compare_at_price > current_variant.price %}
+                                                      {{ current_variant.compare_at_price | money }}
+                                                  {% endif %}
+                                              </span>
+                                          {% endif %}
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-lg-12 add-to-cart-container">
+                                  <!-- Testing Testing 123 -->
+                                  <!-- {{ current_variant.metafields.grind | json }} -->
+                                  <button id="add-to-cart" type="submit" name="add"
+                                          class="ml-auto gkit-btn-lg gkit-primary btn-block"
+                                          data-product-handle="{{ product.handle }}"
+                                          {% if product.tags contains "GCharge Gift Subscription" %}data-gcharge-gift-subscription="true"{% endif %}
+                                          {% if product.tags contains "GCharge Gift Card" %}data-gcharge-gift-card="true"{% endif %}
+                                          {% unless current_variant.available %}disabled="disabled"{% endunless %}>
+                                      <span class="variantPriceSecond">
+                                          {% if current_variant.available %}
+                                              {{ 'products.product.add_to_cart' | t }} - {{ cart.currency.symbol }}<span>{{ current_variant.price | money_without_currency }}</span>
+                                          {% else %}
+                                              {{ 'products.product.sold_out' | t }}
+                                          {% endif %}
+                                      </span>
+                                  </button>
+
+                                  <!-- Get Notified for Machine -->
+                                  {% unless current_variant.available or product.handle != 'grind-machine' %}
+
+                                  <div id="item-added-alert" class="mt-2 alert alert-danger border-0 text-left wow fadeInUp" role="alert">
+                                      <p class="gkit-p-17 gkit-bold mb-0">Get notified.</p>
+                                      <p class="gkit-p-15 gkit-light mt-2">Enter your email below, and we'll let you know when we're back in stock.</p>
+                                      <div class="newsletter-signup-field" data-action="https://manage.kmail-lists.com/ajax/subscriptions/subscribe" data-method="POST">
+                                          <input type="hidden" name="g" value="TX587q">
+                                          <div class="form-row">
+                                              <div class="form-group col-lg-8">
+                                                  <label class="sr-only" for="email">Email</label>
+                                                  <input class="form-control mr-sm-2" name="email" type="email" placeholder="Email address">
+                                              </div>
+                                              <div class="form-group col-lg-4">
+                                                  <button type="button" class="btn btn-dark">
+                                                      <img loading="lazy" alt="loading" class="spinner d-none" src="//cdn.shopify.com/s/files/1/0123/2928/7737/t/126/assets/spinner.svg?v=1338354348687925877" />
+                                                      <span class="button-text">Sign up</span>
+                                                  </button>
+                                              </div>
+                                          </div>
+                                          <span class="error-text">Please enter a valid email address.</span>
+                                      </div>
+                                  </div>
+                                  {% endunless %}
+
+                              </div>
+
+                                {% if product.tags contains 'GCharge' %}
+                          <div class="mt-4 row no-gutters subscribe-upsell-container">
+                              <div class="col-12 d-flex">
+                                  <img loading="lazy" src="{{ 'subscribe-icon.svg' | asset_url }}" alt="Subscribe & Save 10%" />
+                                  <div class="content">
+                                      <p class="gkit-p-17 gkit-bold">{{ data.subUpsellTitle }}</p>
+                                      <p class="gkit-p-15">{{ data.subUpsellBody }}</p>
+                                  </div>
+                              </div>
+                              <div class="col-12">
+                                  {% assign hasSubscriptonProduct = false %}
+                                  {% for item in cart.items %}
+                                      {% if item.properties.subscription %}
+                                          {% assign hasSubscriptionProduct = true %}
+                                      {% endif %}
+                                  {% endfor %}
+                                  <a class="gkit-btn-md gkit-secondary w-100" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}" href="{{ data.subUpsellCTAHref }}">{% if hasSubscriptionProduct %}{{ data.subUpsellCTA2 }}{% else %}{{ data.subUpsellCTA1 }}{% endif %} </a>
+                              </div>
+                          </div>
+                          {% endif %}
+                          </div>
+                      </form>
+
+                      <div class="tab-content md-show" id="myTabContent">
+                          {% if product.description != blank %}
+                          <div class="tab-pane fade show active" id="content-1" role="tabpanel" aria-labelledby="tab-1">
+                            <div class="gkit-p-17">{{ product.description }}</div>
+                          </div>
+                          {% endif %}
+
+                          {% if data.blendOneText != blank %}
+                          <div class="tab-pane fade js-house-blend" id="content-2" role="tabpanel" aria-labelledby="tab-2">
+                            <div class="gkit-p-17">{{ data.blendOneText }}</div>
+                          </div>
+                          {% endif %}
+
+                          {% if data.blendTwoText != blank %}
+                          <div class="tab-pane fade js-black-blend" id="content-3" role="tabpanel" aria-labelledby="tab-3">
+                            <div class="gkit-p-17">{{ data.blendTwoText }}</div>
+                          </div>
+                          {% endif %}
+
+                          {% if data.blendThreeText != blank %}
+                          <div class="tab-pane fade js-decaf-blend" id="content-4" role="tabpanel" aria-labelledby="tab-4">
+                            <div class="gkit-p-17">{{ data.blendThreeText }}</div>
+                          </div>
+                          {% endif %}
+                      </div>
+
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </div>
+
+  {% if product.tags contains "GCharge Gift Subscription" %}
+  <div class="fade modal" id="gcharge-gift-subscription-popup" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-top-margin">
+            <div class="modal-body position-relative">
+                <div class="modal-close-button">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img loading="lazy" src="{{ 'close.svg' | asset_url }}" />
+                    </button>
+                </div>
+                  <div class="gift-container">
+                      <img loading="lazy" src="{{ 'gift.svg' | asset_url }}" />
+                  </div>
+                  <h2 class="gkit-h2 mb-0 mt-3">Who is this gift for?</h2>
+                  <p class="gkit-p-17 gkit-light mt-2 mb-0">So we can customise their gift for them.</p>
+                  <form class="mt-4" novalidate>
+                      <div class="form-row">
+                          <div class="form-group col-md-6 text-left mb-4">
+                              <label for="recipient_first_name" class="gkit-input-label">Recipient first name</label>
+                              <input class="form-control gkit-input-md" name="recipient_first_name" type="text" placeholder="First name" required/>
+                              <div class="invalid-feedback">Please provide a first name.</div>
+                          </div>
+                          <div class="form-group col-md-6 text-left mb-4">
+                              <label for="recipient_last_name" class="gkit-input-label">Recipient last name</label>
+                              <input class="form-control gkit-input-md" name="recipient_last_name" type="text" placeholder="Last name" required/>
+                              <div class="invalid-feedback">Please provide a last name.</div>
+                          </div>
+                      </div>
+
+                      <div class="form-group text-left mb-4">
+                          <label for="recipient_email" class="gkit-input-label">Recipient email address</label>
+                          <input class="form-control gkit-input-md" name="recipient_email" type="email" placeholder="Their email address" required/>
+                          <div class="invalid-feedback">Please provide a valid email.</div>
+                      </div>
+
+                      <div class="form-group text-left mb-4">
+                          <label for="send_date" class="gkit-input-label">Send at a later date?</label>
+                          <input class="gkit-select-md gift-datepicker" name="send_date" placeholder="Leave empty for today" readonly style="font-weight: normal;" type="text"/>
+                      </div>
+
+                      <div class="form-group text-left mb-0">
+                          <label for="recipient_email" class="gkit-input-label">Add a message</label>
+                          <textarea class="form-control gkit-input" name="recipient_message" placeholder="Enter your message here."></textarea>
+                      </div>
+
+
+                      <button type="submit" class="gkit-btn-lg gkit-primary btn-block mt-4">
+                          <img loading="lazy" alt="loading" class="spinner d-none" src="{{ 'spinner.svg' | asset_url }}" />
+                          <span class="button-text">{{ 'products.product.add_to_cart' | t }}</span>
+                      </button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+  {% endif %}
+
+
+{% if product.tags contains "GCharge Gift Card" %}
+<div class="fade modal" id="gcharge-gcharge-gift-card-popup" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-top-margin">
+            <div class="modal-body position-relative">
+                <div class="modal-close-button">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img loading="lazy" src="{{ 'close.svg' | asset_url }}" />
+                    </button>
+                </div>
+                <div class="gift-container">
+                    <img loading="lazy" src="{{ 'gift.svg' | asset_url }}" />
+                </div>
+                <h2 class="gkit-h2 mb-0 mt-3">Who is this gift for?</h2>
+                <p class="gkit-p-17 gkit-light mt-2 mb-0">So we can customise their gift for them.</p>
+                <form class="mt-4" novalidate>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 text-left mb-4">
+                            <label for="recipient_first_name" class="gkit-input-label">Recipient first name</label>
+                            <input class="form-control gkit-input-md" name="recipient_first_name" type="text" placeholder="First name" required/>
+                            <div class="invalid-feedback">Please provide a first name.</div>
+                        </div>
+                        <div class="form-group col-md-6 text-left mb-4">
+                            <label for="recipient_last_name" class="gkit-input-label">Recipient last name</label>
+                            <input class="form-control gkit-input-md" name="recipient_last_name" type="text" placeholder="Last name" required/>
+                            <div class="invalid-feedback">Please provide a last name.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group text-left mb-4">
+                        <label for="recipient_email" class="gkit-input-label">Recipient email address</label>
+                        <input class="form-control gkit-input-md" name="recipient_email" type="email" placeholder="Their email address" required/>
+                        <div class="invalid-feedback">Please provide a valid email.</div>
+                    </div>
+
+                    <div class="form-group text-left mb-4">
+                        <label for="send_date" class="gkit-input-label">Send at a later date?</label>
+                        <input class="gkit-select-md gift-datepicker" name="send_date" placeholder="Leave empty for today" readonly style="font-weight: normal;" type="text"/>
+                    </div>
+
+                    <div class="form-group text-left mb-0">
+                        <label for="recipient_email" class="gkit-input-label">Add a message</label>
+                        <textarea class="form-control gkit-input" name="recipient_message" placeholder="Enter your message here."></textarea>
+                    </div>
+
+
+                    <button type="submit" class="gkit-btn-lg gkit-primary btn-block mt-4">
+                        <img loading="lazy" alt="loading" class="spinner d-none" src="{{ 'spinner.svg' | asset_url }}" />
+                        <span class="button-text">{{ 'products.product.add_to_cart' | t }}</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+  </div>
+
+<script>
+    $(document).ready(function(){
+
+        //------------------------------------------
+        //      Product Slider
+        //------------------------------------------
+        var $productImageGallery = $('#js-product-image-slider');
+        var $slide = $('.slide');
+        var imageWidth = $slide.outerWidth();
+
+        $productImageGallery.on('init', function(slick){
+            $productImageGallery.addClass('slider-loaded');
+            $productImageGallery.outerHeight(imageWidth);
+            $slide.outerHeight(imageWidth);
+        });
+
+        $productImageGallery.slick({
+            slidesToScroll: 1,
+            slidesToShow: 1,
+            prevArrow:"<button class='text-primary slick-prev slick-arrow' aria-label='Previous' type='button'><i class='fas fa-angle-left'></i></button>",
+            nextArrow:"<button class='text-primary slick-next slick-arrow' aria-label='Next' type='button'><i class='fas fa-angle-right'></i></button>",
+            dots: true
+        });
+
+        if ($productImageGallery) {
+            $(window).resize(function() {
+                setTimeout(function() {
+                    var newImageWidth = $slide.outerWidth();
+                    $productImageGallery.outerHeight(newImageWidth);
+                    $slide.outerHeight(newImageWidth);
+                }, 100);
+            });
+        }
+
+
+        //------------------------------------------
+        //      SELECTOR
+        //------------------------------------------
+        var variants = {{ product.variants | json }},
+            options = {{ product.options_with_values | json }},
+            start_price = {{ product.variants[0].price }};
+
+        var changedVariant = false;
+        var selectedOptions = [];
+            
+        $('#Quantity, .rc_radio__autodeliver, .rc_radio__onetime').change(function() {
+            if (!changedVariant) {
+                let discount = {{ settings.subDiscount }};
+                var productQuantity = $('#Quantity').val();
+                var subDiscount = 1 - (discount / 100);
+
+                if ($('.rc_radio__autodeliver').is(':checked')) {
+                    $('.variantPriceSecond > span').html((start_price / 100 * productQuantity * subDiscount).toFixed(2));
+                } else {
+                    $('.variantPriceSecond > span').html((start_price / 100 * productQuantity).toFixed(2));
+                }
+            }
+        });
+
+        $('#variantForm .radio-group-input').click(function (event) {
+            changedVariant = true;
+
+            var optionIndex = Number(event.target.dataset.optionIndex);
+            
+            if (!selectedOptions.length) {
+                options.forEach(function (option) {
+                    selectedOptions.push({index: (option.position - 1), value: option.values[0]});
+                });
+            }
+            selectedOptions.splice(optionIndex, 1, {index: optionIndex, value: event.target.value});
+            checkForSelectedVariant();
+        });
+
+        function checkForSelectedVariant() {
+            let selectedOptionValues = selectedOptions.map(x => x.value);
+            let blendRegex = /.+?(?=blend)/i;
+
+            if (changedVariant && selectedOptionValues.some(x => blendRegex.test(x)) && 1 === 0) {
+                let match = selectedOptionValues.find(x => x.match(blendRegex));
+                let activeClass = '.js-' + match.toLowerCase().replace(/\s/g, '-');
+                $('.js-tab-link').removeClass('active show');
+                $('.tab-pane').removeClass('active show');
+                $(activeClass).addClass('active show');
+            }
+
+            var product = variants.find(function (variant) {
+                let variantOption = variant.options.map(x => x);
+
+                if (selectedOptionValues.sort().toString() === variantOption.sort().toString()) {
+                    return variant;
+                }
+            });
+
+            if (product) {
+                var i;
+                var variantIndex;
+
+                for (i = 0; i < variants.length; i++) {
+                    if (product.id === variants[i].id) {
+                        variantIndex = i;
+                    }
+                }
+
+                if (variantIndex <= {{ variantImageSize | minus: 1 }}) {
+                    $productImageGallery.slick('slickGoTo', variantIndex);
+                }
+
+                $('#productSelectOption').attr({
+                    selected: 'selected',
+                    value: product.id,
+                    text: product.title
+                });
+
+                $('#cartForm').attr('data-productid', product.id);
+                $('#productSelect').attr('data-productid', product.id);
+
+                var productQuantity = $('#Quantity').val();
+
+                if (productQuantity > 1) {
+                    $('.variantPriceSecond > span').html((product.price / 100 * productQuantity).toFixed(2));
+                } else {
+                    $('.variantPriceSecond > span').html((product.price / 100).toFixed(2));
+                }
+
+                // Trigger a click on the checked ReCharge radio to force the UI update / ReCharge events to fire
+                var subscriptionInput = $('#rc_container .rc_block.rc_block__type__autodeliver');
+                var oneTimeInput = $('#rc_container .rc_block.rc_block__type__onetime');
+
+                if (subscriptionInput.length > 0 && oneTimeInput.length === 0) {
+                    $('#rc_container .rc_block input').trigger('click');
+                } else {
+                    $('#rc_container .rc_block input:checked').trigger('click');
+                }
+
+                function yourOrderPrice() {
+                    let discount = {{ settings.subDiscount }};
+                    var productQuantity = $('#Quantity').val();
+                    var subDiscount = 1 - (discount / 100);
+
+                    if ($('.rc_radio__autodeliver').is(':checked')) {
+                        $('.variantPriceSecond > span').html((product.price / 100 * productQuantity * subDiscount).toFixed(2));
+                    } else {
+                        $('.variantPriceSecond > span').html((product.price / 100 * productQuantity).toFixed(2));
+                    }
+                } yourOrderPrice();
+
+                var purchaseType = $('.rc_radio__autodeliver, .rc_radio__onetime');
+
+                purchaseType.change(function() {
+                    yourOrderPrice();
+                });
+
+                $("#Quantity").change(function() {
+                    yourOrderPrice();
+                });
+            }
+        }
+
+    });
+</script>
+

@@ -1,0 +1,152 @@
+{% comment %}
+Each image which will be used in the navigation has to be called in liquid before.
+{% endcomment %}
+
+{% assign navNews = 'nav_news.jpg' | asset_url %}
+{% assign navAboutUs = 'nav_about-us.jpg' | asset_url %}
+{% assign navDownloadApp = 'nav_download-app.jpg' | asset_url %}
+{% assign navRegisterBlackCard = 'nav_register-black-card.jpg' | asset_url %}
+{% assign navMobileTruck = 'nav_mobile-truck.jpg' | asset_url %}
+{% assign navPrivateHire = 'nav_private-hire.jpg' | asset_url %}
+{% assign navWholesale = 'nav_wholesale.jpg' | asset_url %}
+{% assign navFAQ = 'nav_faqs.jpg' | asset_url %}
+{% assign navCareers = 'nav_careers.jpg' | asset_url %}
+{% assign navStudio = 'nav_studio.jpg' | asset_url %}
+{% assign navContactUs = 'nav_contact-us.jpg' | asset_url %}
+{% assign navHowTo = 'nav_how-to.jpg' | asset_url %}
+
+<div class="position-absolute w-100 desktop-menu desktop-menu-2021" id="js-everything-menu-2021">
+    <div class="container container-fluid row m-0 m-xl-auto">
+
+        <a class="close-button" id="js-everything-menu-2021-close" data-toggle="collapse" role="button" data-target="#js-everything-menu-2021">
+            <img loading="lazy" src="{{ 'close.svg' | asset_url}}" height="24" width="24" />
+        </a>
+        <div class="col-7 p-0 d-flex desktop-menu-submenu">
+
+            <div class="menu-list">
+                {% assign everythingElseMenu = linklists.everything-else %}
+                {% if everythingElseMenu != blank %}
+                    <div class="col-12 col-lg-auto">
+                        {% include 'menu-group-2021',
+                        groupTitle: everythingElseMenu.title,
+                        groupLinks: everythingElseMenu.links
+                        %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="menu-helper-image-col">
+                <a id="everything-menu-image-link" href="">
+                    <div class="menu-helper-image">
+                        {% assign defaultImg = 'nav_everything-default.jpg' %}
+                        <div id="everything-menu-image" class="square-img" style="background: url('{{ defaultImg | asset_img_url: '720x480' }}')"></div>
+                        <div class="d-flex flex-column justify-content-center h-100">
+                            <p id="everything-menu-image-text" class="gkit-p-15 m-0 helper-image-text d-flex btn-arrow-right btn-arrow-right-full">
+                                <span class="mr-auto">Everything Else</span>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="menu-vertical-line"></div>
+
+        <div class="col-5 featured-content">
+            <div class="featured-content__card">
+                <h2 class="cta-title">Get the Grind App</h2>
+                {% assign thumbnail = 'nav_download-app.jpg' %}
+                <div class="featured-content__image" style="background-image: url('{{ thumbnail | asset_img_url: '720x480' }}')">
+                </div>
+                <a href="/pages/app" class="gkit-btn-lg gkit-secondary w-100">Download the app here</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+(function($) {
+    var $everythingSubmenu2021 = $("#js-everything-menu-2021 .submenu-item");
+
+  var everythingSubmenu2021Assets = {
+    "/pages/features": {
+        "image": {{ navNews | json }},
+        "title": "News"
+        },
+    "/pages/about-us": {
+        "image": {{ navAboutUs | json }},
+        "title": "About us"
+        },
+    "/pages/app": {
+        "image": {{ navDownloadApp | json }},
+        "title": "Get the app"
+        },
+    "/pages/black-card": {
+        "image": {{ navRegisterBlackCard | json }},
+        "title": "Register Your Black Card"
+        },
+    "/pages/mobile-barista-coffee-events": {
+        "image": {{ navMobileTruck | json }},
+        "title": "Mobile Coffee Truck"
+        },
+    "/pages/hire": {
+        "image": {{ navPrivateHire | json }},
+        "title": "Private Hire"
+        },
+    "/pages/wholesale": {
+        "image": {{ navWholesale | json }},
+        "title": "Wholesale"
+        },
+    "/tools/help": {
+        "image": {{ navFAQ | json }},
+        "title": "FAQs"
+        },
+    "https://grind.co.uk/tools/help": {
+        "image": {{ navFAQ | json }},
+        "title": "FAQs"
+        },
+    "https://careers.grind.co.uk": {
+        "image": {{ navCareers | json }},
+        "title": "Careers"
+        },
+    "/pages/studio": {
+        "image": {{ navStudio | json }},
+        "title": "Recording Studio"
+        },
+    "/pages/contact": {
+        "image": {{ navContactUs | json }},
+        "title": "Contact us"
+        },
+    "/pages/how-to-guides": {
+        "image": {{ navHowTo | json }},
+        "title": "How To Guides"
+    }
+  };
+
+  $everythingSubmenu2021.hover(function () {
+    var href = $(this).attr("href");
+    if (href.startsWith("https://grind.co.uk/tools/help")){
+        href = "https://grind.co.uk/tools/help"
+    }
+    if (href.startsWith("/tools/help")){
+        href = "/tools/help"
+    }
+    if (href.startsWith("https://careers.grind.co.uk")){
+        href = "https://careers.grind.co.uk"
+    }
+    var imageSrc = everythingSubmenu2021Assets[href]["image"]
+    $("#everything-menu-image").css('background-image', 'url(' + imageSrc + ')');
+    $("#everything-menu-image").attr("src",imageSrc);
+    $("#everything-menu-image-link").attr("href",this.href);
+    $("#everything-menu-image-text span").text(everythingSubmenu2021Assets[href]["title"]);
+    $("#everything-menu-image-text span").addClass("btn-inner");
+  });
+
+  $("#js-everything-menu-2021-close").click(function () {
+    $("#js-everything-menu-2021-nav").removeClass("active");
+    $("#nav-slider").css({"width":0});
+  });
+})(jQuery);
+</script>

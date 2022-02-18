@@ -1,0 +1,30 @@
+{% include 'confirmation-content',
+    title: section.settings.title,
+    text: section.settings.text,
+    btn_text: section.settings.btn_text %} 
+
+{% schema %}
+  {
+    "name": "Page content",
+	"settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "default": "Title",
+            "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+        },
+        {
+            "type": "text",
+            "id": "btn_text",
+            "default": "Back",
+            "label": "Button text"
+        }
+	]
+  }
+{% endschema %}

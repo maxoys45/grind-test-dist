@@ -1,0 +1,162 @@
+{% include 'shortcode' load: article.content %}
+{%- assign article_summary = article.excerpt -%}
+{%- assign article_title = article.title -%}
+
+{% assign ingredients = recipe_ingredients | split: ' | ' %}
+{% assign steps = recipe_steps | split: ' | ' %}
+
+{% if recipe_prep_time | divided_by: 60.0) < 1 %}
+    {% assign prep_iso_format = 'PT' | append: recipe_prep_time | append: 'M' %}
+{% else %}
+    {% assign prep_hours_decimal = recipe_prep_time | divided_by: 60.0 %}
+    {% assign prep_hours = prep_hours_decimal | floor %}
+    {% assign prep_minutes = prep_hours_decimal | minus: prep_hours_rounded | times: 60.0 | round %}
+
+    {% assign prep_iso_format = 'PT' | append: prep_hours | append: 'H' | append: prep_minutes | append: 'M' %}
+{% endif %}
+
+{% if recipe_cook_time | divided_by: 60.0) < 1 %}
+    {% assign cook_iso_format = 'PT' | append: recipe_cook_time | append: 'M' %}
+{% else %}
+    {% assign cook_hours_decimal = recipe_cook_time | divided_by: 60.0 %}
+    {% assign cook_hours = cook_hours_decimal | floor %}
+    {% assign cook_minutes = cook_hours_decimal | minus: cook_hours_rounded | times: 60.0 | round %}
+
+    {% assign cook_iso_format = 'PT' | append: cook_hours | append: 'H' | append: cook_minutes | append: 'M' %}
+{% endif %}
+
+<div class="mb-4 mt-md-5 my-md-5 container container-sm instruction-article">
+
+    <div class="row double-gutters">
+        <div class="col-12 col-md-5">
+            <img loading="lazy" src="{{ article.image | img_url: '1200x', crop: 'center' }}" alt="{{ article.title }}"
+                 class="d-block mb-4 mb-md-0 mx-lg-auto breakout img-fluid wow fadeInUp">
+        </div>
+
+        <div class="col-12 col-md-7">
+            <h1 class="title">{{ article.title }}</h1>
+            <p class="mb-0 text-muted h6">{{ article.published_at | date: "%d/%m/%Y" }} - {{ article.author }}</p>
+            <hr class="border-primary">
+
+            <p class="mb-0 h6">{{ recipe_description }}</p>
+        </div>
+
+        <div class="col-12">
+            <hr class="my-4 mt-md-5 border-primary">
+        </div>
+    </div>
+
+    <div class="row justify-content-between double-md-gutters">
+        <div class="col-12 col-sm">
+            <div class="d-flex flex-sm-column mb-3 mb-sm-0">
+                <p class="mb-0 text-sm-center h6">Preparation time</p>
+                <span class="d-sm-none mx-2">-</span>
+                <p class="mb-0 text-sm-center">
+                    {% unless prep_hours %}
+                        {{ recipe_prep_time | append: ' minutes' }}
+                        {% else %}
+                        {{ prep_hours | append: ' hours ' | append: prep_minutes | append: ' minutes' }}
+                    {% endunless %}
+                </p>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm">
+            <div class="d-flex flex-sm-column mb-3 mb-sm-0">
+                <p class="mb-0 text-sm-center h6">Cooking time</p>
+                <span class="d-sm-none mx-2">-</span>
+                <p class="mb-0 text-sm-center">
+                    {% unless cook_hours %}
+                        {{ recipe_cook_time | append: ' minutes' }}
+                        {% else %}
+                        {{ cook_hours | append: ' hours ' | append: cook_minutes | append: ' minutes' }}
+                    {% endunless %}
+                </p>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm">
+            <div class="d-flex flex-sm-column">
+                <p class="mb-0 text-sm-center h6">Serves</p>
+                <span class="d-sm-none mx-2">-</span>
+                <p class="mb-0 text-sm-center">{{ recipe_yield }}</p>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <hr class="my-4 mb-md-5 border-primary">
+        </div>
+    </div>
+
+    <div class="row double-gutters">
+        <div class="col-12 col-md-5">
+            <h2 class="mb-3">Ingredients</h2>
+            <ul class="mb-md-4 list-unstyled">
+                {% for ingredient in ingredients %}
+                    <li class="mb-3 h6">{{ ingredient}}</li>
+                {% endfor %}
+            </ul>
+
+            <hr class="d-md-none my-4 border-primary">
+
+        </div>
+
+        <div class="col-12 col-md-7">
+            <h2 class="mb-3">Steps</h2>
+            <ul class="list-unstyled">
+                {% for step in steps %}
+                    <li class="d-sm-flex mb-5">
+                        <p class="mb-0 h5">{{ forloop.index | append: ' - ' | append: step }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="mt-4">
+                <a class="btn btn-primary btn-back-js">Back</a>
+                <a href="/blogs/features/" class="btn btn-primary btn-back-no-js">Back</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Recipe",
+        "name": "{{ recipe_name | strip_html | strip_newlines | strip }}",
+        "description": "{{ recipe_description | strip_html | strip_newlines | strip }}",
+        "keywords": "{{ recipe_keywords | strip_html | strip_newlines | strip }}",
+        "image": "{{ article.image | strip_html | strip_newlines | strip }}",
+        "author": "Grind",
+        "datePublished": "{{ article.published_at | date: "%Y-%m-%d" | strip_html | strip_newlines | strip }}",
+        "recipeCategory": "{{ recipe_category | strip_html | strip_newlines | strip }}",
+        "recipeCuisine": "{{ recipe_cuisine | strip_html | strip_newlines | strip }}",
+        "prepTime": "{{ prep_iso_format | strip_newlines | strip | remove: ' ' }}",
+        "cookTime": "{{ cook_iso_format | strip_newlines | strip | remove: ' ' }}",
+        "nutrition": {
+            "@type": "NutritionInformation",
+            "calories": "{{ recipe_calories | strip_html | strip_newlines | strip }} calories"
+        },
+        "recipeYield": "{{ recipe_yield | strip_html | strip_newlines | strip }}",
+        "recipeIngredient": [
+            {% for ingredient in ingredients %}
+            "{{ ingredient | strip_html | strip_newlines | strip }}"{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+        ],
+        "recipeInstructions": [
+            {% for step in steps %}
+            {
+                "@type": "HowToStep",
+                "text": "{{ step | strip_html | strip_newlines | strip }}"
+            }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+        ]
+    }
+</script>
+
+<script>
+    $('.btn-back-js').click(function() {
+        window.history.back();
+    });
+</script>

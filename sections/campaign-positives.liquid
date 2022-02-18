@@ -1,0 +1,102 @@
+{% render 'render-3-positives', options: section.settings %}
+
+{% schema %}
+{
+  "name": "Campaign Positives",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse",
+      "label": "Icon next to text",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Colour",
+      "default": "#fff"
+    },
+    {
+      "type": "select",
+      "id": "gradient",
+      "label": "Gradient?",
+      "options": [
+        { "value": "no", "label": "No gradient" },
+        { "value": "top-to-bottom", "label": "Top to bottom" },
+        { "value": "bottom-to-top", "label": "Bottom-to-top" }
+      ],
+      "default": "bottom-to-top"
+    },
+    {
+      "type": "header",
+      "content": "Positive 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image"
+    },
+    {
+      "id": "title_1",
+      "type": "text",
+      "label": "Title"
+    },
+    {
+      "id": "subtitle_1",
+      "type": "text",
+      "label": "Subtitle"
+    },
+    {
+      "type": "header",
+      "content": "Positive 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image"
+    },
+    {
+      "id": "title_2",
+      "type": "text",
+      "label": "Title"
+    },
+    {
+      "id": "subtitle_2",
+      "type": "text",
+      "label": "Subtitle"
+    },
+    {
+      "type": "header",
+      "content": "Positive 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image"
+    },
+    {
+      "id": "title_3",
+      "type": "text",
+      "label": "Title"
+    },
+    {
+      "id": "subtitle_3",
+      "type": "text",
+      "label": "Subtitle"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Campaign Positives"
+    }
+  ]
+}
+{% endschema %}

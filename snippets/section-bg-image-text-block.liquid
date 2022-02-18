@@ -1,0 +1,18 @@
+{% comment %}
+{{ section.settings.backgroundImage }}
+{{ section.settings.title }}
+{{ section.settings.body }}
+{% endcomment %}
+
+<section class="container-fluid px-0" style="background-image: url({{ section.settings.backgroundImage | img_url: '1440x' }}); background-position: center center; background-size: cover;">
+    <div class="container py-5">
+        <div class="row justify-content-center py-0 py-md-5">
+            <div class="col-10 col-lg-8 col-xl-7">
+                <h2 class="gkit-h0 text-center my-0 d-none d-md-block">{{ section.settings.title}}</h2>
+                <span class="gkit-p-17 text-center mb-0 mt-3 d-none d-md-block">{{ section.settings.body }}</span>
+                <h2 class="gkit-h2 text-center my-0 d-md-none">{{ section.settings.title}}</h2>
+                <span class="gkit-p-15 text-center mb-0 mt-3 d-md-none">{{ section.settings.body }}</span>
+            </div>
+        </div>
+    </div>
+</section>

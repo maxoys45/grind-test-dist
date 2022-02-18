@@ -1,0 +1,28 @@
+{%- assign article_summary = article.excerpt -%}
+{%- assign article_title = article.title -%}
+
+{% include 'masthead-feature', title: article_title, summary: article_summary %}
+
+<div class="my-4 my-sm-5 container feature-article">
+
+    {% if article.image %}
+        <img loading="lazy" src="{{ article.image | img_url: '960x720', crop: 'center' }}" alt="{{ article.title }}" class="d-block mb-4 mb-md-5 mx-lg-auto breakout img-fluid wow fadeInUp">
+    {% endif %}
+
+    <div class="rich-text-block">
+        <div class="content-block rich-text-block">
+            <div class="inner reduced gkit-p-17">
+                {{ article.content }}
+
+                <a href="#" class="gkit-btn-md gkit-primary btn-back-js">Back</a>
+                <a href="/blogs/features/" class="gkit-btn-md gkit-primary btn-back-no-js">Back</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $('.btn-back-js').click(function() {
+        window.history.back();
+    });
+</script>

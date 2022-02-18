@@ -1,0 +1,19 @@
+<article class="mb-lg-4 feature-excerpt-large">
+
+    {% if thumbnail != "" %}
+        <img loading="lazy" src="{{ thumbnail | img_url: '800x500', crop: 'center' }}" alt="{{ title }}" class="breakout thumbnail">
+    {% endif %}
+
+    <div class="bg-white p-4 p-lg-5 excerpt-content">
+        <h3 class="mb-lg-3 title">{{ title }}</h3>
+        {% if excerpt != "" %}
+            <div class="mb-3 mb-md-4 mb-lg-5 content-no-margin summary">
+                {{ excerpt }}
+            </div>
+        {% endif %}
+        <a href="{{ url }}" class="btn btn-arrow-right btn-primary btn-sm btn-wide">
+            <span class="btn-inner">Read more</span>
+        </a>
+    </div>
+
+</article>

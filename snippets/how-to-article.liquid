@@ -1,0 +1,157 @@
+{% assign requiredCount = 0 %}
+{% assign optionalCount = 0 %}
+
+{% for block in section.blocks %}
+  {% if block.type == 'what-you-need' %}
+  {% assign requiredCount = requiredCount | plus: 1 %}
+  {% elsif block.type == 'nice-to-have' %}
+  {% assign optionalCount = optionalCount | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
+<section class="howToHeaderContainer">
+  <div
+    class="howToHeaderColour"
+    {% if section.settings.header_colour != blank %}
+    style="background: {{ section.settings.header_colour }};"
+    {% endif %}
+  ></div>
+
+  <div class="container">
+    <h1
+      class="gkit-h0 position-relative howToTitle"
+      {% if section.settings.header_text_colour %}
+      style="color: {{ section.settings.header_text_colour }}"
+      {% endif %}
+    >
+      {{ section.settings.title }}
+    </h1>
+
+    {% if section.settings.video_id != blank %}
+    <div class="embed-container breakout wow fadeInUp">
+      <iframe loading="lazy" src="https://player.vimeo.com/video/{{ section.settings.video_id }}?h=02740f7995&color=F5DADf" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if section.settings.text != blank %}
+<section>
+  <div class="container howToDescription">
+    {{ section.settings.text }}
+  </div>
+</section>
+{% endif %}
+
+<div class="mt-lg-5 my-lg-5 container container-sm instruction-article">
+  <div class="row">
+    <div class="col-12 col-lg-3">
+      <div
+        class="justify-content-around justify-content-md-start flex-md-column"
+        id="howToScrolly"
+      >
+        {% if requiredCount > 0 %}
+        <div class="mt-5">
+          <h2 class="mb-3 gkit-h2">{{ section.settings.requiredIngredientsTitle }}</h2>
+          {% for block in section.blocks %}
+          {% if block.type == 'what-you-need' %}
+          {% include 'checkbox', label: block.settings.what_you_need %}
+          {% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if optionalCount > 0 %}
+        <div class="mt-4 mb-4 mb-lg-0">
+          <h2 class="mb-3 gkit-h2">{{ section.settings.optionalIngredientsTitle }}</h2>
+          {% for block in section.blocks %}
+          {% if block.type == 'nice-to-have' %}
+          {% include 'checkbox', label: block.settings.nice_to_have %}
+          {% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-9">
+      {% if section.settings.has_before_we_start %}
+      <div class="howToHighlighted my-5 py-4 row">
+        <div class="col-12 col-md-4">
+          <img loading="lazy"
+            class="howToGrindOneImage"
+            src="{{ 'grindOne.png' | asset_url }}"
+            alt="Before we start"
+          />
+        </div>
+        <div class="col-12 col-md-8 p-auto pl-md-5">
+          <p class="howToStep gkit-h2">
+            {{ section.settings.before_we_start_title }}
+          </p>
+          <p class="gkit-p-17 gkit-light" style="max-width: 440px">
+            {{ section.settings.before_we_start_content }}
+          </p>
+        </div>
+      </div>
+      {% endif %}
+
+      <ul class="py-3 pl-0" style="max-width: 800px">
+        {% assign i = 0 %}
+        {% for block in section.blocks %}
+        {% if block.type == 'tutorial-step' %} {% assign i = i | plus: 1 %}
+
+        <li
+          id="{{ block.settings.step_title }}"
+          class="
+            d-flex
+            mb-md-4
+            pt-3
+            flex-column flex-md-row flex-wrap flex-md-nowrap
+          "
+        >
+          {% if block.settings.stepVideoUrl and block.settings.stepVideoUrl != blank %}
+          <video class="float-left float-sm-none align-self-sm-start mr-md-4 howToStepImage" loading="lazy" src="{{ block.settings.stepVideoUrl }}" type="video/mp4" muted autoplay loop playsinline></video>
+          {% else %}
+          <img loading="lazy" src="{{ block.settings.step_image | img_url: "800x" }}" alt="{{ block.settings.step_title }}" class="float-left float-sm-none align-self-sm-start mr-md-4 howToStepImage" />
+          {% endif %}
+          <div class="d-flex flex-column justify-content-center mt-4 mt-md-0">
+            {% if block.settings.show_step_number %}
+            <p class="gkit-p-15 text-bold">{{ section.settings.step_name }} {{ i }}</p>
+            {% endif %} {% if block.settings.step_title != "" %}
+            <p class="howToStep gkit-h2">{{ block.settings.step_title }}</p>
+            {% endif %}
+            <div
+              class="
+                my-0
+                gkit-p-17 gkit-light
+                {% unless block.settings.show_step_number %}
+                text-center
+                {% endunless %}
+              "
+            >
+              {{ block.settings.step_descriptions }}
+            </div>
+          </div>
+        </li>
+        {% endif %} {% endfor %}
+      </ul>
+
+      {% if section.settings.has_final_touch %}
+      <div class="howToHighlighted my-md-5 py-4 row">
+        {% if section.settings.final_touch_title != "" %}
+        <div class="col-12 text-center col-md-4">
+          <p class="gkit-h2">
+            {{ section.settings.final_touch_title }}
+          </p>
+        </div>
+        {% endif %}
+        <div class="col-12 {% if section.settings.final_touch_title != "" %}col-md-8{% endif %} p-auto pl-md-5">
+          <div class="gkit-p-17 gkit-light" {% if section.settings.final_touch_title != "" %}style="max-width: 440px"{% endif %}>
+            {{ section.settings.final_touch_content }}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

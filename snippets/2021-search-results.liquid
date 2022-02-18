@@ -1,0 +1,13 @@
+<div class="col" rv-if="isEmpty">
+  <p class="gkit-p-17 gkit-light my-0">We couldn't find any results for that query. Try something else!</p>
+</div>
+<div class="col-6 col-md-4 col-lg-2 search-results__inner-container" rv-each-item="results">
+  <a class="result-container" rv-href="item.url">
+    <div class="result-image" rv-backgroundimage="item.image"></div>
+    <p class="gkit-p-17 gkit-bold mt-3 mb-0" rv-text="item.title"></p>
+    <p class="gkit-p-17 mb-0 mt-2" rv-if="item.price" rv-text="item.price | priceFormat"></p>
+    <p class="gkit-p-17 mb-0 mt-2" rv-unless="item.price" rv-text="item.tags | join"></p>
+    <button type="button" class="gkit-btn-md gkit-secondary mt-2 mb-4" rv-if="item.price">View Product</button>
+    <button type="button" class="gkit-btn-md gkit-secondary mt-2 mb-4" rv-unless="item.price">Read More</button>
+  </a>
+</div>

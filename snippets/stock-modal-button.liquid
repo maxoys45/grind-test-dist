@@ -1,0 +1,11 @@
+{% comment %}
+    Receive notification is product is sold out
+{% endcomment %}
+{% unless available %}
+    <button type="button"
+            class="btn btn-light btn-block"
+            aria-label="{{ 'products.product.no_stock_button' | t }}"
+            data-toggle="modal"
+            data-target="#StockModal"
+            style="display: block;">{{ 'products.product.no_stock_button' | t }}</button>
+{% endunless %}

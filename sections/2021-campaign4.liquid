@@ -1,0 +1,662 @@
+{% for block in section.blocks %}
+    {% case block.type %}
+    {% when 'campaign-cta' %}
+        {% render 'section-2021-campaign-hero', section: block %}
+    {% when 'render-var-text-image' %}
+        {% render 'render-var-text-image', options: block.settings %}
+    {% when 'render-3-positives' %}
+        {% render 'render-3-positives', options: block.settings %}
+    {% when 'render-4-selling-points' %}
+        {% render 'render-4-selling', options: block.settings %}
+    {% when 'campaign-bottom-cta' %}
+        {% render 'campaign-bottom-cta', options: block.settings %}
+    {% when 'campaign-featured-product' %}
+        {% render 'campaign-featured-product', options: block.settings %}
+  {% endcase %}
+{% endfor %}
+
+{% schema %}
+  {
+    "name": "Page content",
+	"blocks": [
+		{
+        "type": "campaign-cta",
+        "name": "Campaign intro",
+        "settings": [
+            {
+                "type": "color",
+                "id": "background_color",
+                "label": "Background Colour",
+                "default": "#E7F1EB"
+            },
+            {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Hero Image"
+            },
+            {
+                "type": "image_picker",
+                "id": "mobile_image",
+                "label": "Mobile Image"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "default": "Great Coffee,<br>doing good."
+            },
+            {
+                "type": "textarea",
+                "id": "content_body",
+                "label": "Content Body",
+                "default": "Compostable coffee pods filled with Grind organic coffee. Ethically sourced from sustainable farms around the world."
+            },
+            {
+                "type": "text",
+                "id": "button_text",
+                "label": "CTA Text",
+                "default": "Subscribe Now"
+            },
+            {
+                "type": "url",
+                "id": "link",
+                "label": "CTA Link"
+            },
+            {
+                "type": "header",
+                "content": "Positive 1"
+            },
+            {
+                "type": "checkbox",
+                "id": "show_positives",
+                "label": "Show positives?",
+                "default": true
+            },
+            {
+                "type": "image_picker",
+                "id": "image_1",
+                "label": "Image"
+            },
+            {
+                "id": "title_1",
+                "type": "text",
+                "label": "Title"
+            },
+            {
+                 "id": "subtitle_1",
+                "type": "text",
+                "label": "Subtitle"
+            },
+            {
+                "type": "header",
+                "content": "Positive 2"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_2",
+                "label": "Image"
+            },
+            {
+                "id": "title_2",
+                "type": "text",
+                "label": "Title"
+            },
+            {
+                 "id": "subtitle_2",
+                "type": "text",
+                "label": "Subtitle"
+            },
+            {
+                "type": "header",
+                "content": "Positive 3"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_3",
+                "label": "Image"
+            },
+            {
+                "id": "title_3",
+                "type": "text",
+                "label": "Title"
+            },
+            {
+                 "id": "subtitle_3",
+                "type": "text",
+                "label": "Subtitle"
+            }
+        ]
+        },
+		{
+        "type": "render-var-text-image",
+        "name": "Variable Image & Text",
+        "settings": [
+            {
+                "type": "header",
+                "content": "General"
+            },
+            {
+                "type": "checkbox",
+                "id": "reverse",
+                "label": "Reverse Order Of Image & Text",
+                "default": false
+            },
+            {
+                "type": "checkbox",
+                "id": "fullwidth",
+                "label": "Full-width Block",
+                "default": false
+            },
+            {
+                "type": "checkbox",
+                "id": "doubleRowGutter",
+                "label": "Increase Image & Text Gap",
+                "default": false
+            },
+            {
+                "type": "header",
+                "content": "Background"
+            },
+            {
+                "type": "color",
+                "id": "background_color",
+                "label": "Background Colour",
+                "default": "#fff"
+            },
+            {
+                "type": "select",
+                "id": "gradient",
+                "label": "Gradient?",
+                "options": [
+                    { "value": "no", "label": "No gradient" },
+                    { "value": "top-to-bottom", "label": "Top to bottom" },
+                    { "value": "bottom-to-top", "label": "Bottom-to-top" }
+                ],
+                "default": "no"
+            },
+            {
+                "type": "header",
+                "content": "Image"
+            },
+            {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image"
+            },
+            {
+                "type": "select",
+                "id": "imageWidth",
+                "label": "Image Width",
+                "options": [
+                {
+                    "value": "6",
+                    "label": "Half"
+                },
+                {
+                    "value": "4",
+                    "label": "One Third"
+                },
+                {
+                    "value": "3",
+                    "label": "Quarter"
+                }
+                ],
+                    "default": "6"
+            },
+            {
+                "type": "header",
+                "content": "Content"
+            },
+            {
+                "type": "select",
+                "id": "verticalAlignment",
+                "label": "Content Vertical Alignment",
+                "options": [
+                {
+                    "value": "top",
+                    "label": "Top"
+                },
+                {
+                    "value": "center",
+                    "label": "Center"
+                },
+                {
+                    "value": "bottom",
+                    "label": "Bottom"
+                }
+                ],
+                    "default":   "center"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "checkbox",
+                "id": "larger_title",
+                "label": "Larger title?",
+                "default": true
+            },
+            {
+                "type": "select",
+                "id": "titlePosition",
+                "label": "Title Position",
+                "options": [
+                {
+                    "value": "center",
+                    "label": "Center"
+                },
+                {
+                    "value": "right",
+                    "label": "Right"
+                },
+                {
+                    "value": "left",
+                    "label": "Left"
+                }
+                ],
+                    "default":   "center"
+            },
+            {
+                "type": "richtext",
+                "id": "text",
+                "label": "Text"
+            },
+            {
+                "type": "select",
+                "id": "textPosition",
+                "label": "Text Position",
+                "options": [
+                {
+                    "value": "center",
+                    "label": "Center"
+                },
+                {
+                    "value": "right",
+                    "label": "Right"
+                },
+                {
+                    "value": "left",
+                    "label": "Left"
+                }
+                ],
+                    "default": "center"
+            },
+            {
+                "type": "text",
+                "id": "btnText",
+                "label": "Button text"
+            },
+            {
+                "type": "url",
+                "id": "btnLink",
+                "label": "Button Link"
+            },
+            {
+                "type": "select",
+                "id": "btnPosition",
+                "label": "Button Position",
+                "options": [
+                {
+                    "value": "center",
+                    "label": "Center"
+                },
+                {
+                    "value": "right",
+                    "label": "Right"
+                },
+                {
+                    "value": "left",
+                    "label": "Left"
+                }
+                ],
+                    "default": "center"
+            }
+        ]
+        },
+        {
+        "type": "render-3-positives",
+        "name": "3 Positives",
+        "settings": [
+            {
+                "type": "header",
+                "content": "General"
+            },
+            {
+                "type": "checkbox",
+                "id": "reverse",
+                "label": "Icon next to text",
+                "default": true
+            },
+            {
+                "type": "header",
+                "content": "Background"
+            },
+            {
+                "type": "color",
+                "id": "background_color",
+                "label": "Background Colour",
+                "default": "#fff"
+            },
+            {
+                "type": "select",
+                "id": "gradient",
+                "label": "Gradient?",
+                "options": [
+                    { "value": "no", "label": "No gradient" },
+                    { "value": "top-to-bottom", "label": "Top to bottom" },
+                    { "value": "bottom-to-top", "label": "Bottom-to-top" }
+                ],
+                "default": "bottom-to-top"
+            },
+            {
+                "type": "header",
+                "content": "Positive 1"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_1",
+                "label": "Image"
+            },
+            {
+                "id": "title_1",
+                "type": "text",
+                "label": "Title"
+            },
+            {
+                 "id": "subtitle_1",
+                "type": "text",
+                "label": "Subtitle"
+            },
+            {
+                "type": "header",
+                "content": "Positive 2"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_2",
+                "label": "Image"
+            },
+            {
+                "id": "title_2",
+                "type": "text",
+                "label": "Title"
+            },
+            {
+                 "id": "subtitle_2",
+                "type": "text",
+                "label": "Subtitle"
+            },
+            {
+                "type": "header",
+                "content": "Positive 3"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_3",
+                "label": "Image"
+            },
+            {
+                "id": "title_3",
+                "type": "text",
+                "label": "Title"
+            },
+            {
+                 "id": "subtitle_3",
+                "type": "text",
+                "label": "Subtitle"
+            }
+        ]
+        },
+        {
+        "type": "render-4-selling-points",
+        "name": "4 Selling points",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Background"
+            },
+            {
+                "type": "color",
+                "id": "background_color",
+                "label": "Background Colour",
+                "default": "#fff"
+            },
+            {
+                "type": "color",
+                "id": "card_color",
+                "label": "Card Colour",
+                "default": "#FDFCFC"
+            },
+            {
+                "type": "header",
+                "content": "Selling point 1"
+            },
+            {
+                "id": "title_1",
+                "type": "text",
+                "label": "Title"
+            },
+            {
+                 "id": "subtitle_1",
+                "type": "text",
+                "label": "Subtitle"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_1",
+                "label": "Image"
+            },
+            {
+                "type": "header",
+                "content": "Selling point 2"
+            },
+            {
+                "id": "title_2",
+                "type": "text",
+                "label": "Title"
+            },
+            {
+                 "id": "subtitle_2",
+                "type": "text",
+                "label": "Subtitle"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_2",
+                "label": "Image"
+            },
+            {
+                "type": "header",
+                "content": "Selling point 3"
+            },
+            {
+                "id": "title_3",
+                "type": "text",
+                "label": "Title"
+            },
+            {
+                 "id": "subtitle_3",
+                "type": "text",
+                "label": "Subtitle"
+            },
+
+            {
+                "type": "image_picker",
+                "id": "image_3",
+                "label": "Image"
+            },
+            {
+                "type": "header",
+                "content": "Selling point 4"
+            },
+            {
+                "id": "title_4",
+                "type": "text",
+                "label": "Title"
+            },
+            {
+                 "id": "subtitle_4",
+                "type": "text",
+                "label": "Subtitle"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_4",
+                "label": "Image"
+            }
+        ]
+        },
+        {
+        "type": "campaign-bottom-cta",
+        "name": "Bottom CTA",
+        "settings": [
+            {
+                "type": "color",
+                "id": "background_color",
+                "label": "Background Colour",
+                "default": "#FEF8F4"
+            },
+            {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Hero Image"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "default": "Good days start with great coffee."
+            },
+            {
+                "type": "textarea",
+                "id": "content_body",
+                "label": "Content Body",
+                "default": "What are you waiting for? Use code GETSTARTED at checkout and get your first 30 pods for £9.95"
+            },
+            {
+                "type": "text",
+                "id": "button_text",
+                "label": "CTA Text",
+                "default": "Get My Pods"
+            },
+            {
+                "type": "url",
+                "id": "link",
+                "label": "CTA Link"
+            }
+        ]
+        },
+        {
+        "type": "campaign-featured-product",
+        "name": "Featured product",
+        "settings": [
+            {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Product Image"
+            },
+            {
+                "id": "title",
+                "type": "text",
+                "label": "Title",
+                "default": "Subscribe and Save"
+            },
+            {
+                "id": "subtitle",
+                "type": "text",
+                "label": "Subtitle",
+                "default": "We've squeezed every drop of our coffee crafting expertise into our compostable capsules for Nespresso® machines. Delivering monthly to your door."
+            },
+            {
+                "type": "header",
+                "content": "Perks"
+            },
+            {
+                "type": "text",
+                "id": "shipping_info",
+                "label": "Shipping Info",
+                "default": "Free UK shipping when spend £25 <strong>or more, or when you subscribe to refills</strong>."
+            },
+            {
+                "type": "image_picker",
+                "id": "shipping_icon",
+                "label": "Shipping Icon"
+            },
+            {
+                "type": "text",
+                "id": "free_tin_info",
+                "label": "Free tin Info",
+                "default": "Free Grind tins with every subscription"
+            },
+            {
+                "type": "image_picker",
+                "id": "free_tin_icon",
+                "label": "Free tin icon"
+            },
+            {
+                "type": "header",
+                "content": "Product details"
+            },
+            {
+                "id": "product_title",
+                "type": "text",
+                "label": "Product title",
+                "default": "Letter-box refills"
+            },
+            {
+                "id": "product_quantity",
+                "type": "text",
+                "label": "Product quantity",
+                "default": "30x 2g pods"
+            },
+            {
+                "type": "image_picker",
+                "id": "outline_image",
+                "label": "Product Outline Image"
+            },
+            {
+                "id": "product_details",
+                "type": "text",
+                "label": "Product details",
+                "default": "The standard, original & still the best, official Grind House Blend in a pod."
+            },
+            {
+                "id": "product_price",
+                "type": "text",
+                "label": "Product price",
+                "default": "£9.95"
+            },
+            {
+                "id": "product_price_terms",
+                "type": "text",
+                "label": "Product price terms",
+                "default": "1st month (30% off)"
+            },
+            {
+                "id": "product_disclaimer",
+                "type": "text",
+                "label": "Price disclaimer",
+                "default": "Subsequent months are charged at £13.50 (10% off original price)"
+            },
+            {
+                "type": "header",
+                "content": "CTA"
+            },
+            {
+                "type": "text",
+                "id": "button_text",
+                "label": "CTA Text",
+                "default": "Subscribe Now"
+            },
+            {
+                "type": "url",
+                "id": "link",
+                "label": "CTA Link"
+            }
+        ]
+        }
+	]
+  }
+{% endschema %}

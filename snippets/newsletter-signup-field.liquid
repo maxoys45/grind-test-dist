@@ -1,0 +1,16 @@
+<form class="newsletter-signup-field" action="https://manage.kmail-lists.com/ajax/subscriptions/subscribe" method="POST">
+    <input type="hidden" name="g" value="Y6hidM">
+    <div class="form-row">
+        <div class="form-group col-lg-8">
+            <label class="sr-only" for="marketing-popup-email-field">Email</label>
+            <input class="form-control mr-sm-2 marketing-popup-email-field" name="email" type="email" placeholder="Email address">
+        </div>
+        <div class="form-group col-lg-4">
+            <button type="submit" class="btn btn-dark">
+                <img loading="lazy" class="spinner d-none" src="{{ 'spinner.svg' | asset_url }}" />
+                <span class="button-text">{{ section.settings.buttonText | default: 'Sign up' }}</span>
+            </button>
+        </div>
+    </div>
+    <span class="error-text">Please enter a valid email address.</span>
+</form>

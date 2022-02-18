@@ -1,0 +1,200 @@
+{%- liquid 
+  assign fullHeight = section.settings.mastheadFullHeight
+  assign title = section.settings.title
+  assign subTitle = section.settings.description
+  assign opacity = section.settings.mastheadOpacity
+  assign bookTitle = section.settings.bookTitle
+  assign bookButton = section.settings.bookButton
+  assign menuButton = section.settings.menuButton
+  assign streetAddress = section.settings.streetAddress
+  assign phoneNumber = section.settings.phoneNumber
+  assign email = section.settings.email
+  assign menuButton = section.settings.menuButton
+  assign resyVenueId = section.settings.resyVenueId
+  assign resyApiKey = section.settings.resyApiKey
+  assign showBookingCTA = section.settings.showBookingCTA
+
+  if fullHeight
+      assign mastheadClasses = "masthead masthead-full-height"
+  else
+      assign mastheadClasses = "masthead"
+  endif
+-%}
+
+
+<div class="{{ mastheadClasses }} js-masthead" style="height: initial; background-image: url({{ section.settings.mastheadBackground | img_url: '1800x' }});">
+  <div class="d-flex h-100 masthead-content venue-hero_container" style="background: rgba(0,0,0, {{ opacity }});">
+    <div class="d-flex align-items-center flex-column text-center container" style="max-width: initial !important;">
+      <h1 class="mb-3 venue-hero_header gkit-bold text-white text-uppercase wow fadeInUp" data-wow-delay=".25s">{{ title }}</h1>
+      <p class="mb-0 d-block gkit-p-17 gkit-light-2 mx-auto wow fadeInUp" data-wow-delay=".5s" style="max-width: 440px;">{{ subTitle }}</p>
+      {%- if showBookingCTA -%}
+        <div class="venue-hero_book-container d-none d-md-flex flex-column flex-md-row mt-5 mt-md-4 mx-3 mx-md-0 align-items-center wow fadeInUp" data-wow-delay=".75s" style="padding: 40px; background-color: rgba(45, 41, 38, 0.7); border: 1px solid white;">
+          <h2 class="d-none d-md-block gkit-h1 text-white mr-3 mb-0">{{ bookTitle }}</h2>
+          <h2 class="d-md-none gkit-h2 text-white mb-0 mt-0">{{ bookTitle }}</h2>
+          <input class="d-none d-md-block gkit-btn-md gkit-bg-pink" onClick="resyOpenModalHero()" type="button" value="{{ bookButton }}">
+          <input class="d-md-none gkit-btn-lg gkit-bg-pink w-100" onClick="resyOpenModalHero()" type="button" value="{{ bookButton }}">
+          <a href="{{ page.url }}#venue-menu" class="d-md-none gkit-btn-lg bg-white w-100">{{ menuButton }}</a>
+        </div>
+      {%- endif -%}
+      <div class="row mt-5 mt-md-4" style="max-width: 440px;">
+        <div class="col-12">
+          <p class="d-md-none gkit-p-17 gkit-bold text-white wow fadeInUp" data-wow-delay="1s">{{ streetAddress }}</p>
+          <p class="d-none d-md-block gkit-p-20 gkit-bold text-white wow fadeInUp" data-wow-delay="1s">{{ streetAddress }}</p>
+        </div>
+        <div class="col-12">
+          <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center wow fadeInUp" data-wow-delay="1.25s">
+            <a href="tel:{{ phoneNumber }}" class="d-flex flex-row align-items-center justify-content-start">
+              <img class="mr-2" src="{{ 'icon-small-phone.svg' | asset_url }}" alt="Phone number" />
+              <p class="gkit-p-17 text-white my-0">
+                {{ phoneNumber }}    
+              </p>
+            </a>
+            {% if email and email != blank %}
+            <a href="mailto:{{ email }}" class="d-flex flex-row align-items-center justify-content-start ml-lg-4 mt-3 mt-lg-0">
+              <img class="mr-2" src="{{ 'icon-small-email.svg' | asset_url }}" alt="Email address" />
+              <p class="gkit-p-17 text-white my-0">
+                {{ email }} 
+              </p>
+            </a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="d-md-none col-12 mt-3 wow fadeInUp" data-wow-delay="1.75s">
+          {% if resyVenueId and resyVenueId != blank and resyApiKey and resyApiKey != blank %}
+          <input class="gkit-btn-lg gkit-bg-pink w-100 mb-3" onClick="resyOpenModalHero()" type="button" value="{{ bookButton }}">
+          {% endif %}
+          <a href="{{ page.url }}#venue-menu" class="d-md-none gkit-btn-lg bg-white w-100">{{ menuButton }}</a>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if resyVenueId and resyVenueId != blank and resyApiKey and resyApiKey != blank %}
+<script type="text/javascript">
+  function getFormattedDate(date) {
+    const year = date.getFullYear();
+    const month = (1 + date.getMonth()).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return year + '-' + month + '-' + day;
+  }
+  function resyOpenModalHero() {
+    const currentDate = getFormattedDate(new Date());
+    resyWidget.openModal({'venueId': {{ resyVenueId }}, 'apiKey': '{{ resyApiKey }}', 'date': currentDate, 'seats': 2 });
+  }
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Venue Hero with Booking",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "mastheadBackground",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "info": "Leave blank to just use the page title"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "bookTitle",
+      "label": "Book table title"
+    },
+    {
+      "type": "text",
+      "id": "bookButton",
+      "label": "Book table button"
+    },
+    {
+      "type": "text",
+      "id": "menuButton",
+      "label": "View menu button"
+    },
+    {
+      "type": "text",
+      "id": "streetAddress",
+      "label": "Street Address"
+    },
+    {
+      "type": "text",
+      "id": "phoneNumber",
+      "label": "Phone Number"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email"
+    },
+    {
+      "type": "header",
+      "content": "Resy Settings"
+    },
+    {
+      "type": "text",
+      "id": "resyVenueId",
+      "label": "Venue ID"
+    },
+    {
+      "type": "text",
+      "id": "resyApiKey",
+      "label": "API Key"
+    },
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "showBookingCTA",
+      "label": "Show Booking CTA",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "mastheadOpacity",
+      "label": "Overlay opacity",
+      "options": [
+        { "value": "0", "label": "0" },
+        { "value": "0.1", "label": "0.1" },
+        { "value": "0.15", "label": "0.15" },
+        { "value": "0.2", "label": "0.2" },
+        { "value": "0.25", "label": "0.25" },
+        { "value": "0.3", "label": "0.3" },
+        { "value": "0.35", "label": "0.35" },
+        { "value": "0.4", "label": "0.4" },
+        { "value": "0.45", "label": "0.45" },
+        { "value": "0.5", "label": "0.5" }
+      ],
+      "default": "0.15",
+      "info": "Please select a value between 0 and 0.5."
+    },
+    {
+      "type": "checkbox",
+      "id": "mastheadFullHeight",
+      "label": "Full height",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "mastheadOverlay",
+      "label": "Include overlay",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

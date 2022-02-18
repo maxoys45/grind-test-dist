@@ -1,0 +1,76 @@
+{% assign backgroundColor = section.settings.backgroundColor %}
+{% assign backgroundImage = section.settings.backgroundImage %}
+
+{% assign testifierImage = section.settings.testifierImage %}
+{% assign testifierName = section.settings.testifierName %}
+{% assign testimonyBody = section.settings.testimonyBody %}
+{% assign testimonySource = section.settings.testimonySource %}
+
+<section class="container-fluid px-0" style="background-color: {{ backgroundColor }}{% if backgroundImage %}; background-image: url({{ backgroundImage | img_url: '2000x' }}); background-size: cover;{% endif %}">
+    <div class="container section-2020-testimonial-one">
+        <div class="row">
+            <div class="offset-lg-1 col-md-4 col-lg-3 testifier-img">
+                <img loading="lazy" src="{{ testifierImage | img_url: '430x'}}" />
+            </div>
+            <div class="col-md-8 testimony-content">
+                <p class="testimony">"{{ testimonyBody }}"</p>
+                <div class="credit-block d-flex align-items-start">
+                    <span class="hyphen name-font">- </span>
+                    <div class="credit-content">
+                        <p class="testifier-name name-font"><span>- </span>{{ testifierName }}</p>
+                        <p class="testifier-source">{{ testimonySource }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+    "name": "Section - Testimonial T1",
+    "settings": [
+        {
+            "type": "color",
+            "id": "backgroundColor",
+            "label": "Background Colour",
+            "default": "#FFFFFF"
+        },
+        {
+            "type": "image_picker",
+            "id": "backgroundImage",
+            "label": "Background Image (Optional)"
+        },
+
+        {
+            "type": "image_picker",
+            "id": "testifierImage",
+            "label": "Testifier Image"
+        },
+        {
+            "type": "textarea",
+            "id": "testimonyBody",
+            "label": "Quote",
+            "default": "I went to Grind. The coffee was delicious. I care about the environment. Fun at parties."
+        },
+        {
+            "type": "text",
+            "id": "testifierName",
+            "label": "Testifier Name",
+            "default": "Jenny from da Block"
+        },
+        {
+            "type": "text",
+            "id": "testimonySource",
+            "label": "Testimony Source",
+            "default": "Trustpilot"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Section - Testimonial T1",
+            "category": "Content"
+        }
+    ]
+}
+{% endschema %}

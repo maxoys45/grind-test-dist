@@ -1,0 +1,11 @@
+<div class="w-100">
+  <div class="h-100 bg-cover bg-square" style="background-image: url('{{ image | img_url: '800x' }}')"></div>
+  <h3 class="gkit-h3 mt-4 {{ titleColor }}">{{ title }}</h3>
+  <p class="gkit-p-17 mt-2 {{ descriptionColor }}" style="opacity: 0.6;">{{ description }}</p>
+  <a href="{{ url }}" class="btn gkit-btn-sm d-none d-md-inline-block {{ buttonColor }} mt-3">
+    {{ buttonText }}
+  </a>
+  <a href="{{ url }}" class="btn gkit-btn-lg d-md-none {{ buttonColor }} mt-3">
+    {{ buttonText }}
+  </a>
+</div>

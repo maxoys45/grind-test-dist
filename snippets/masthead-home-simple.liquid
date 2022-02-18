@@ -1,0 +1,15 @@
+<div class="d-flex flex-column justify-content-center align-items-center masthead-simple" style="background-image: url('{{ options.background_image.src | img_url: 'master' }}'); background-size: cover; background-position: center center">
+    <div class="container" style="margin-bottom: 0px !important">
+        <h1 class="mb-4 text-center title">{{ options.title }}</h1>
+        <div class="position-relative">
+            <div class="primary-image">
+                    <img src="{{ options.primary_image | img_url: '1200x1200' }}" alt="">
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="{{ options.link }}" 
+            class="gkit-btn-lg gkit-tertiary gkit-btn-superwide text-white" 
+            style="background-color: {{ options.button_color }}">{{ options.button_text }}</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<article class="card card-no-border">
+    <a href="{{ productUrl }}" class="text-no-decoration">
+
+        {% if productImage != blank %}
+            <img loading="lazy" src="{{ productImage.src | img_url: '480x480' }}" class="card-img" alt="Image of {{ productTitle }}" />
+        {% else %}
+            <img loading="lazy" src="{{ 'thumbnail_search_default.png' | asset_img_url: '480x480' | crop: 'center' }}" class="card-img" alt="Image of {{ productTitle }}" />
+        {% endif %}
+
+        <div class="pb-0 card-body">
+
+            <h2 class="mb-0 h6 text-body card-title">{{ productTitle }}</h2>
+
+            {% if showPrice %}
+                {% if product.compare_at_price > product.price %}
+                    {% if product.price_varies %}
+                        {%- assign sale_price = product.price | money -%}
+                        {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                    {% else %}
+                        {{ 'products.product.on_sale' | t }}
+                        {{ product.price | money }}
+                    {% endif %}
+
+                {% else %}
+                    {% if product.price_varies %}
+                        {%- assign price = product.price | money -%}
+                        {{ 'products.product.from_text_html' | t: price: price }}
+                    {% else %}
+                        {{ product.price | money }}
+                    {% endif %}
+
+                {% endif %}
+
+                {% if product.compare_at_price > product.price %}
+                    <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+                    <s>{{ product.compare_at_price | money }}</s>
+                {% endif %}
+
+                {% unless product.available %}
+                    {{ 'products.product.sold_out' | t }}
+                {% endunless %}
+            {% endif %}
+
+        </div>
+
+    </a>
+</article>

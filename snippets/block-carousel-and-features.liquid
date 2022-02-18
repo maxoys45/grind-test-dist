@@ -1,0 +1,153 @@
+<article class="block-carousel-and-features">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-7 order-2 order-lg-1">
+                <div class="block-carousel-and-features__carousel">
+
+                    {%- if product.media.size > 0 -%}
+
+                        <div class="splide"
+                             id="primary-slider"
+                             data-height-ratio="0">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+
+                                {%- for media in product.media offset: 1 -%}
+
+                                    <li class="splide__slide">
+
+                                        {%- if media.media_type == 'image' -%}
+
+                                            <figure class="mb-0">
+                                                {%- render 'image',
+                                                        image: media,
+                                                        class: 'img-fluid w-100',
+                                                        size: '630x480',
+                                                        size_sm: '630x480',
+                                                        size_md: '630x480',
+                                                        size_lg: '630x480',
+                                                        size_xl: '630x480',
+                                                        size_xxl: '630x480',
+                                                        cropType: 'center' -%}
+                                            </figure>
+
+                                        {%- elsif media.media_type == 'video' -%}
+
+                                            <div class="embed-responsive embed-responsive-16by9">
+                                                <video loading="lazy" class="embed-responsive-item" width="640" height="320" controls>
+                                                    {%- for source in media.sources -%}
+                                                        <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                                                    {%- endfor -%}
+                                                    Your browser not support the video tag.
+                                                </video>
+                                            </div>
+
+                                        {%- endif -%}
+
+                                    </li>
+
+                                {%- endfor -%}
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="splide" id="secondary-slider">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+
+                                    {%- for media in product.media offset: 1 -%}
+
+                                        <li class="splide__slide">
+
+                                            {%- if media.media_type == 'image' -%}
+
+                                                <figure class="mb-0">
+                                                    {%- render 'image',
+                                                            image: media,
+                                                            class: 'img-fluid w-100',
+                                                            size: '64x64',
+                                                            size_sm: '64x64',
+                                                            size_md: '64x64',
+                                                            size_lg: '64x64',
+                                                            size_xl: '64x64',
+                                                            size_xxl: '64x64',
+                                                            cropType: 'center' -%}
+                                                </figure>
+
+                                            {%- elsif media.media_type == 'video' -%}
+
+                                                <div class="embed-responsive embed-responsive-1by1">
+                                                    <video loading="lazy" class="embed-responsive-item" width="640" height="320" controls>
+                                                        {%- for source in media.sources -%}
+                                                            <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                                                        {%- endfor -%}
+                                                        Your browser not support the video tag.
+                                                    </video>
+                                                </div>
+
+                                            {%- endif -%}
+
+                                        </li>
+
+                                    {%- endfor -%}
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    {%- endif -%}
+
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-5 order-1 order-lg-2">
+                <div class="block-carousel-and-features__features">
+                    <div class="row">
+
+                        {%- if title != blank -%}
+                            <div class="col-12">
+                                <h2 class="gkit-h2 block-carousel-and-features__title">{{ title }}</h2>
+                            </div>
+                        {%- endif -%}
+
+                        {%- if feature_image_1 != blank or feature_title_1 != blank or feature_text_1 != blank -%}
+
+                            {%- render 'block-carousel-and-features--feature',
+                                    image: feature_image_1,
+                                    title: feature_title_1,
+                                    text: feature_text_1 -%}
+
+                        {%- endif -%}
+
+                        {%- if feature_image_2 != blank or feature_title_2 != blank or feature_text_2 != blank -%}
+
+                            {%- render 'block-carousel-and-features--feature',
+                                    image: feature_image_2,
+                                    title: feature_title_2,
+                                    text: feature_text_2 -%}
+
+                        {%- endif -%}
+
+                        {%- if feature_image_3 != blank or feature_title_3 != blank or feature_text_3 != blank -%}
+
+                            {%- render 'block-carousel-and-features--feature',
+                                    image: feature_image_3,
+                                    title: feature_title_3,
+                                    text: feature_text_3 -%}
+
+                        {%- endif -%}
+
+                        {%- if feature_image_4 != blank or feature_title_4 != blank or feature_text_4 != blank -%}
+
+                            {%- render 'block-carousel-and-features--feature',
+                                    image: feature_image_4,
+                                    title: feature_title_4,
+                                    text: feature_text_4 -%}
+
+                        {%- endif -%}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

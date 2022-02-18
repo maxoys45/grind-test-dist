@@ -1,0 +1,111 @@
+<div class="my-4 my-sm-5 container">
+
+    {% include 'page-title', title: 'Your Order' %}
+
+    {% if cart.item_count > 0 %}
+        <form action="/cart" method="post" novalidate class="form cart">
+
+            <div class="row">
+                {% for item in cart.items %}
+
+                    <div class="col-12{% if forloop.index == 1 %} border-top{% endif %} border-bottom py-4">
+                        <div class="row half-gutters">
+
+                            {% if item.image != blank %}
+                                <div class="col-3 col-sm-2">
+                                    <a href="{{ item.url | within: collections.all }}">
+                                        <img src="{{ item | img_url: '360x360', crop: 'center' }}" alt="{{ item.title }}" class="d-block w-100 thumbnail">
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            <div class="d-flex col-5 col-sm-8 pl-sm-3 align-items-end justify-content-start">
+                                <div class="inner">
+                                    <h2 class="mb-0 h4"><a href="{{ item.url }}" class="text-no-decoration">{{ item.product.title }}</a></h2>
+                                    {% unless item.product.has_only_default_variant %}
+                                        <p class="mb-0 text-black-50">{{ item.variant.title }}</p>
+                                    {% endunless %}
+
+                                    {% assign recurringchecked = "false" %}
+                                    {% for p in item.properties  %}
+                                        {% if p.first == 'shipping_interval_frequency' %}
+                                            {% assign frequency = p.last %}
+                                            {% assign recurringchecked = "true" %}
+                                        {% endif %}
+                                        {% if p.first == 'shipping_interval_unit_type' %}
+                                            {% if frequency == '1'%}
+                                                {% if p.last == 'Days' %}
+                                                    {% assign frequency_unit = 'Day' %}
+                                                    {% elsif p.last == 'Months'%}
+                                                    {% assign frequency_unit = 'Month' %}
+                                                    {% elsif p.last == 'Weeks'%}
+                                                    {% assign frequency_unit = 'Week' %}
+                                                {% endif %}
+                                            {% else %}
+                                                {% assign frequency_unit = p.last %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if recurringchecked == "true" %}
+                                        Recurring delivery every {{frequency}} {{frequency_unit}}, change or cancel anytime.
+                                    {% endif %}
+
+                                </div>
+                            </div>
+
+                            <div class="d-flex col-4 col-sm-2 align-items-end justify-content-end ml-auto text-right">
+                                {{ item.quantity }}&nbsp;x&nbsp;{{ item.price|money }}
+                            </div>
+
+                        </div>
+                        <div class="row half-gutters mt-4">
+                            <div class="col-4 col-sm-2 col-xl-1 ml-auto">
+                                <input type="number" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" min="0" aria-label="{{ 'cart.general.item_quantity' | t }}" class="form-control">
+                            </div>
+
+                            <div class="d-flex align-items-center col-auto text-right">
+                                <p class="mb-0"><a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="text-black-50">{{ 'cart.general.remove' | t }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-6 text-left">
+                    <p class="mb-0 text-black text-uppercase">{{ 'cart.general.subtotal' | t }}</p>
+                </div>
+                <div class="col-6 text-right">
+                    <p class="mb-0">{{ cart.total_price | money }}</p>
+                </div>
+                <div class="col-12 text-right">
+                    <p class="text-black-50"><em>{{ 'cart.general.shipping_at_checkout' | t }}</em></p>
+                </div>
+            </div>
+
+            <div class="row half-gutters mt-4 justify-content-md-end">
+                <div class="col-12 col-md-4 col-lg-3">
+                    <input type="submit" name="update" value="{{ 'cart.general.update' | t }}" class="mb-3 mb-md-0 btn btn-block btn-lg btn-secondary">
+                </div>
+                <div class="col-12 col-md-4 col-lg-3">
+                    <input type="submit" name="checkout" value="{{ 'cart.general.checkout' | t }}" class="btn btn-block btn-lg btn-outline-dark">
+                </div>
+            </div>
+
+        </form>
+
+    {% else %}
+        <div class="supports-cookies">
+            <h2 class="font-weight-bold">{{ 'cart.general.empty' | t }}</h2>
+            <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+        </div>
+        <div class="supports-no-cookies">
+            <p>{{ 'cart.general.cookies_required' | t }}</p>
+        </div>
+
+    {% endif %}
+
+    {% include 'subscription-cart-footer' %}
+
+</div>

@@ -1,0 +1,15 @@
+<div class="gkit-card cta-card-2021 d-flex flex-column{% if isFeatured %} is-featured{% endif %}{% if isImageOffset %} is-offset{% endif %}{% if containerClass %} {{ containerClass }}{% endif %}">
+  <div class="cta-card-img-container{% if imageBackgroundColor != blank %} has-background{% endif %}"{% if imageBackgroundColor != blank %} style="background-color: {{ imageBackgroundColor }};"{% endif %}>
+      <img loading="lazy" alt="{{ cardTitle }}" src="{{ cardImage | img_url: '120x' }}" />
+  </div>
+  <p class="{% if isFeatured %}gkit-h2{% else %}gkit-h3{% endif %} mb-0 mt-3">{{ cardTitle }}</p>
+  <div class="d-flex justify-content-center align-items-start mt-2 mb-0">
+      {% assign prices = cardPrice | split: "." %}
+      <p class="gkit-h1 gkit-light-1">{{ prices.first }}</p>
+      {% if prices.size > 1 %}
+      <p class="gkit-p-17 gkit-bold gkit-light-1 mt-1 mb-0">.{{ prices.last }}</p>
+      {% endif %}
+  </div>
+  <p class="gkit-p-15 gkit-light mt-2 mb-0">{{ cardContent }}</p>
+  <a href="{{ cardURL }}" class="gkit-btn-md d-block {% if isFeatured %}gkit-primary{% else %}gkit-tertiary{% endif %} mt-3">{{ cardButtonText }}</a>
+</div>

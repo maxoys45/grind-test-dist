@@ -1,0 +1,164 @@
+{% assign isProduct = section.settings.isProduct %}
+{% assign positivesTitle = section.settings.title %}
+
+<div id="shopify-section-section-image-slider" class="shopify-section">
+	<section class="container">
+  <div class="row">
+      <div class="col-12 col-lg-7 order-2 order-lg-1">
+        <div class="splide" id="primary-slider">
+            <div class="splide__track">
+                <ul class="splide__list">
+                {%- comment -%}
+                If this is on a product page, use the images from products.
+                {%- endcomment -%}
+                {% if isProduct %}
+                  {% for image in product.images offset:1 %}
+                    <li class="splide__slide"><img loading="lazy" src="{{ image | img_url: '1180x1062', crop: 'center' }}" alt="{{ image.alt }}"/></li>
+                  {% endfor %}
+
+                {%- comment -%}
+                Otherwise use the slide blocks.
+                {%- endcomment -%}
+                {% else %}
+                  {% for block in section.blocks %}
+                  {% if block.type == "slide" %}
+                  <li class="splide__slide">
+                    <img loading="lazy" src="{{ block.settings.image | img_url: '1180x1062', crop: 'center' }}" alt="{{ block.settings.alt }}" />
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="splide" id="secondary-slider">
+            <div class="splide__track">
+                <ul class="splide__list">
+                {%- comment -%}
+                If this is on a product page, use the images from products.
+                {%- endcomment -%}
+                {% if isProduct %}
+                  {% for image in product.images offset:1 %}
+                    <li class="splide__slide"><img loading="lazy" src="{{ image | img_url: '180', crop: 'center' }}" alt="{{ image.alt }}"/></li>
+                  {% endfor %}
+
+                {%- comment -%}
+                Otherwise use the slide blocks.
+                {%- endcomment -%}
+                {% else %}
+                  {% for block in section.blocks %}
+                  {% if block.type == "slide" %}
+                  <li class="splide__slide">
+                    <img loading="lazy" src="{{ block.settings.image | img_url: '180', crop: 'center' }}" alt="{{ block.settings.alt }}" />
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% unless positivesTitle == blank or positivesTitle == '' %}
+    <div class="col-12 col-lg-5 order-1 order-lg-2">
+      <h2 class="gkit-h2 mb-4 mb-lg-5 mt-lg-5">{{ positivesTitle }}</h2>
+      {%- comment -%}
+      Loop through and render our blocks
+      {%- endcomment -%}
+      {% for block in section.blocks %}
+      {% if block.type == 'point' %}
+      <div class="point-row d-flex align-items-start mb-3">
+        <img loading="lazy" alt="{{ block.settings.image.alt }}" class="mr-3" src="{{ block.settings.image | img_url: 'full', crop: 'center' }}" style="width: {{ section.settings.iconSize }}px;" width="{{ section.settings.iconSize }}" {% unless section.settings.iconAutoHeight %}height="{{ section.settings.iconSize }}"{% endunless %}/>
+        <div class="d-flex flex-column align-items-start">
+          <h3 class="gkit-p-17 gkit-bold my-0">{{ block.settings.title }}</h3>
+          <p class="gkit-p-13 gkit-regular mt-1">{{ block.settings.body }}</p>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endunless %}
+  </div>
+</section>
+</div>
+
+{% schema %}
+{
+  "name": "Image Carousel",
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "limit": 10,
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "Image"
+        },
+        {
+          "id": "alt",
+          "type": "text",
+          "label": "Alt Text"
+        }
+      ]
+    },
+    {
+      "type": "point",
+      "name": "Point",
+      "limit": 5,
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "Image"
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "label": "Title"
+        },
+        {
+          "id": "body",
+          "type": "text",
+          "label": "Body"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title"
+    },
+    {
+      "type": "range",
+      "id": "iconSize",
+      "label": "Icon Size",
+      "min": 16,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "id": "iconAutoHeight",
+      "type": "checkbox",
+      "label": "Auto Icon Height?",
+      "default": false
+    },
+    {
+      "id": "isProduct",
+      "type": "checkbox",
+      "label": "Is Product?",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Carousel"
+    }
+  ]
+}
+{% endschema %}

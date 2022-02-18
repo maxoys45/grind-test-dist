@@ -1,0 +1,670 @@
+{% comment %}
+TODO: Fully Merge These. This is currently two consecutive divs when it should
+just be one big one.
+...
+
+The Hero; Background + Product Image
+{% endcomment %}
+{% assign data = section.settings %}
+{% assign currentVariant = product.selected_or_first_available_variant -%}
+{% assign featuredImage = currentVariant.featured_image | default: product.featured_image -%}
+
+{% assign backgroundImage = section.settings.backgroundImage %}
+
+{% comment %}
+Choose an image based on what options someone has filled in.
+Priority is:
+- Image URL
+- Selected Image
+- Variant's Featured Image
+{% endcomment %}
+
+{% assign heroImage = section.settings.heroImage %}
+{% assign heroImageUrl = section.settings.heroImageUrl %}
+
+{% if heroImageUrl and heroImageUrl != blank %}
+  {% assign displayImageUrl = heroImageUrl %}
+{% elsif heroImage and heroImage != blank %}
+  {% assign displayImageUrl = heroImage | img_url: '1200x' %}
+{% else %}
+  {% assign displayImageUrl = featuredImage | img_url: '1200x' %}
+{% endif %}
+
+<div id="shopify-section-intro-hero-product" class="shopify-section">
+  <section class="container-fluid px-0 intro-hero-2020 intro-hero-product">
+    {% render 'breadcrumb' %}
+    <div class="img-container d-lg-flex">
+      <img loading="lazy" alt="{{ product.title }}" class="img m-auto" id="hero-image" src="{{ displayImageUrl }}"/>
+    </div>
+  </section>
+  <div class="img-main-background background-img" style="background: url({{ backgroundImage | img_url: '1024x' }});background-size: 100% 100%;"></div>
+</div>
+
+{% comment %}
+Now this is the big daddy, though I fail to see why it needs to be so big tbh..
+{% endcomment %}
+
+{% assign variantImageSize = 0 %}
+
+{% if context %}
+    {% assign productClass = 'product-' | append: context %}
+{% else %}
+    {% assign productClass = 'product-2021' %}
+{% endif %}
+
+<div id="shopify-section-product-2021" class="shopify-section">
+  <div class="snippet-2021-product mt-4 mb-4 mt-lg-0 mb-md-5 product-page {{ 'product-' | append: context | default: '2021' }}">
+    <div class="container">
+      <div class="row no-gutters">
+        <div class="mb-4 mb-md-0 col-12 col-md-8 col-lg-6 order-md-1 wow fadeInUp dummy" data-wow-delay=".1s">
+          <div class="product-content-wrap first pl-0">
+            <div>
+              <h1 class="mr-2 mb-0 gkit-h2">{{ product.title }} </h1>
+              <div>
+                <p  class="mb-0 mt-2 h-100 gkit-p-20 gkit-light">
+                  {{ data.subtitleText }}
+                </p>
+              </div>
+            </div>
+
+            <!-- TrustPilot -->
+            <div class="trustpilot-widget mt-3" data-locale="en-GB" data-template-id="5419b6ffb0d04a076446a9af" data-businessunit-id="5919e89d0000ff0005a28068" data-style-height="40px" data-style-width="186px" data-theme="light">
+              <a href="https://uk.trustpilot.com/review/www.grind.co.uk" target="_blank" rel="noopener">Trustpilot</a>
+            </div>
+
+            {% if product.variants.size == 1 %}
+              {% assign hideOptions = '' %}
+              {% assign tabMargin = 'mb-3' %}
+              {% assign inlineForm = '' %}
+              {% assign inlineFormInputWidth = 'w-100' %}
+              {% assign inlineFormInputHeight = '' %}
+              {% assign removeColumns = true %}
+            {% else %}
+              {% assign hideOptions = '' %}
+              {% assign tabMargin = '' %}
+              {% assign inlineForm = '' %}
+              {% assign removeColumns = false %}
+              {% assign inlineFormInputWidth = '' %}
+              {% assign inlineFormInputHeight = '' %}
+            {% endif %}
+
+            {% comment %}
+                If the product is coffee, display the tabs with the different blends and main description.
+                If not, just show the main description.
+            {% endcomment %}
+            {% if product.type == 'Coffee' %}
+            <div class="{{ tabMargin }} py-3 content-no-margin mb-0 border-0 product-tabs md-none">
+              <div class="tab-content md-none">
+                {% if product.description != blank %}
+                <div class="tab-pane fade show active" role="tabpanel">
+                  <div class="gkit-p-17">{{ product.description }}</div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            {% else %}
+            <div class="py-3 product-tabs mb-0 border-0 rich-text gkit-p-17 md-none">{{ product.description }}</div>
+            {% endif %}
+
+            {% unless product.variants.size == 1 and product.variants.first.option1 contains 'Default' %}
+            <!-- We consolidate some variants on some pages -->
+            {% comment %}
+            Gift Subscriptions get a special slider to select the length of the gift subscription.
+            {% endcomment %}
+            {% if product.tags contains "GCharge Gift Subscription" %}
+              {% assign useSlider = true %}
+            {% else %}
+                {% assign useSlider = false %}
+            {% endif %}
+
+            {% comment %}
+            We support consolidating duplicating variants for letterbox packs.
+            {% endcomment %}
+            {% if product.tags contains "Consolidated Variants" %}
+              {% assign consolidate = true %}
+            {% else %}
+              {% assign consolidate = false %}
+            {% endif %}
+
+            <form id="variantForm" class="product-form form-radio-group{% if consolidate %} gcharge-consolidate{% endif %}">
+              {% if useSlider %}
+              <div class="card gkit-card mt-3" id="gift-iterations-slider">
+                <div class="card-body">
+                  <label class="gkit-input-label">Gift <span>3</span> months of Grind.</label>
+                  <input class="custom-range gkit-slider" min="2" max="12" step="1" value="3" type="range" />
+                </div>
+              </div>
+              {% endif %}
+
+              <!-- Fake Fieldset :) -->
+              {% assign variantLinkCount = 0 %}
+              {% for block in section.blocks %}
+                {% if block.type == 'variant-link' %}
+                  {% assign variantLinkCount = variantLinkCount | plus: 1 %}
+                {% endif %}
+              {% endfor %}
+              {% if variantLinkCount > 0 and section.settings.variantLinksTitle and section.settings.variantLinksTitle != blank %}
+              <div class="row no-gutters align-items-center mt-3 pb-0 option-group">
+                <div class="col-12 col-lg-12">
+                  <h3 class="mr-lg-1 mb-2 mb-lg-0 gkit-p-17 choose-blend">{{ section.settings.variantLinksTitle }}</h3>
+                </div>
+                <div class="col-12 col-lg-12">
+                  <div class="row small-gutters">
+                    {% for block in section.blocks %}
+                    {% if block.type == 'variant-link' %}
+                    {% assign isCurrent = block.settings.isCurrent %}
+                    <div class="position-relative mb-2 col">
+                      <{% if isCurrent %}div{% else %}a href="{{ block.settings.variantUrl }}"{% endif %} class="p-0 brd-1 gkit-toggle-md {% if block.settings.isCurrent %}gkit-checked{% endif %} d-flex align-items-center justify-content-center">
+                        <span class="text-capitalize text-center">{{ block.settings.variantName }}</span>
+                      </{% if isCurrent %}div{% else %}a{% endif %}>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+
+              {% for option in product.options_with_values %}
+                {% if forloop.first == true %}
+                  {% assign notFirst = false %}
+                  {% assign customRowPadding = 'pt-3' %}
+                {% else %}
+                  {% assign notFirst = true %}
+                  {% assign customRowPadding = '' %}
+                {% endif %}
+
+                {% assign optionIndexValue = forloop.index0 %}
+              <fieldset id="{{ option.name }}" {% if useSlider or consolidate and notFirst %}class="d-none"{% endif %}>
+                <div class="row no-gutters align-items-center mt-3 pb-0 option-group">
+                  <div class="col-12 col-lg-12">
+                    <h3 class="mr-lg-1 mb-2 mb-lg-0 gkit-p-17 choose-blend">{% if consolidate %}Blend{% else %}{{ option.name }}{% endif %}</h3>
+                  </div>
+
+                  <div class="col-12 col-lg-12">
+                    <div class="row small-gutters">
+                    {% for value in option.values %}
+                      {% assign evenOdd = forloop.index | modulo: 2 %}
+                      {% unless evenOdd == 0 %}
+                        {% assign customRadioMargin = 'mr-xl-1' %}
+                            {% else %}
+                        {% assign customRadioMargin = 'ml-xl-1' %}
+                      {% endunless %}
+
+                      {% assign secondFromLast = option.values.size | minus: 1 %}
+                      {% if forloop.last %}
+                          {% assign extraClasses = 'mr-0' %}
+                      {% else %}
+                          {% assign extraClasses = 'mr-2' %}
+                      {% endif %}
+
+                      <div class="position-relative mb-2 col">
+                        <input class="radio-group-input" data-option-index="{{ optionIndexValue }}"
+                            type="radio" value="{{ value }}" name="{{ option.name }}"
+                            {% if forloop.first %}checked{% endif %} />
+                        <div class="p-0 brd-1 gkit-toggle-md d-flex align-items-center justify-content-center"><span class="text-capitalize text-center">{{ value }}</span></div>
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              {% endfor %}
+            </form>
+            {% endunless %}
+
+            {% if removeColumns %}
+                {% assign alignmentClass = 'align-self-end' %}
+            {% else %}
+                {% assign alignmentClass = '' %}
+            {% endif %}
+
+            <form id="cartForm" action="/cart/add" method="post" enctype="multipart/form-data"
+                class="{{ inlineForm }} mb-4 mb-md-0 product-form"
+                data-productid="{{ product.id }}" data-cart-submit>
+              <div class="row no-gutters align-items-center {{ inlineFormInputWidth }} pt-1 pb-0 mb-0 border-0 option-group bottom-border">
+                <div class="{{ hideOptions }} col-12 col-lg-4"></div>
+                <div class="{{ alignmentClass }} col-12 col-lg-12 {{ inlineFormInputHeight }}">
+                  <div class="d-flex align-items-center pl-3 pr-2 pr-lg-1 {{ inlineFormInputHeight }} quantity-btn">
+                    <div class="d-flex align-items-center pl-3 pr-2 pr-lg-1  quantity-btn">
+                      <label class="gkit-p-13 mb-0 mr-auto" for="Quantity">Quantity </label>
+                      <div class="d-flex justify-content-center align-items-center quantity-minus" id="productQuantityMinus">
+                        <p class="m-0">-</p>
+                      </div>
+                      <input type="number" class="text-dark product-quantity" name="quantity" value="1" min="1" max="99" id="Quantity">
+                      <div class="d-flex justify-content-center align-items-center quantity-plus" id="productQuantityPlus">
+                        <p class="m-0">+</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <label class="sr-only" for="productSelect">{{ 'products.product.variant_label' | t }}</label>
+              <select id="productSelect" name="id"
+                      class="d-none no-js form-control form-control-branded js-form-custom-select"
+                      data-productid="{{ product.id }}" data-product-select>
+                <option id="productSelectOption" value="{{ product.variants.first.id }}"></option>
+              </select>
+
+              <div class="pt-3 row no-gutters {{ inlineFormInputWidth }}">
+                <div class="{{ hideOptions }} col-0 col-lg-4" style="display:none">
+                  <div class="d-flex h-100">
+                    <div class="mb-2 mb-lg-0 pr-2 price-wrapper" data-price-wrapper>
+                      <span class="gkit-p-17 d-inline">Your order - </span>
+                      <p class="gkit-p-17 d-inline variantPriceSecond">
+                        {{ cart.currency.symbol }}<span>{{ product.variants[0].price | money_without_currency }}</span>
+                      </p>
+                      {% if product.compare_at_price_max > product.price %}
+                      <span class="visually-hidden" data-compare-text>
+                        {{ 'products.product.regular_price' | t }}
+                      </span>
+                      <span data-compare-price>
+                        {% if currentVariant.compare_at_price > currentVariant.price %}
+                          {{ currentVariant.compare_at_price | money }}
+                        {% endif %}
+                      </span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-12 add-to-cart-container">
+                  <!-- Testing Testing 12345 -->
+                  <!-- {{ currentVariant.metafields.grind | json }} -->
+                  <button id="add-to-cart" type="submit" name="add"
+                      class="ml-auto gkit-btn-lg gkit-primary btn-block"
+                      data-product-handle="{{ product.handle }}"
+                      {% if product.tags contains "GCharge Gift Subscription" %}data-gcharge-gift-subscription="true"{% endif %}
+                      {% if product.tags contains "GCharge Gift Card" %}data-gcharge-gift-card="true"{% endif %}
+                      {% unless currentVariant.available %}disabled="disabled"{% endunless %}
+                  >
+                    <span class="variantPriceSecond">
+                      {% if currentVariant.available %}
+                        {{ 'products.product.add_to_cart' | t }} - {{ cart.currency.symbol }}<span>{{ currentVariant.price | money_without_currency }}</span>
+                      {% else %}
+                        {{ 'products.product.sold_out' | t }}
+                      {% endif %}
+                    </span>
+                  </button>
+
+                  {% comment %}
+                  STOCK MODAL BUTTON
+                  {% render 'stock-modal-button', available: currentVariant.available %}
+                  {% endcomment %}
+
+                  {% comment %}
+                  This is OOS Grind One Notification Block.
+                  {% endcomment %}
+                  {% unless currentVariant.available or product.handle != 'grind-machine' %}
+                  <div id="item-added-alert" class="mt-2 alert alert-danger border-0 text-left wow fadeInUp" role="alert">
+                    <p class="gkit-p-17 gkit-bold mb-0">Get notified.</p>
+                    <p class="gkit-p-15 gkit-light mt-2">Enter your email below, and we'll let you know when we're back in stock.</p>
+                    <div class="newsletter-signup-field" data-action="https://manage.kmail-lists.com/ajax/subscriptions/subscribe" data-method="POST">
+                      <input type="hidden" name="g" value="TX587q">
+                      <div class="form-row">
+                        <div class="form-group col-lg-8">
+                          <label class="sr-only" for="email">Email</label>
+                          <input class="form-control mr-sm-2" name="email" type="email" placeholder="Email address">
+                        </div>
+                        <div class="form-group col-lg-4">
+                          <button type="button" class="btn btn-dark">
+                            <img loading="lazy" alt="loading" class="spinner d-none" src="//cdn.shopify.com/s/files/1/0123/2928/7737/t/126/assets/spinner.svg?v=1338354348687925877" />
+                            <span class="button-text">Sign up</span>
+                          </button>
+                        </div>
+                      </div>
+                      <span class="error-text">Please enter a valid email address.</span>
+                    </div>
+                  </div>
+                  {% endunless %}
+                </div>
+
+                {% comment %}
+                Subscription Subscribe & Save Block
+                {% endcomment %}
+                {% if product.tags contains 'GCharge' %}
+                <div class="mt-4 row no-gutters subscribe-upsell-container">
+                  <div class="col-12 d-flex">
+                    <img loading="lazy" src="{{ 'subscribe-icon.svg' | asset_url }}" alt="Subscribe & Save 10%" />
+                    <div class="content">
+                      <p class="gkit-p-17 gkit-bold">{{ data.subUpsellTitle }}</p>
+                      <p class="gkit-p-15">{{ data.subUpsellBody }}</p>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    {% assign hasSubscriptonProduct = false %}
+                    {% for item in cart.items %}
+                      {% if item.properties.subscription %}
+                        {% assign hasSubscriptionProduct = true %}
+                      {% endif %}
+                    {% endfor %}
+                    <a class="gkit-btn-md gkit-secondary w-100" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}" href="{{ data.subUpsellCtaHref }}">{% if hasSubscriptionProduct %}{{ data.subUpsellCta2 }}{% else %}{{ data.subUpsellCta1 }}{% endif %} </a>
+                  </div>
+                </div>
+                {% endif %}
+
+              </div>
+            </form>
+            <div class="tab-content md-show">
+                {% if product.description != blank %}
+                <div class="tab-pane fade show active">
+                  <div class="gkit-p-17">{{ product.description }}</div>
+                </div>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% comment %}
+Support Gift Cards & Gift Subscriptions
+{% endcomment %}
+{% include '2021-product-gift-card-modal' %}
+{% include '2021-product-gift-subscription-modal' %}
+</div>
+
+{% comment %}
+Although I would love to put this in a javascript tag, we need liquid
+substitutions!
+
+Also...
+TODO: Would love to rewrite this all. Some of this is black magic that is
+YEARS old.
+{% endcomment %}
+<script type="text/javascript">
+$(document).ready(function () {
+  const $displayImage = $('#hero-image');
+  var variants = {{ product.variants | json }},
+    options = {{ product.options_with_values | json }},
+    start_price = {{ product.variants[0].price }},
+    mainImageArray = [],
+    baseImageUrl = $displayImage.attr('src'),
+    currentVariant = {{ currentVariant | json }};
+  
+  // Setup code for dynamic on-variant images
+  {% for block in section.blocks %}
+  {% if block.type =='variant-image' %}
+  mainImageArray.push({{ block.settings | json}});
+  {% endif %}
+  {% endfor %}
+  const imageLookup = {}
+  for (let imageIdx = 0; imageIdx < mainImageArray.length; imageIdx++) {
+    const image = mainImageArray[imageIdx];
+    imageLookup[image.sku] = image.imageUrl || image.pickedImage;
+    (new Image()).src = imageLookup[image.sku];
+  }
+
+  // If there's an image for the current sku, change it
+  if(currentVariant && currentVariant.sku && imageLookup[currentVariant.sku]) {
+    const imageUrl = imageLookup[currentVariant.sku];
+
+    if(baseImageUrl !== imageUrl) {
+      $displayImage.attr('src', imageUrl);
+    }
+  }
+
+  var changedVariant = false;
+  var selectedOptions = [];
+
+  $("#Quantity, .rc_radio__autodeliver, .rc_radio__onetime").change(
+    function () {
+      if (!changedVariant) {
+        let discount = {{ settings.subDiscount }};
+        var productQuantity = $("#Quantity").val();
+        var subDiscount = 1 - discount / 100;
+
+        if ($(".rc_radio__autodeliver").is(":checked")) {
+          $(".variantPriceSecond > span").html(
+            ((start_price / 100) * productQuantity * subDiscount).toFixed(2)
+          );
+        } else {
+          $(".variantPriceSecond > span").html(
+            ((start_price / 100) * productQuantity).toFixed(2)
+          );
+        }
+      }
+    }
+  );
+
+  $("#variantForm .radio-group-input").click(function (event) {
+    changedVariant = true;
+
+    var optionIndex = Number(event.target.dataset.optionIndex);
+
+    if (!selectedOptions.length) {
+      options.forEach(function (option) {
+        selectedOptions.push({
+          index: option.position - 1,
+          value: option.values[0],
+        });
+      });
+    }
+    selectedOptions.splice(optionIndex, 1, {
+      index: optionIndex,
+      value: event.target.value,
+    });
+    checkForSelectedVariant();
+  });
+
+  function checkForSelectedVariant() {
+    let selectedOptionValues = selectedOptions.map(x => x.value);
+
+    var product = variants.find(function (variant) {
+      let variantOption = variant.options.map(x => x);
+
+      if (
+        selectedOptionValues.sort().toString() ===
+        variantOption.sort().toString()
+      ) {
+        return variant;
+      }
+    });
+
+    if (product) {
+      var i;
+      var variantIndex;
+
+      for (i = 0; i < variants.length; i++) {
+        if (product.id === variants[i].id) {
+          variantIndex = i;
+        }
+      }
+
+      // This is where we do our whacky image stuff.
+      console.log('Selected Product: ', product);
+
+      if(product.sku && imageLookup[product.sku]) {
+        $displayImage.attr('src', imageLookup[product.sku]);
+      } else if($displayImage.attr('src') !== baseImageUrl) {
+        $displayImage.attr('src', baseImageUrl);
+      }
+
+      $("#productSelectOption").attr({
+        selected: "selected",
+        value: product.id,
+        text: product.title,
+      });
+
+      $("#cartForm").attr("data-productid", product.id);
+      $("#productSelect").attr("data-productid", product.id);
+
+      var productQuantity = $("#Quantity").val();
+
+      if (productQuantity > 1) {
+        $(".variantPriceSecond > span").html(
+          ((product.price / 100) * productQuantity).toFixed(2)
+        );
+      } else {
+        $(".variantPriceSecond > span").html((product.price / 100).toFixed(2));
+      }
+
+      // Trigger a click on the checked ReCharge radio to force the UI update / ReCharge events to fire
+      var subscriptionInput = $(
+        "#rc_container .rc_block.rc_block__type__autodeliver"
+      );
+      var oneTimeInput = $("#rc_container .rc_block.rc_block__type__onetime");
+
+      if (subscriptionInput.length > 0 && oneTimeInput.length === 0) {
+        $("#rc_container .rc_block input").trigger("click");
+      } else {
+        $("#rc_container .rc_block input:checked").trigger("click");
+      }
+
+      function yourOrderPrice() {
+        let discount = {{ settings.subDiscount }};
+        var productQuantity = $("#Quantity").val();
+        var subDiscount = 1 - discount / 100;
+
+        if ($(".rc_radio__autodeliver").is(":checked")) {
+          $(".variantPriceSecond > span").html(
+            ((product.price / 100) * productQuantity * subDiscount).toFixed(2)
+          );
+        } else {
+          $(".variantPriceSecond > span").html(
+            ((product.price / 100) * productQuantity).toFixed(2)
+          );
+        }
+      }
+      yourOrderPrice();
+
+      var purchaseType = $(".rc_radio__autodeliver, .rc_radio__onetime");
+
+      purchaseType.change(function () {
+        yourOrderPrice();
+      });
+
+      $("#Quantity").change(function () {
+        yourOrderPrice();
+      });
+    }
+  }
+});
+
+</script>
+{% schema %}
+{
+  "name": "Product Hero",
+  "blocks": [
+    {
+      "type": "variant-image",
+      "name": "Variant Image",
+      "limit": 9,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "pickedImage",
+          "label": "Image (Std)"
+        },
+        {
+          "type": "url",
+          "id": "imageUrl",
+          "label": "Image (URL)"
+        },
+        {
+          "type": "text",
+          "id": "sku",
+          "label": "SKU"
+        }
+      ]
+    },
+    {
+      "type": "variant-link",
+      "name": "Product Link",
+      "limit": 3,
+      "settings": [
+        {
+          "id": "variantName",
+          "type": "text",
+          "label": "Name"
+        },
+        {
+          "id": "variantUrl",
+          "type": "url",
+          "label": "URL"
+        },
+        {
+          "id": "isCurrent",
+          "type": "checkbox",
+          "label": "Is Current",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background & Main Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "backgroundImage",
+      "label": "Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "heroImage",
+      "label": "Hero Image (Std)"
+    },
+    {
+      "type": "url",
+      "id": "heroImageUrl",
+      "label": "Hero Image (URL)"
+    },
+    {
+      "type": "header",
+      "content": "Product Description"
+    },
+    {
+      "type": "text",
+      "id": "subtitleText",
+      "label": "Subtitle",
+      "default": "Grind"
+    },
+    {
+      "type": "text",
+      "id": "variantLinksTitle",
+      "label": "Product Links Section Title"
+    },
+    {
+      "type": "text",
+      "id": "subUpsellTitle",
+      "label": "Sub Upsell Title",
+      "default": "Subscribe monthly and save"
+    },
+    {
+      "type": "text",
+      "id": "subUpsellBody",
+      "label": "Sub Upsell Body",
+      "default": "Get 10% off and free shipping! Cancel or change your order at any time."
+    },
+    {
+      "type": "text",
+      "id": "subUpsellCta1",
+      "label": "Sub Upsell Title (New)",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "subUpsellCta2",
+      "label": "Sub Upsell Title (Add)",
+      "info": "Copy for button when customer has a subscription item in their cart already.",
+      "default": "Add to subscription"
+    },
+    {
+      "type": "text",
+      "id": "subUpsellCtaHref",
+      "label": "Sub Upsell CTA HREF",
+      "info": "href for the sub upsell button."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Hero"
+    }
+  ]
+}
+{% endschema %}

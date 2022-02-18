@@ -1,0 +1,69 @@
+{% assign backgroundColor = section.settings.backgroundColor %}
+{% assign backgroundImage = section.settings.backgroundImage %}
+
+{% assign testifierImage = section.settings.testifierImage %}
+{% assign testifierName = section.settings.testifierName %}
+{% assign testimonyBody = section.settings.testimonyBody %}
+{% assign testimonySource = section.settings.testimonySource %}
+
+<section class="container-fluid px-0" style="background-color: {{ backgroundColor }}{% if backgroundImage %}; background-image: url({{ backgroundImage | img_url: '2000x' }}); background-size: cover;{% endif %}">
+    <div class="container section-2020-testimonial-two">
+        <div class="row">
+            <div class="offset-lg-2 col-lg-8 testimony-content">
+                <img loading="lazy" src="{{ testifierImage | img_url: '200x'}}" />
+                <p class="testimony">"{{ testimonyBody }}"</p>
+                <p class="testifier-name">{{ testifierName }}</p>
+                <p class="testifier-source">{{ testimonySource }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+    "name": "Section - Testimonial T2",
+    "settings": [
+        {
+            "type": "color",
+            "id": "backgroundColor",
+            "label": "Background Colour",
+            "default": "#FFFFFF"
+        },
+        {
+            "type": "image_picker",
+            "id": "backgroundImage",
+            "label": "Background Image (Optional)"
+        },
+
+        {
+            "type": "image_picker",
+            "id": "testifierImage",
+            "label": "Testifier Image"
+        },
+        {
+            "type": "textarea",
+            "id": "testimonyBody",
+            "label": "Quote",
+            "default": "I went to Grind. The coffee was delicious. I care about the environment. Fun at parties."
+        },
+        {
+            "type": "text",
+            "id": "testifierName",
+            "label": "Testifier Name",
+            "default": "Jenny from da Block"
+        },
+        {
+            "type": "text",
+            "id": "testimonySource",
+            "label": "Testimony Source",
+            "default": "Trustpilot"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Section - Testimonial T2",
+            "category": "Content"
+        }
+    ]
+}
+{% endschema %}

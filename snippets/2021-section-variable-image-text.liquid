@@ -1,0 +1,72 @@
+{% assign image = section.settings.image %}
+{% assign imageWidth = section.settings.imageWidth %}
+{% assign verticalAlignment = section.settings.verticalAlignment %}
+{% assign title = section.settings.title %}
+{% assign titleType = section.settings.titleType %}
+{% assign titlePosition = section.settings.titlePosition %}
+{% assign text = section.settings.text %}
+{% assign textColor = section.settings.textColor %}
+{% assign textSize = section.settings.textSize %}
+{% assign textPosition = section.settings.textPosition %}
+{% assign btnLink = section.settings.btnLink %}
+{% assign btnText = section.settings.btnText %}
+{% assign btnPosition = section.settings.btnPosition %}
+{% assign doubleGutters = section.settings.doubleRowGutters %}
+
+{% if section.settings.reverse %}
+    {% assign imageOrderClass = 'order-md-1' %}
+    {% assign contentOrderClass = 'order-md-0' %}
+{% else %}
+    {% assign imageOrderClass = 'order-md-0' %}
+    {% assign contentOrderClass = 'order-md-1' %}
+{% endif %}
+
+{% if section.settings.doubleRowGutter %}
+    {% assign rowClasses = 'row double-gutters' %}
+{% else %}
+    {% assign rowClasses = 'row' %}
+{% endif %}
+
+{% if section.settings.fullwidth %}
+    {% assign containerClass = '' %}
+{% else %}
+    {% assign containerClass = 'container' %}
+{% endif %}
+
+<div class="my-4 my-sm-5 {{ containerClass }}">
+    <div class="{{ rowClasses }}">
+        {% unless image == blank %}
+            <div class="col-12 col-md-6 col-lg-{{ imageWidth }} {{ imageOrderClass }}">
+                <figure class="d-block mb-4 mb-sm-5 mb-md-0 figure">
+                    <img src="{{ image | img_url: '1000x1000', crop: 'center' }}" alt="{{ image.alt }}" class="d-block mb-0 figure-img w-100">
+                </figure>
+            </div>
+        {% endunless %}
+
+        {% if title != blank or text != blank or btnLink != blank or btnText != blank %}
+            <div class="col-12 col-md {{ contentOrderClass }} content-no-margin wow fadeInUp" data-wow-delay=".1s">
+                <div class="d-flex align-items-{{ verticalAlignment }} h-100">
+                    <div class="my-4 my-md-0 px-lg-5">
+                        {% if title != blank %}
+                            <h2 class="mb-0 text-{{ titlePosition }} gkit-{{ titleType }}">{{ title }}</h2>
+                        {% endif %}
+
+                        {% if text != blank %}
+                            <div class="my-4 text-{{ textPosition }} gkit-p-{{ textSize }}{% unless textColor == "charcoal" %} {{ textColor }} {%- endunless -%}">{{ text }}</div>
+                        {% endif %}
+
+                        {% if btnLink != blank and btnText != blank %}
+                            <div class="text-{{ btnPosition }} gkit-legacy-hide">
+                                <a href="{{ btnLink }}" class="gkit-btn-md gkit-primary">{{ btnText }}</a>
+                            </div>
+
+                            <div class="text-{{ btnPosition }} gkit-legacy-show">
+                                <a href="{{ btnLink }}" class="my-4 my-md-5 btn btn-sm btn-lg-md btn-outline-dark btn-long-text">{{ btnText }}</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

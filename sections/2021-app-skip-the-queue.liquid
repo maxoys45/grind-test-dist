@@ -1,0 +1,135 @@
+{%- liquid
+  assign image = section.settings.image
+  assign imageMobile = section.settings.imageMobile
+  assign title = section.settings.title
+  assign description = section.settings.description
+  assign blackCardDescription = section.settings.blackCardDescription
+  assign iosLink = section.settings.iosLink
+  assign iosImage = section.settings.iosImage
+  assign androidLink = section.settings.androidLink
+  assign androidImage = section.settings.androidImage
+  assign blackCardImage = section.settings.blackCardImage
+-%}
+
+<section class="container px-0 position-relative mt-4 mb-5">
+  <!-- Desktop Background -->
+  <div class="app-skip-the-queue_background-image d-none d-md-block" style="z-index: -1; background: url('{{ image.src | img_url: "1200x1200" }}'); background-repeat: no-repeat; background-size: cover;"></div>
+  <!-- Gradient Filter -->
+  <div class="app-skip-the-queue_background-filter d-none d-md-block" style="top: 12.25%; height: 87.75%; z-index: 0; background: linear-gradient(101.06deg, rgba(45, 41, 38, 0.9) 0.41%, rgba(45, 41, 38, 0) 81.41%);"></div>
+  <!-- Mobile Background -->
+  <div class="d-md-none p-3">
+    <img class="w-100" src="{{ imageMobile | img_url: "1200x1200"}}" alt="app preview" style="object-fit: cover;"/>
+  </div>
+  <div class="app-skip-the-queue_container row">
+    <div class="col-12 col-md-9">
+      <div class="app-skip-the-queue_content text-center text-md-left">
+        <h1 class="d-none d-md-block gkit-h0 text-white wow fadeInUp" data-wow-delay=".25s">{{ title }}</h1>
+        <h1 class="d-md-none gkit-h1 mt-0 wow fadeInUp" data-wow-delay=".25s">{{ title }}</h1>
+        <p class="d-none d-md-block gkit-p-24 gkit-bold text-white wow fadeInUp" style="max-width: 655px;" data-wow-delay=".5s">{{ description }}</p>
+        <p class="d-md-none gkit-p-20 wow fadeInUp" data-wow-delay=".5s" style="font-weight: 500;">{{ description }}</p>
+        <div class="row pt-2 pb-4 wow fadeInUp" data-wow-delay=".75s">
+          <div class="col-12 col-md-auto mb-3">
+            <a href="{{ iosLink }}">
+              <img src="{{ iosImage | img_url: "400x400"}}" alt="ios button" style="height: 40px; object-fit: contain;"/>
+            </a>
+          </div>
+          <div class="col-12 col-md-auto mb-3">
+            <a href="{{ androidLink }}">
+              <img src="{{ androidImage | img_url: "400x400"}}" alt="android button" style="height: 40px; object-fit: contain;"/>
+            </a>
+          </div>
+        </div>
+        <div class="d-none d-md-inline-block wow fadeInUp" data-wow-delay="1s">
+          <div class="app-skip-the-queue_black-card-container py-2 px-4">
+            <img src="{{ blackCardImage | img_url: "400x400"}}" class="app-skip-the-queue_black-card" alt="black card" />
+            <p class="gkit-p-20 mb-0 app-skip-the-queue_black-card-text" style="font-weight: 500;">{{ blackCardDescription }}</p>
+            <span class="app-skip-the-queue_black-card-star">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.5922 3.87374C14.7538 3.52749 15.2462 3.52749 15.4078 3.87374L17.7946 8.98795C17.8393 9.08373 17.9163 9.16072 18.0121 9.20542L23.1263 11.5922C23.4725 11.7538 23.4725 12.2462 23.1263 12.4078L18.0121 14.7946C17.9163 14.8393 17.8393 14.9163 17.7946 15.0121L15.4078 20.1263C15.2462 20.4725 14.7538 20.4725 14.5922 20.1263L12.2054 15.0121C12.1607 14.9163 12.0837 14.8393 11.9879 14.7946L6.87374 12.4078C6.52749 12.2462 6.52749 11.7538 6.87374 11.5922L11.9879 9.20542C12.0837 9.16072 12.1607 9.08373 12.2054 8.98795L14.5922 3.87374Z" fill="#2D2926"/>
+                <path d="M4.09222 0.873742C4.25382 0.527489 4.74618 0.527489 4.90778 0.873742L5.86269 2.91984C5.90739 3.01562 5.98438 3.09261 6.08016 3.13731L8.12626 4.09222C8.47251 4.25382 8.47251 4.74618 8.12626 4.90778L6.08016 5.86269C5.98438 5.90739 5.90739 5.98438 5.86269 6.08016L4.90778 8.12626C4.74618 8.47251 4.25382 8.47251 4.09222 8.12626L3.13731 6.08016C3.09261 5.98438 3.01562 5.90739 2.91984 5.86269L0.873742 4.90778C0.527489 4.74618 0.527489 4.25382 0.873742 4.09222L2.91984 3.13731C3.01562 3.09261 3.09261 3.01562 3.13731 2.91984L4.09222 0.873742Z" fill="#2D2926"/>
+                <path d="M4.09222 15.8737C4.25382 15.5275 4.74618 15.5275 4.90778 15.8737L5.86269 17.9198C5.90739 18.0156 5.98438 18.0926 6.08016 18.1373L8.12626 19.0922C8.47251 19.2538 8.47251 19.7462 8.12626 19.9078L6.08016 20.8627C5.98438 20.9074 5.90739 20.9844 5.86269 21.0802L4.90778 23.1263C4.74618 23.4725 4.25382 23.4725 4.09222 23.1263L3.13731 21.0802C3.09261 20.9844 3.01562 20.9074 2.91984 20.8627L0.873742 19.9078C0.527489 19.7462 0.527489 19.2538 0.873742 19.0922L2.91984 18.1373C3.01562 18.0926 3.09261 18.0156 3.13731 17.9198L4.09222 15.8737Z" fill="#2D2926"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+        <div class="d-md-none wow fadeInUp mt-4" data-wow-delay="1s">
+          <div class="app-skip-the-queue_black-card-container-mobile py-2 px-4">
+            <div class="app-skip-the-queue_black-card-image-container">
+              <img src="{{ blackCardImage | img_url: "400x400"}}" class="app-skip-the-queue_black-card" alt="black card" />
+              <span class="app-skip-the-queue_black-card-star">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14.5922 3.87374C14.7538 3.52749 15.2462 3.52749 15.4078 3.87374L17.7946 8.98795C17.8393 9.08373 17.9163 9.16072 18.0121 9.20542L23.1263 11.5922C23.4725 11.7538 23.4725 12.2462 23.1263 12.4078L18.0121 14.7946C17.9163 14.8393 17.8393 14.9163 17.7946 15.0121L15.4078 20.1263C15.2462 20.4725 14.7538 20.4725 14.5922 20.1263L12.2054 15.0121C12.1607 14.9163 12.0837 14.8393 11.9879 14.7946L6.87374 12.4078C6.52749 12.2462 6.52749 11.7538 6.87374 11.5922L11.9879 9.20542C12.0837 9.16072 12.1607 9.08373 12.2054 8.98795L14.5922 3.87374Z" fill="#2D2926"/>
+                  <path d="M4.09222 0.873742C4.25382 0.527489 4.74618 0.527489 4.90778 0.873742L5.86269 2.91984C5.90739 3.01562 5.98438 3.09261 6.08016 3.13731L8.12626 4.09222C8.47251 4.25382 8.47251 4.74618 8.12626 4.90778L6.08016 5.86269C5.98438 5.90739 5.90739 5.98438 5.86269 6.08016L4.90778 8.12626C4.74618 8.47251 4.25382 8.47251 4.09222 8.12626L3.13731 6.08016C3.09261 5.98438 3.01562 5.90739 2.91984 5.86269L0.873742 4.90778C0.527489 4.74618 0.527489 4.25382 0.873742 4.09222L2.91984 3.13731C3.01562 3.09261 3.09261 3.01562 3.13731 2.91984L4.09222 0.873742Z" fill="#2D2926"/>
+                  <path d="M4.09222 15.8737C4.25382 15.5275 4.74618 15.5275 4.90778 15.8737L5.86269 17.9198C5.90739 18.0156 5.98438 18.0926 6.08016 18.1373L8.12626 19.0922C8.47251 19.2538 8.47251 19.7462 8.12626 19.9078L6.08016 20.8627C5.98438 20.9074 5.90739 20.9844 5.86269 21.0802L4.90778 23.1263C4.74618 23.4725 4.25382 23.4725 4.09222 23.1263L3.13731 21.0802C3.09261 20.9844 3.01562 20.9074 2.91984 20.8627L0.873742 19.9078C0.527489 19.7462 0.527489 19.2538 0.873742 19.0922L2.91984 18.1373C3.01562 18.0926 3.09261 18.0156 3.13731 17.9198L4.09222 15.8737Z" fill="#2D2926"/>
+                </svg>
+              </span>
+            </div>
+            <p class="gkit-p-20 mt-5 app-skip-the-queue_black-card-text" style="font-weight: 500;">{{ blackCardDescription }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Skip the Queue",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "imageMobile",
+      "label": "Mobile Background Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "iosLink",
+      "label": "Download iOS App Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "iosImage",
+      "label": "Download iOS App Button Image"
+    },
+    {
+      "type": "url",
+      "id": "androidLink",
+      "label": "Download Android App Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "androidImage",
+      "label": "Download Android App Button Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "blackCardImage",
+      "label": "Black Card Image"
+    },
+    {
+      "type": "text",
+      "id": "blackCardDescription",
+      "label": "Black Card Description"
+    }
+  ]
+}
+{% endschema %}

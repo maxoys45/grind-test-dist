@@ -1,0 +1,65 @@
+<section class="d-flex flex-column justify-content-center align-items-center campaign-cta" style="background-color: {{ options.background_color }};">
+    <div class="py-5 container">
+        <div class="row">
+            <div class="col-12 col-lg-5 col-md-7">
+                <h1 class="gkit-bold">{{ options.title }}</h1>
+                <p class="gkit-p-20 mt-3">{{ options.content_body }}</p>
+                <div class="center-small">
+                    <a class="gkit-btn-lg gkit-btn-wide gkit-primary mt-4" href="{% if options.link and options.link != blank %}{{ options.link }}{% else %}{{ options.linkUrl }}{% endif %}">{{ options.button_text }}</a>
+                </div>
+                <div class="d-flex">
+                    <div class="mobile-image d-block d-md-none text-align-right">
+                        <img loading="lazy" class="float-right d-inline-block" style src="{{ options.mobile_image | img_url: '1800x' }}">
+                    </div>
+                </div>
+
+                {% if blocks and blocks != blank and blocks.size > 0 %}
+                <div class="container px-0 section-2020-positives horizontal-positive-points row">
+                  {% for block in blocks %}
+                  <div class="positive-point d-flex flex-row{% if forloop.first == false %} mt-4 small-margin-top-40{% endif %}">
+                      <img loading="lazy" src="{{ block.settings.image | img_url: "300x" }}" width="56" height="56"/>
+                      <div class="point-content mx-0">
+                        <h3 class="gkit-h3">{{ block.settings.title }}</h3>
+                        <p class="gkit-p-15">{{ block.settings.subtitle }}</p>
+                      </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                {% elsif options.image_1 and options.image_1 != blank %}
+                <div class="container px-0 section-2020-positives horizontal-positive-points row">
+                  <div class="positive-point d-flex flex-row">
+                    <img loading="lazy" src="{{ options.image_1 | img_url: "300x" }}" width="56" height="56"/>
+                    <div class="point-content mx-0">
+                      <h3 class="gkit-h3">{{ options.title_1 }}</h3>
+                      <p class="gkit-p-15">{{ options.subtitle_1 }}</p>
+                    </div>
+                  </div>
+                  {% if options.image_2 != blank %}
+                  <div class="positive-point d-flex flex-row mt-4 small-margin-top-40">
+                    <img loading="lazy" src="{{ options.image_2 | img_url: "300x" }}" width="56" height="56"/>
+                    <div class="point-content mx-0">
+                      <h3 class="gkit-h3">{{ options.title_2 }}</h3>
+                      <p class="gkit-p-15">{{ options.subtitle_2 }}</p>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% if options.image_3 != blank %}
+                  <div class="positive-point d-flex flex-row mt-4 small-margin-top-40">
+                    <img loading="lazy" src="{{ options.image_3 | img_url: "300x" }}" width="56" height="56"/>
+                    <div class="point-content mx-0">
+                      <h3 class="gkit-h3">{{ options.title_3 }}</h3>
+                      <p class="gkit-p-15">{{ options.subtitle_3 }}</p>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-12 col-lg-7 col-md-5">
+                <div class="img-container">
+                    <img loading="lazy" class="img d-none d-md-block" src="{{ options.image | img_url: '1200x' }}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

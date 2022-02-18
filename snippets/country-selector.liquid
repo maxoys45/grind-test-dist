@@ -1,0 +1,30 @@
+{% if localization.available_countries.size > 1 %}
+{% if is_mobile %}
+<div class="country-selector">
+{% else %}
+<li class="nav-link no-bg country-selector no-hovering-background">
+{% endif %} 
+  <a class="toggle header-link-icon" href="#">
+    {% render 'country-icon', country_code: localization.country.iso_code %}
+    {% unless is_mobile %}
+    <img alt="Select a Country" class="ml-2" src="{{ 'caret.svg' | asset_url }}" height="5" />
+    {% endunless %}
+  </a>
+
+  {% form 'localization' %}
+    <input type="hidden" name="country_code" />
+    <ul class="country-list">
+      {% for country in localization.available_countries %}
+        <li data-country="{{ country.iso_code }}">
+          {% render 'country-icon', country_code: country.iso_code %}
+          <span class="ml-2">{{ country.name }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endform %}
+{% if is_mobile %}
+</div>
+{% else %}
+</li>
+{% endif %}
+{% endif %}

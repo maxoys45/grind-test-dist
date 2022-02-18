@@ -1,0 +1,121 @@
+<div class="collections-contents-2021" id="collection-contents">
+  <div class="container">
+    <h2 class="d-none d-md-block gkit-h2">{{ section.settings.title }}</h2>
+    <h2 class="d-md-none gkit-h3 mt-0">{{ section.settings.title }}</h2>
+    <div class="row mt-3 mt-md-4">
+        {% for block in section.blocks %}
+        {% assign i18nVisibility = block.settings.internationalVisibility %}
+        {% unless i18nVisibility == 'eu' and localization.country.iso_code == 'GB' %}
+        {% unless i18nVisibility == 'gb' and localization.country.iso_code != 'GB' %}
+        <div class="col-md">
+          {% assign collection = collections[block.settings.collection] %}
+          <a href="#collection-{{ collection.handle }}" class="option-container h-md-100" style="background-color: {{ section.settings.optionBackgroundColor }};">
+            <div class="option-meta d-flex justify-content-between">
+                <div>
+                  <p class="d-none d-md-block gkit-p-20 gkit-bold mb-0">{{ block.settings.title }}</p>
+                  <p class="d-md-none gkit-p-17 gkit-bold my-0">{{ block.settings.title }}</p>
+                    <p class="gkit-p-13 gkit-light my-0">{{ block.settings.subtitle }}</p>
+                </div>
+                <img loading="lazy" class="option-arrow" alt="Go" src="{{ 'arrow.svg' | asset_url }}" />
+            </div>
+            <div class="option-img-container h-md-100 mt-md-3">
+              <img loading="lazy" class="option-img" alt="{{ block.settings.title }}" src="{{ block.settings.image | img_url: '400x' }}" />
+            </div>
+          </a>
+        </div>
+        {% endunless %}
+        {% endunless %}
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% javascript %}
+$("a[href*='#collection']").on('click', function(e) {
+  e.preventDefault();
+
+  const linkHref = $(this).attr('href');
+
+  if($(linkHref).length > 0) {
+    console.log('Found O -60', linkHref);
+    $('html,body').animate({
+      scrollTop: $(linkHref).offset().top - 60
+    });
+  }
+});
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Collections 2021 Contents",
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Ideal Size 400x400"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Clicking this option will scroll the page to this collection."
+        },
+        {
+          "type": "select",
+          "id": "internationalVisibility",
+          "label": "International Visibility",
+          "options": [
+            {
+              "value": "all",
+              "label": "All"
+            },
+            {
+              "value": "eu",
+              "label": "EU Only"
+            },
+            {
+              "value": "gb",
+              "label": "UK Only"
+            }
+          ],
+          "default": "all"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Shop Grind Coffee."
+    },
+    {
+        "type": "color",
+        "id": "optionBackgroundColor",
+        "label": "Option Background Color",
+        "default": "#FEF8F4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop Page Contents (2021)"
+    }
+  ]
+} 
+{% endschema %}

@@ -1,0 +1,159 @@
+{% include 'shortcode' load: article.content %} {%- assign article_summary =
+article.excerpt -%} {%- assign article_title = article.title -%} {% assign tools
+= how_to_tools | split: ' | ' %} {% assign supplies = how_to_supplies | split: '
+| ' %} {% assign steps = how_to_steps | split: ' | ' %} {% assign
+steps_descriptions = how_to_steps_descriptions | split: ' | ' %} {% assign
+steps_images = how_to_steps_images | split: ' | ' %} {% if how_to_total_time |
+divided_by: 60.0) < 1 %} {% assign total_iso_format = 'PT' | append:
+how_to_total_time | append: 'M' %} {% else %} {% assign total_hours_decimal =
+how_to_total_time | divided_by: 60.0 %} {% assign total_hours =
+total_hours_decimal | floor %} {% assign total_minutes = total_hours_decimal |
+minus: total_hours_rounded | times: 60.0 | round %} {% assign total_iso_format =
+'PT' | append: total_hours | append: 'H' | append: total_minutes | append: 'M'
+%} {% endif %}
+
+<div class="mb-4 mt-md-5 my-md-5 container container-sm instruction-article">
+  <div class="row double-gutters">
+    <div class="col-12 col-md-5">
+      <img
+        loading="lazy"
+        src="{{ article.image | img_url: '1200x', crop: 'center' }}"
+        alt="{{ article.title }}"
+        class="d-block mb-4 mb-md-0 mx-lg-auto breakout img-fluid wow fadeInUp"
+      />
+    </div>
+
+    <div class="col-12 col-md-7">
+      <h1 class="title">{{ article.title }}</h1>
+      <p class="mb-0 text-muted h6">
+        {{ article.published_at | date: "%d/%m/%Y" }} - {{ article.author }}
+      </p>
+      <hr class="border-primary" />
+
+      <p class="mb-0 h6">{{ how_to_description }}</p>
+    </div>
+
+    <div class="col-12">
+      <hr class="my-4 my-md-5 border-primary" />
+    </div>
+  </div>
+
+  <div class="row double-gutters">
+    <div class="col-12 col-md-3">
+      <div
+        class="
+          row
+          justify-content-around justify-content-md-start
+          flex-md-column
+        "
+      >
+        <div class="col-6 col-md-12">
+          <h2 class="mb-3">Tools</h2>
+          <ul class="mb-md-4 list-unstyled">
+            {% for tool in tools %}
+            <li class="h6">{{ tool }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="col-6 col-md-12">
+          <h2 class="mb-3">Supplies</h2>
+          <ul class="list-unstyled">
+            {% for supply in supplies %}
+            <li class="h6">{{ supply }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <hr class="d-md-none mb-4 border-primary" />
+    </div>
+
+    <div class="col-12 col-md-9">
+      <h2 class="mb-3">Steps</h2>
+      <ul class="list-unstyled">
+        {% for step in steps %} {% assign i = forloop.index0 %}
+
+        <li class="d-sm-flex mb-5">
+          <img
+            loading="lazy"
+            src="{{ steps_images[i] }}"
+            alt="{{ step }}"
+            class="float-left float-sm-none align-self-sm-start mr-3"
+            width="100"
+            style="width: 100px; height: auto"
+          />
+          <div>
+            <p class="h5">{{ forloop.index | append: " - " | append: step }}</p>
+            <p class="mb-0 step-description">{{ steps_descriptions[i] }}</p>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="mt-4">
+        <a class="btn btn-primary btn-back-js">Back</a>
+        <a href="/blogs/features/" class="btn btn-primary btn-back-no-js"
+          >Back</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "HowTo",
+      "name": "{{ how_to_name  | strip_html | strip_newlines | strip }}",
+      "description": "{{ how_to_description  | strip_html | strip_newlines | strip }}",
+      "keywords": "{{ how_to_keywords | strip_html | strip_newlines | strip }}",
+      "image": "{{ article.image | strip_html | strip_newlines | strip }}",
+      "author": "Grind",
+      "datePublished": "{{ article.published_at | date: "%Y-%m-%d" | strip_html | strip_newlines | strip }}",
+      "totalTime": "{{ total_iso_format | strip_newlines | strip | remove: ' ' }}",
+      "tool": [
+          {% for tool in tools %}
+              {% assign tool_details = tool | split: ' x ' %}
+          {
+              "@type": "HowToTool",
+              "name": "{{ tool_details[0] | strip_html | strip_newlines | strip }}"{% if tool_details[1] %},
+              "requiredQuantity": "{{ tool_details[1] | strip_html | strip_newlines | strip }}"{% endif %}
+          }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+      ],
+      "supply": [
+          {% for supply in supplies %}
+          {
+              "@type": "HowToSupply",
+              "name": "{{ supply | strip_html | strip_newlines | strip }}"
+          }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+      ],
+      "step": [
+          {% for step in steps %}
+          {
+            "@type": "HowToStep",
+            "url": "https://example.com/kitchen#step1",
+            "name": "{{ step | strip_html | strip_newlines | strip }}",
+            "itemListElement": [
+              {
+                "@type": "HowToDirection",
+                "text": "{{ steps_descriptions[forloop.index0] | strip_html | strip_newlines | strip }}"
+              }
+            ],
+            "image": {
+              "@type": "ImageObject",
+              "url": "{{ steps_images[forloop.index0] | strip_html | strip_newlines | strip }}"
+            }
+          }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+      ]
+  }
+</script>
+
+<script>
+  $(".btn-back-js").click(function () {
+    window.history.back();
+  });
+</script>

@@ -1,0 +1,88 @@
+{% assign backgroundColor = section.settings.backgroundColor %}
+{% assign iconSize = section.settings.iconSize %}
+{% assign title = section.settings.title %}
+{% assign removePadding = section.settings.removeVerticalPadding %}
+
+<div id="shopify-section-section-positives-product">
+  <section class="container-fluid {% unless removePadding %} py-5{% endunless %}" style="background-color: {{ backgroundColor }}">
+    <div class="container section-2020-positives d-flex">
+      <h2 class="gkit-h2">{{ title }}</h2>
+    </div>
+    <div class="container section-2020-positives d-flex">
+    {% for block in section.blocks %}
+      <div class="positive-point d-flex align-items-start">
+        <img loading="lazy" src="{{ block.settings.image | img_url: "200x" }}" style="width: {{ iconSize }}px" width="{{iconSize}}" height="{{iconSize}}"/>
+        <div class="point-content">
+          <h3 class="gkit-p-17 gkit-bold mt-0">{{ block.settings.title }}</h3>
+          <p class="gkit-p-13 gkit-regular subtitle">{{ block.settings.body }}</p>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Titled Positives",
+  "blocks": [
+    {
+      "type": "positive",
+      "name": "Positive Point",
+      "limit": 3,
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "Icon"
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "label": "Title"
+        },
+        {
+          "id": "body",
+          "type": "text",
+          "label": "Body"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "The Details."
+    },
+    {
+      "type": "color",
+      "id": "backgroundColor",
+      "label": "Background Colour",
+      "default": "#F5DADF"
+    },
+    {
+      "type": "range",
+      "id": "iconSize",
+      "label": "Icon Size",
+      "min": 16,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "checkbox",
+      "id": "removeVerticalPadding",
+      "label": "Remove Vertical Padding",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Titled Positives"
+    }
+  ]
+}
+{% endschema %}

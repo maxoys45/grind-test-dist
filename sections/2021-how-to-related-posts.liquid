@@ -1,0 +1,86 @@
+{% assign current_url = page.url %}
+
+<section {% if section.settings.background_colour %} style="background: {{section.settings.background_colour}}" {% endif %}>
+  <div class="container py-5">
+  {% if section.settings.title %}
+    <h2 class="mb-4 pb-2 blog-title gkit-h1 text-left text-white font-weight-bold">{{ section.settings.title }}</h2>
+  {% endif %}
+
+    <div class="d-flex flex-column flex-md-row readMoreHowTo">
+    {% assign i = 0 %}
+    {% for block in section.blocks %}
+    {% if block.settings.page_link != current_url and i < 3 %}
+    {% assign i = i | plus: 1 %}
+      <div class="d-flex flex-column justify-content-between px-0 px-md-5 pb-5 pb-md-0 w-100">
+        <a href="{{ block.settings.page_link }}">
+          <div class="howToSquareImage" style="background-image: url('{{ block.settings.image | img_url: '900x900', crop: 'center' }}')"></div>
+        </a>
+        <div class="d-flex flex-column justify-content-between flex-grow-1">
+          <div>
+            <p class="mt-4 mb-2 gkit-h3 text-white">{{ block.settings.title }}</p>
+            {% if block.settings.excerpt %}<p class="gkit-p-17 article-description">{{block.settings.excerpt}}</p>{% endif %}
+          </div>
+          <div>
+            <a href="{{ block.settings.page_link }}" class="btn gkit-btn gkit-btn-sm gkit-secondary gkit-white text-white mt-1">{% if section.settings.button_text %}{{section.settings.button_text}}{% else %}Find out how{% endif %}</a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured articles",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "More Guides.",
+      "label": "Title"
+    },
+    {
+      "type": "color",
+      "id": "background_colour",
+      "default": "#2D2926",
+      "label": "Background colour"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "Find out how",
+      "label": "Button text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "how-to-articles",
+      "name": "Article",
+      "settings": [
+        {
+          "type": "url",
+          "id": "page_link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "excerpt",
+          "label": "Excerpt"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,69 @@
+{% assign i18nVisibility = section.settings.internationalVisibility %}
+<!-- i18nVisibility: {{ i18nVisibility }}, {{ localization.country.iso_code }} -->
+{% unless i18nVisibility == 'eu' and localization.country.iso_code == 'GB' %}
+{% unless i18nVisibility == 'gb' and localization.country.iso_code != 'GB' %}
+
+{% assign label = section.settings.label %}
+{% assign background_color = section.settings.background_color %}
+
+{% if context and context == 'homepage' %}
+    {% assign slides = section.blocks | where: "type", "slide" %}
+{% else %}
+    {% assign slides = "logoOne logoTwo logoThree logoFour logoFive logoSix logoSeven logoEight logoNine logoTen logoEleven logoTwelve" | split: " " %}
+{% endif %}
+
+{% if slides %}
+<div class="py-4 logo-carousel" style="background-color: {{ background_color }}">
+        <div class="container container-sm">
+            <div class="row flex-md-nowrap">
+                {% if label != blank %}
+                    <div class="col-12 col-md-2 col-lg-auto">
+                        <div class="d-flex justify-content-center justify-content-md-start align-items-center h-100">
+                            <p class="mb-3 mb-md-0 font-weight-bold h5">{{ label }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="col-12 col-md-10 col-lg">
+                    <div class="carousel js-logo-carousel">
+                        {% if context and context == 'homepage' %}
+                            {% for slide in slides %}
+                                {% if slide.settings.image %}
+                                    {% assign transform = slide.settings.image_width | plus: 40 | append: "x" %}
+                                    {% assign image_width = slide.settings.image_width | append: "px" %}
+
+                                    <div class="col-auto">
+                                        <a href="{{ slide.settings.link }}" class="d-flex justify-content-center align-items-center h-100 link" target="_blank">
+                                            <img loading="lazy" src="{{ slide.settings.image | img_url: transform }}" alt="{{ slide.settings.title }} logo" class="w-100 logo" style="max-width: {{ image_width }}">
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for item in slides %}
+                                {% assign slide = section.settings %}
+                                {% assign title = item | append: 'Title' %}
+                                {% assign image = item | append: 'Image' %}
+                                {% assign image_width = item | append: 'ImageWidth' %}
+                                {% assign link = item | append: 'Link' %}
+
+                                {% if slide[image] %}
+                                    {% assign transform = slide[image_width] | plus: 40 | append: "x" %}
+
+                                    <div class="col-auto">
+                                        <a href="{{ slide[link] }}" class="d-flex justify-content-center align-items-center h-100 link" target="_blank">
+                                            <img loading="lazy" src="{{ slide[image] | img_url: transform }}" alt="{{ slide[title] }} logo" class="w-100 logo" style="max-width: {{ slide[image_width] | append: "px" }}">
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% endunless %}
+{% endunless %}

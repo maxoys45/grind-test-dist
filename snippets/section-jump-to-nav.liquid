@@ -1,0 +1,21 @@
+<div class="bg-white jump-to-nav w-100" style="z-index: 1">
+    <div class="container">
+        <div class="row no-gutters my-5 pt-lg-5 w-100">
+            {% for link in linklists.my-tin-menu.links %}
+
+                {% if forloop.last == true %}
+                    {% assign marginClass = 'pr-3 pr-lg-0' %}
+                {% else %}
+                    {% assign marginClass = 'pr-3 pb-3 pr-xl-4 pb-lg-0' %}
+                {% endif %}
+
+                <div class="{{ marginClass }} col-12 col-sm-4 col-lg">
+                    <a href="{{ link.url }}" class="w-100 btn btn-primary btn-arrow-right btn-arrow-right-full">
+                        <span class="mr-5 btn-inner text-left">{{ link.title }}</span>
+                    </a>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>

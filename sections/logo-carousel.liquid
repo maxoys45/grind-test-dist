@@ -1,0 +1,80 @@
+{% include 'section-logo-carousel', context: 'homepage' %}
+
+{% schema %}
+{
+    "name": "Logo Carousel",
+    "settings": [
+      {
+        "type": "text",
+        "id": "label",
+        "label": "Carousel Label"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Colour",
+        "default": "#e9ecef"
+      },
+      {
+        "type": "select",
+        "id": "internationalVisibility",
+        "label": "International Visibility",
+        "options": [
+          {
+            "value": "all",
+            "label": "All"
+          },
+          {
+            "value": "eu",
+            "label": "EU Only"
+          },
+          {
+            "value": "gb",
+            "label": "UK Only"
+          }
+        ],
+        "default": "all"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "slide",
+        "name": "Logo Slide",
+        "settings": [
+          {
+            "id": "title",
+            "type": "text",
+            "label": "Company name"
+          },
+          {
+            "id": "image",
+            "type": "image_picker",
+            "label": "Logo"
+          },
+          {
+            "id": "image_width",
+            "type": "range",
+            "min": 50,
+            "max": 200,
+            "step": 5,
+            "unit": "px",
+            "label": "Logo width",
+            "default": 100
+          },
+          {
+            "id": "link",
+            "type": "url",
+            "label": "External link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Logo Carousel",
+        "category": "Content"
+      }
+    ]
+  }
+  
+{% endschema %}

@@ -1,0 +1,35 @@
+{% assign title = section.settings.title %}
+{% assign summary = section.settings.summary %}
+{% assign iconBlocks = section.blocks %}
+{% assign iconWidth = section.settings.iconWidth %}
+{% assign transform = iconWidth | append: 'x' %}
+
+{% if title != blank %}
+    <div class="masthead masthead-collection js-masthead">
+        <div class="container">
+            <div class="mx-auto text-center masthead-content">
+                <h1 class="gkit-h2 wow fadeInUp" data-wow-delay=".5s">{{ title }}</h1>
+
+                {% if summary != blank %}
+                    <div class="mx-auto gkit-p-20 wow fadeInUp" data-wow-delay=".75s">{{ summary }}</div>
+                {% endif %}
+
+                {% if iconBlocks %}
+                    <div class="row no-gutters align-items-center justify-content-center pt-4 pt-sm-5 icons">
+                        {% for block in iconBlocks %}
+                            {% assign image = block.settings.image %}
+                            {% assign text = block.settings.text %}
+
+                            <div class="col-auto px-4 wow fadeInUp" data-wow-delay=".85s">
+                                <img loading="lazy" class="w-100 mb-3" src="{{ image | img_url: transform }}" alt="{{ text }}" style="max-width: {{ iconWidth | append: 'px' }}">
+                                <p class="mb-3 mb-md-0 gkit-p-15 text">{{ text }}</p>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+{% endif %}

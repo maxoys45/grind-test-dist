@@ -1,0 +1,77 @@
+
+{% assign hasRedirected = false %}
+{% for block in section.blocks %}
+  {% if block.settings.countryCode == localization.country.iso_code and hasRedirected == false %}
+    {% assign hasRedirected = true %}
+<script type="text/javascript">
+  window.location.href = "{{ block.settings.redirectUrl }}";
+</script>
+  {% endif %}
+{% endfor %}
+{% if section.settings.baseRedirect and hasRedirected == false %}
+  {% unless section.settings.baseRedirectRegion == 'eu' and localization.country.iso_code == 'GB' %}
+  {% unless section.settings.baseRedirectRegion == 'gb' and localization.country.iso_code != 'GB' %}
+  <script type="text/javascript">
+    window.location.href = "{{ section.settings.redirectUrl }}";
+  </script>
+  {% endunless %}
+  {% endunless %}
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "International Redirect",
+  "blocks": [
+    {
+      "type": "redirect",
+      "name": "Redirect",
+      "settings": [
+        {
+          "id": "countryCode",
+          "type": "text",
+          "label": "Country Code"
+        },
+        {
+          "id": "redirectUrl",
+          "type": "url",
+          "label": "Redirect URL"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "id": "baseRedirect",
+      "type": "checkbox",
+      "label": "Base Redirect"
+    },
+    {
+      "type": "select",
+      "id": "baseRedirectRegion",
+      "label": "Base Redirect Region",
+      "options": [
+        {
+          "value": "eu",
+          "label": "EU Only"
+        },
+        {
+          "value": "gb",
+          "label": "UK Only"
+        }
+      ],
+      "default": "eu"
+    },
+    {
+      "id": "redirectUrl",
+      "type": "url",
+      "label": "Redirect URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "International Redirect"
+    }
+  ]
+}
+{% endschema %}

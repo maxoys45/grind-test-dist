@@ -1,0 +1,43 @@
+{% assign pageOne = section.settings.featuredPageUrlOne %}
+{% assign pageTwo = section.settings.featuredPageUrlTwo %}
+
+<div class="my-4 py-1 my-sm-5 container">
+    <div class="row">
+
+        {% unless pageOne == blank %}
+        <div class="col-12 col-md-6 wow fadeInUp">
+            <article class="featured-page d-flex flex-column" style="min-height: 100%">
+                <img loading="lazy" src="{{ section.settings.featuredPageThumbnailOne | img_url: '900x600', crop: 'center' }}" alt="{{ section.settings.featuredPageThumbnailOne.alt }}" class="breakout thumbnail">
+                <div class="d-flex flex-column mb-4 mb-md-0 px-md-4 px-xl-5" style="flex: 1 1 auto">
+                    <div class="d-flex flex-column align-items-start position-relative bg-white p-4 pb-md-0 content-wrap" style="flex: 1 1 auto">
+                        <h2 class="mb-0 font-weight-bold">{{ section.settings.featuredPageTitleOne }}</h2>
+                        <p class="my-3 w-100">{{ section.settings.featuredPageDescriptionOne }}</p>
+                        <a href="{{ pageOne }}" class="mt-auto btn btn-arrow-right btn-primary">
+                            <span class="btn-inner">Discover More</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+        {% endunless %}
+
+        {% unless pageTwo == blank %}
+        <div class="col-12 col-md-6 wow fadeInUp" data-wow-delay=".1s">
+            <article class="featured-page d-flex flex-column" style="min-height: 100%">
+                <img loading="lazy" src="{{ section.settings.featuredPageThumbnailTwo | img_url: '900x600', crop: 'center' }}" alt="{{ section.settings.featuredPageThumbnailTwo.alt }}" class="breakout thumbnail">
+                <div class="d-flex flex-column mb-4 mb-md-0 px-md-4 px-xl-5" style="flex: 1 1 auto">
+                    <div class="d-flex flex-column align-items-start position-relative bg-white p-4 pb-md-0 content-wrap" style="flex: 1 1 auto">
+                        <h2 class="mb-0 font-weight-bold">{{ section.settings.featuredPageTitleTwo }}</h2>
+                        <p class="my-3 w-100">{{ section.settings.featuredPageDescriptionTwo }}</p>
+                        <a href="{{ pageTwo }}" class="mt-auto btn btn-arrow-right btn-primary">
+                            <span class="btn-inner">Discover More</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+        {% endunless %}
+
+    </div>
+
+</div>

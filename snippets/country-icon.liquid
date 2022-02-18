@@ -1,0 +1,7 @@
+{% assign file_name = country_code | prepend: 'country-' | append: '.svg' %}
+
+<img
+  alt="{{ country_code }}"
+  src="{{ file_name | asset_url }}"
+  height="12"
+/>

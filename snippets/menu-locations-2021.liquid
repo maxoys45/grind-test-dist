@@ -1,0 +1,163 @@
+{% comment %}
+Each image which will be used in the navigation has to be called in liquid before.
+{% endcomment %}
+
+{% assign navBarCoventGarden = 'nav_covent-garden-grind.jpg' | asset_url %}
+{% assign navBarLondonBridge = 'nav_london-grind.jpg' | asset_url %}
+{% assign navBarLiverpoolStreet = 'nav_liverpool-street-grind.jpeg' | asset_url %}
+{% assign navBarGreenwich = 'nav_greenwich-grind.jpg' | asset_url %}
+{% assign navBarExmouthMarket = 'nav_exmouth-market-grind.jpg' | asset_url %}
+{% assign navBarSohoGrind = 'nav_soho-grind.jpg' | asset_url %}
+{% assign navBarRoyalExchange = 'nav_royal-exchange.jpg' | asset_url %}
+{% assign navBarShoreditch = 'nav_shorditch-grind.jpg' | asset_url %}
+{% assign navBarWhitechapel = 'nav_whitechapel-grind.jpg' | asset_url %}
+
+<div class="position-absolute w-100 desktop-menu desktop-menu-2021" id="js-locations-menu-2021">
+    <div class="container container-fluid row m-0 m-xl-auto">
+
+        <a class="close-button" id="js-locations-menu-2021-close" data-toggle="collapse" role="button" data-target="#js-locations-menu-2021">
+            <img loading="lazy" src="{{ 'close.svg' | asset_url}}" height="24" width="24" />
+        </a>
+
+        <div class="col-7 p-0 d-flex desktop-menu-submenu">
+
+            <div class="menu-list">
+                {% assign locationsMenu = linklists.locations %}
+                    {% if locationsMenu != blank %}
+                        <div class="col-12 col-lg-auto">
+                            {% include 'menu-group-2021',
+                                groupTitle: locationsMenu.title,
+                                groupLinks: locationsMenu.links
+                            %}
+                        </div>
+                {% endif %}
+            </div>
+
+            <div class="menu-helper-image-col">
+                <a id="bar-menu-image-link" href="">
+                    <div class="menu-helper-image">
+                        {% assign defaultImg = 'nav_locations-default.jpg' %}
+                        <div id="bar-menu-image" class="square-img" style="background: url('{{ defaultImg | asset_img_url: '720x480' }}')"></div>
+                        <div class="d-flex flex-column justify-content-center h-100">
+                            <p id="bar-menu-image-text" class="gkit-p-15 m-0 helper-image-text d-flex btn-arrow-right btn-arrow-right-full">
+                                <span class="mr-auto">Grinds cafe-bars</span>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="menu-vertical-line"></div>
+
+        <div class="col-5 featured-content">
+            <div class="featured-content__card">
+                <h2 class="cta-title">Reserve a Table Now.</h2>
+                    <div class="form-custom-select">
+                        <select class="mb-3 gkit-select-lg js-form-custom-select" id="resyBookVenue" required>
+                            {% render 'resy-dropdown-options' %}
+                        </select>
+                    </div>
+
+                    <div class="form-custom-select">
+                        <input type="text"
+                            autocomplete="false"
+                            class="mb-3 gkit-select-lg js-form-custom-select"
+                            data-toggle="datepicker"
+                            id="resyBookDate"
+                            name="resDate"
+                            placeholder="Select a date"
+                            readonly
+                            required>
+                    </div>
+
+                    <div class="form-custom-select">
+                        <select class="mb-4 gkit-select-lg js-form-custom-select w-100" id="resyBookSeats" required>
+                            <option value="" selected disabled hidden>Number of guests</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                        </select>
+                    </div>
+                <button class="gkit-btn-lg gkit-secondary w-100" onClick='resyBookSubmit()'>Book a table</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+(function($) {
+    var $barSubmenu2021 = $("#js-locations-menu-2021 .submenu-item");
+
+  var barSubmenu2021Assets = {
+    "/pages/london-grind": {
+        "image": {{ navBarLondonBridge | json }},
+        "title": "London Bridge"
+        },
+    "/pages/liverpool-street-grind": {
+        "image": {{ navBarLiverpoolStreet | json }},
+        "title": "Liverpool Street"
+        },
+    "/pages/greenwich-grind": {
+        "image": {{ navBarGreenwich | json }},
+        "title": "Greenwich Grind"
+        },
+    "/pages/exmouth-market-grind": {
+        "image": {{ navBarExmouthMarket | json }},
+        "title": "Exmouth Market"
+        },
+    "/pages/covent-garden-grind": {
+        "image": {{ navBarCoventGarden | json }},
+        "title": "Covent Garden"
+        },
+    "/pages/shoreditch-grind": {
+        "image": {{ navBarShoreditch | json }},
+        "title": "Shoreditch"
+        },
+    "/pages/soho-grind": {
+        "image": {{ navBarSohoGrind | json }},
+        "title": "Soho Grind"
+        },
+    "/pages/royal-exchange-grind": {
+        "image": {{ navBarRoyalExchange | json }},
+        "title": "Royal Exchange"
+        },
+    "/pages/whitechapel-grind": {
+        "image": {{ navBarWhitechapel | json }},
+        "title": "Whitechapel Grind"
+        }
+  };
+
+  $barSubmenu2021.hover(function () {
+    var href = $(this).attr("href");
+    var imageSrc = barSubmenu2021Assets[href]["image"]
+    $("#bar-menu-image").css('background-image', 'url(' + imageSrc + ')');
+    $("#bar-menu-image-link").attr("href",this.href);
+    $("#bar-menu-image-text span").text(barSubmenu2021Assets[href]["title"]);
+    $("#bar-menu-image-text span").addClass("btn-inner");
+  });
+
+  $("#js-locations-menu-2021-close").click(function () {
+    $("#js-locations-menu-2021-nav").removeClass("active");
+    $("#nav-slider").css({"width":0});
+  });
+})(jQuery);
+
+    function resyBookSubmit() {
+        var resyBookVenueObj = document.getElementById('resyBookVenue').value;
+        var resyBookVenue = JSON.parse(resyBookVenueObj);
+        var resyBookSeats = document.getElementById('resyBookSeats').value;
+        var resyBookDate = document.getElementById('resyBookDate').value;
+        resyWidget.openModal({'venueId': resyBookVenue.venueID, 'apiKey': resyBookVenue.apiKey, 'date': resyBookDate, 'seats': resyBookSeats});
+    }
+</script>

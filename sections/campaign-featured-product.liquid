@@ -1,0 +1,117 @@
+{% render 'campaign-featured-product', options: section.settings %}
+
+{% schema %}
+{
+  "name": "Campaign Featured Product",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Product Image"
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Subscribe and Save"
+    },
+    {
+      "id": "subtitle",
+      "type": "text",
+      "label": "Subtitle",
+      "default": "We've squeezed every drop of our coffee crafting expertise into our compostable capsules for Nespresso® machines. Delivering monthly to your door."
+    },
+    {
+      "type": "header",
+      "content": "Perks"
+    },
+    {
+      "type": "text",
+      "id": "shipping_info",
+      "label": "Shipping Info",
+      "default": "Free UK shipping when spend £25 <strong>or more, or when you subscribe to refills</strong>."
+    },
+    {
+      "type": "image_picker",
+      "id": "shipping_icon",
+      "label": "Shipping Icon"
+    },
+    {
+      "type": "text",
+      "id": "free_tin_info",
+      "label": "Free tin Info",
+      "default": "Free Grind tins with every subscription"
+    },
+    {
+      "type": "image_picker",
+      "id": "free_tin_icon",
+      "label": "Free tin icon"
+    },
+    {
+      "type": "header",
+      "content": "Product details"
+    },
+    {
+      "id": "product_title",
+      "type": "text",
+      "label": "Product title",
+      "default": "Letter-box refills"
+    },
+    {
+      "id": "product_quantity",
+      "type": "text",
+      "label": "Product quantity",
+      "default": "30x 2g pods"
+    },
+    {
+      "type": "image_picker",
+      "id": "outline_image",
+      "label": "Product Outline Image"
+    },
+    {
+      "id": "product_details",
+      "type": "text",
+      "label": "Product details",
+      "default": "The standard, original & still the best, official Grind House Blend in a pod."
+    },
+    {
+      "id": "product_price",
+      "type": "text",
+      "label": "Product price",
+      "default": "£9.95"
+    },
+    {
+      "id": "product_price_terms",
+      "type": "text",
+      "label": "Product price terms",
+      "default": "1st month (30% off)"
+    },
+    {
+      "id": "product_disclaimer",
+      "type": "text",
+      "label": "Price disclaimer",
+      "default": "Subsequent months are charged at £13.50 (10% off original price)"
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "CTA Text",
+      "default": "Subscribe Now"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "CTA Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Campaign Featured Product"
+    }
+  ]
+}
+{% endschema %}

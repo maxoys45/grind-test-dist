@@ -1,0 +1,60 @@
+{% assign bgImage = section.settings.backgroundImage %}
+{% assign bgImageMobile = section.settings.backgroundImageMobile %}
+{% assign icon = section.settings.icon %}
+<div id="shopify-section-product-full-image" class="shopify-section">
+  <blockquote class="mb-0 blockquote blockquote-simple full">
+  {% unless bgImage == blank %}
+    <div class="wow">
+      <img loading="lazy" src="{{ bgImage | img_url: '1200x720', crop: 'center' }}" alt="{{ bgImage.alt }}" class="image background md-none">
+      <img loading="lazy" src="{{ bgImageMobile | img_url: 'full', crop: 'center' }}" alt="{{ bgImageMobile.alt }}" class="image background md-show">
+    </div>
+  {% endunless %}
+    <div class="container-f">
+      <div class="bg-primary p-4 blockquote-content wow fadeInUp full-p-4" data-wow-delay=".1s">
+        {% unless icon == blank %}
+        <img loading="lazy" alt="{{ icon.alt }}" src="{{ icon | img_url: '210x210'}}" class="icon_image" width="70px" height="70px">
+        {% endunless %}
+        <p class="mt-3 mb-5 gkit-blockquote font-bold">{{ section.settings.title }}</p>
+        <p class="mb-0 font-thin small sub-title">{{ section.settings.body }}</p>
+      </div>
+    </div>
+  </blockquote>
+</div>
+
+{% schema %}
+{
+  "name": "Full-width Image Block",
+  "settings": [
+    {
+      "id": "backgroundImage",
+      "type": "image_picker",
+      "label": "Background Image"
+    },
+    {
+      "id": "backgroundImageMobile",
+      "type": "image_picker",
+      "label": "Background Image (mobile)"
+    },
+    {
+      "id": "icon",
+      "type": "image_picker",
+      "label": "Icon"
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Full-width Image Block"
+    }
+  ]
+}
+{% endschema %}

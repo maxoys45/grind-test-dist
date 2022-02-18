@@ -1,0 +1,26 @@
+{% if template == "list-collections" %}
+    <div class="masthead masthead-all-products js-masthead" style="background-image: url({{ 'bg_products-masthead.jpg' | asset_img_url: '1800x' }});">
+{% elsif template == "collections" %}
+    <div class="masthead masthead-products js-masthead" style="background-image: url({{ 'bg_products-masthead.jpg' | asset_img_url: '1800x' }});">
+{% else %}
+
+    {% comment %}
+        Left out due to changing collection images
+        {% assign fontColour = 'text-white-all' %}
+    {% endcomment %}
+
+    <div class="masthead masthead-products bg-transparent js-masthead" style="background-image: url({{ collection.image | img_url: '1800x' }});">
+{% endif %}
+
+        <div class="container">
+            <div class="masthead-content">
+                <div class="p-3 p-lg-4 {{ fontColour }} inner">
+                    <h1 class="h2 font-weight-bold wow fadeInUp" data-wow-delay=".75s">{{ title }}</h1>
+
+                    {% if summary != blank %}
+                        <p class="mb-0 font-weight-light summary wow fadeInUp" data-wow-delay="1s">{{ summary }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>

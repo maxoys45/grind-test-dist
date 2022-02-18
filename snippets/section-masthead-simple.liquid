@@ -1,0 +1,16 @@
+{% assign title = section.settings.title %}
+{% assign summary = section.settings.summary %}
+
+<div class="d-flex flex-column justify-content-center align-items-center bg-primary masthead-simple">
+    <div class="my-5 py-5 container">
+        <h1 class="mb-4 text-center font-weight-bold title">{{ title | default: page.title }}</h1>
+
+        {% if summary %}
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <p class="text-center font-weight-light h5 summary">{{ summary }}</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

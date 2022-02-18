@@ -1,0 +1,35 @@
+{% include "section-call-to-action" %}
+
+{% schema %}
+    {
+        "name": "Call To Action",
+        "settings": [
+            {
+                "type": "image_picker",
+                "id": "callToActionImage",
+                "label": "Image"
+            },
+            {
+                "type": "text",
+                "id": "callToActionContent",
+                "label": "Content"
+            },
+            {
+                "type": "url",
+                "id": "callToActionUrl",
+                "label": "Select the page to use"
+            },
+            {
+                "type": "text",
+                "id": "callToActionButtonText",
+                "label": "Button text"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Call To Action",
+                "category": "Content"
+            }
+        ]
+    }
+{% endschema %}

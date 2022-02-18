@@ -1,0 +1,210 @@
+{% assign widgetId = section.settings.widgetId %}
+
+<section class="trustpilot-reviews">
+  <div class="trustpilot-reviews__intro-bkg">
+    <div class="container">
+      <div class="row trustpilot-reviews__intro-row">
+        <div class="trustpilot-reviews__text">
+          {% if section.settings.heading != blank %}
+            <h2 class="trustpilot-reviews__heading">{{ section.settings.heading }}</h2>
+          {% endif %}
+
+          <div class="mb-4">
+            {% render 'section-trustpilot-container' with height: 20, templateId: widgetId %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Cards -->
+  <div class="trustpilot-reviews__cards" id="tpCarousel" style="color: {{ section.settings.text_colour }}">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'trustpilot_review_card' -%}
+          <!-- Card markup -->
+          <div class="trustpilot-reviews-card">
+            <div class="trustpilot-reviews-card__content" style="background-color: {{ section.settings.bkg_colour }}">
+              {% if block.settings.image != blank %}
+                <div class="trustpilot-reviews-card__photo" style="background-color: white;">
+                  <img loading="lazy" src="{{ block.settings.image | image_url }}"/>
+                </div>
+              {% endif %}
+
+              {% if block.settings.review != blank %}
+                <div class="trustpilot-reviews-card__review">{{ block.settings.review }}</div>
+              {% endif %}
+
+              <div class="trustpilot-reviews-card__reviewer">
+                {% if block.settings.name != blank %}
+                  <span class="trustpilot-reviews-card__name">{{ block.settings.name}}</span>
+                {% endif %}
+                {% if block.settings.source != blank %}
+                  <span class="trustpilot-reviews-card__source">{{ block.settings.source}}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="trustpilot-reviews__buttons">
+    {% if section.settings.primary_btn_label != blank %}
+      <div class="trustpilot-reviews__link-button-wrapper">
+        <a class="gkit-btn-lg gkit-tertiary text-white w-100" style="color: {{ section.settings.primary_btn_text-colour }}; background-color: {{ section.settings.primary_btn_background }};" href="{{ section.settings.primary_btn_link | escape }}">{{ section.settings.primary_btn_label}}</a>
+      </div>
+    {% endif %}
+
+    {% if section.settings.secondary_btn_label != blank %}
+      <div class="trustpilot-reviews__link-button-wrapper">
+        <a class="gkit-btn-lg gkit-tertiary w-100" style="color: {{ section.settings.secondary_btn_text_colour }}; background-color: {{ section.settings.secondary_btn_background }};" href="{{ section.settings.secondary_btn_link | escape }}">{{ section.settings.secondary_btn_label}}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trustpilot reviews",
+  "blocks": [
+    {
+      "type": "trustpilot_review_card",
+      "name": "Getting started card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "richtext",
+          "id": "review",
+          "label": "Review",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+          },
+          {
+            "type": "text",
+            "id": "name",
+            "label": "Name",
+            "default": "Jane Smith"
+          },
+          {
+            "type": "text",
+            "id": "source",
+            "label": "Review source",
+            "default": "Trustpilot"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Lorem ipsum"
+      },
+      {
+        "type": "text",
+        "id": "primary_btn_label",
+        "label": "Primary button label",
+        "default": "Lorem ipsum"
+      },
+      {
+        "type": "url",
+        "id": "primary_btn_link",
+        "label": "Primary button link"
+      },
+      {
+        "type": "text",
+        "id": "secondary_btn_label",
+        "label": "Secondary button label",
+        "default": "Lorem ipsum"
+      },
+      {
+        "type": "url",
+        "id": "secondary_btn_link",
+        "label": "Secondary button link"
+      },
+      {
+        "type": "header",
+        "content": "Design & Layout"
+      },
+      {
+        "type": "color",
+        "id": "text_colour",
+        "label": "Text colour",
+        "default": "#2D2926"
+      },
+      {
+        "type": "color",
+        "id": "bkg_colour",
+        "label": "Background colour",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "primary_btn_background",
+        "label": "Primary background colour",
+        "default": "#2D2926"
+      },
+      {
+        "type": "color",
+        "id": "primary_btn_text-colour",
+        "label": "Primary text colour",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "secondary_btn_background",
+        "label": "Secondary background colour",
+        "default": "#F2EFEE"
+      },
+      {
+        "type": "color",
+        "id": "secondary_btn_text_colour",
+        "label": "Secondary text colour",
+        "default": "#2D2926"
+      },
+      {
+        "type": "header",
+        "content": "Trust Pilot Widget Settings"
+      },
+      {
+        "type": "select",
+        "id": "widgetId",
+        "label": "Widget Type",
+        "options": [
+          {
+            "value": "5419b637fa0340045cd0c936",
+            "label": "Micro Trust Score"
+          },
+          {
+            "value": "5419b732fbfb950b10de65e5",
+            "label": "Micro Star"
+          },
+          {
+            "value": "5419b6a8b0d04a076446a9ad",
+            "label": "Micro Review"
+          },
+          {
+            "value": "5419b6ffb0d04a076446a9af",
+            "label": "Micro Combo"
+          }
+        ],
+        "default": "5419b732fbfb950b10de65e5"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Trustpilot reviews carousel"
+      }
+    ]
+  }
+{% endschema %}

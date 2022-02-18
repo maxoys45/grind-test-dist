@@ -1,0 +1,61 @@
+<div class="collections-hero-2021">
+{% include 'section-2021-collections-hero' %}
+</div>
+
+{% schema %}
+{
+  "name": "Collections 2021 Hero",
+  "settings": [
+    {
+      "type": "color",
+      "id": "backgroundColor",
+      "label": "Background Colour",
+      "default": "#F5DADF"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Hero Title",
+      "default": "Grind, delivered."
+    },
+    {
+      "type": "text",
+      "id": "body",
+      "label": "Hero Body"
+    },
+    {
+      "type": "text",
+      "id": "cta",
+      "label": "Hero CTA",
+      "default": "Browse our products"
+    },
+    {
+      "type": "text",
+      "id": "ctaURL",
+      "label": "Hero CTA URL",
+      "default": "#collection-list"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "secondaryCta",
+      "label": "Secondary CTA"
+    },
+    {
+      "type": "text",
+      "id": "secondaryCtaUrl",
+      "label": "Secondary CTA URL",
+      "default": "#collection-contents"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop Page Hero (2021)"
+    }
+  ]
+} 
+{% endschema %}

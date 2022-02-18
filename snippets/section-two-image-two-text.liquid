@@ -1,0 +1,36 @@
+{% assign imageOne = section.settings.imageOneSelect %}
+{% assign imageTwo = section.settings.imageTwoSelect %}
+{% assign textOne = section.settings.textOne %}
+{% assign textTwo = section.settings.textTwo %}
+
+<div class="my-4 my-sm-5 container two-images-two-text">
+    <div class="row">
+
+        <div class="col-12 col-lg-6">
+            <div class="row">
+                <div class="col-12 col-md-5 col-lg-12 order-lg-2 wow fadeInUp">
+                    <p class="mb-0 pr-lg-4 gkit-p-20">{{ textOne }}</p>
+                </div>
+                <div class="col-9 col-md-7 col-lg-9 ml-auto mr-lg-auto ml-lg-0 order-lg-1 wow fadeInUp" data-wow-delay=".1s">
+                    <figure class="d-block my-4 my-sm-5 mt-md-0 mt-lg-3 figure">
+                        <img loading="lazy" src="{{ imageOne | img_url: '600x600', crop: 'center' }}" alt="{{ imageOne.alt }}" class="d-block mb-0 figure-img img-fluid">
+                    </figure>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="row">
+                <div class="col-12 gkit-p-17 order-lg-2 wow fadeInUp" data-wow-delay=".2s">
+                    {{ textTwo }}
+                </div>
+                <div class="col-12 order-lg-1 wow fadeInUp" data-wow-delay=".3s">
+                    <figure class="d-block my-4 my-sm-5 mt-lg-3 figure">
+                        <img loading="lazy" src="{{ imageTwo | img_url: '800x800', crop: 'center' }}" alt="{{ imageTwo.alt }}" class="d-block mb-0 figure-img img-fluid breakout">
+                    </figure>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

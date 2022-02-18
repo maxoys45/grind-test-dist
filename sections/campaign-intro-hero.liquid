@@ -1,0 +1,88 @@
+{% render 'campaign-cta', options: section.settings, blocks: section.blocks %}
+
+{% schema %}
+{
+  "name": "Campaign Intro Hero",
+  "blocks": [
+    {
+      "type": "positive",
+      "name": "Positive",
+      "limit": 4,
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "icon"
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "label": "Title"
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "label": "Subtitle"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Colour",
+      "default": "#E7F1EB"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Great Coffee,<br>doing good."
+    },
+    {
+      "type": "textarea",
+      "id": "content_body",
+      "label": "Content Body",
+      "default": "Compostable coffee pods filled with Grind organic coffee. Ethically sourced from sustainable farms around the world."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "CTA Text",
+      "default": "Subscribe Now"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "info": "Leave blank if using CTA Link URL",
+      "label": "CTA Link"
+    },
+    {
+      "type": "text",
+      "id": "linkUrl",
+      "label": "CTA Link URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Intro Hero 2021",
+      "settings": {
+        "background_color": "#E7F1EB",
+        "title": "Great Coffee,<br>doing good.",
+        "content_body": "Compostable coffee pods filled with Grind organic coffee. Ethically sourced from sustainable farms around the world."
+      }
+    }
+  ]
+}
+{% endschema %}

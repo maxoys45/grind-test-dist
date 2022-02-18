@@ -1,0 +1,9 @@
+<article class="mb-5 text-center">
+    <a href="{{ url }}" class="d-block">
+        {% if thumbnail %}
+            <img loading="lazy" src="{{ thumbnail | img_url: '800x512', crop: 'center' }}" alt="{{ title }}" class="d-block mx-auto mb-3 mb-md-4 thumbnail w-100">
+        {% endif %}
+        <h5 class="gkit-p-17"><strong>{{ title }}</strong></h2>
+        <p class="gkit-p-15 gkit-light mt-2 mb-0">{{ address }}</p>
+    </a>
+</article>

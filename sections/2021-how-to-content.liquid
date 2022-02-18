@@ -1,0 +1,383 @@
+{%- liquid
+  assign title = section.settings.title  
+  assign image = section.settings.image  
+  assign text = section.settings.text  
+  assign video_id = section.settings.video_id  
+  assign video_upload_date = section.settings.video_upload_date  
+  assign totalSupply = 0
+  assign totalTool = 0
+  assign totalSteps = 0
+
+  for block in section.blocks
+    case block.type
+      when 'what-you-need'
+        if block.settings.schemaType == 'tool'
+          assign totalTool = totalTool | plus: 1
+        else
+          assign totalSupply = totalSupply | plus: 1
+        endif
+      when 'nice-to-have'
+        if block.settings.schemaType == 'tool'
+          assign totalTool = totalTool | plus: 1
+        else
+          assign totalSupply = totalSupply | plus: 1
+        endif
+      else
+        assign totalSteps = totalSteps | plus: 1
+    endcase
+  endfor
+-%}
+
+{% include 'how-to-article' %}
+
+{% javascript %}
+(function ($) {
+  const $scrolly = $("#howToScrolly");
+  const headerOffset =
+    document.getElementById("shopify-section-header-2021").offsetTop +
+    $("#shopify-section-header-2021").height();
+  const scrollyOffset = $scrolly.offset().top;
+
+  document.addEventListener("scroll", function (e) {
+    if ($(window).width() > 991) {
+      // This is for when it enters the fixed place
+      if (
+        window.pageYOffset > scrollyOffset - headerOffset - 48 &&
+        window.pageYOffset <
+          $(".instruction-article").offset().top +
+            $(".instruction-article").height() -
+            $scrolly.height() -
+            60
+      ) {
+        if (!$scrolly.hasClass("fixed-scrolly")) {
+          $scrolly.css({
+            top: headerOffset + "px",
+            width: Math.round($scrolly.width()) + "px",
+          });
+          
+
+          $scrolly.removeClass("bottom-scrolly");
+          $scrolly.addClass("fixed-scrolly");
+        }
+      } else if (
+        window.pageYOffset >
+        $(".instruction-article").offset().top +
+          $(".instruction-article").height() -
+          $scrolly.height() -
+          60
+      ) {
+        if (!$scrolly.hasClass("bottom-scrolly")) {
+          $scrolly.removeClass("fixed-scrolly");
+          $scrolly.addClass("bottom-scrolly");
+        }
+      } else {
+        $scrolly.removeClass("fixed-scrolly");
+        $scrolly.removeClass("bottom-scrolly");
+
+        $scrolly.css({
+          top: "",
+          width: "",
+        });
+      }
+    }
+  });
+})(jQuery);
+
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "How To Content",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "video_id",
+      "default": "624433991",
+      "label": "Vimeo Video ID",
+      "info": "Only videos uploaded to Vimeo are accepted"
+    },
+    {
+      "type": "text",
+      "id": "video_upload_date",
+      "label": "Vimeo Video Upload Date",
+      "info": "This is used for Schema. DD-MM-YYYY"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Schema Image"
+    },
+    {
+      "type": "color",
+      "id": "header_colour",
+      "default": "#fff",
+      "label": "Header colour"
+    },
+    {
+      "type": "color",
+      "id": "header_text_colour",
+      "default": "#fff",
+      "label": "Header text colour"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>",
+      "info": "To add red highlight to the text make the content bold"
+    },
+    {
+      "type": "header",
+      "content": "Before we start section"
+    },
+    {
+      "type": "checkbox",
+      "id": "has_before_we_start",
+      "label": "Has before we start"
+    },
+    {
+      "type": "text",
+      "id": "before_we_start_title",
+      "default": "Before we start",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "before_we_start_content",
+      "default": "<p>Make sure the water chamber at the back of the machine is filled up. Turn the machine on and wait for the lights to stop flashing</p>",
+      "label": "Content"
+    },
+    {
+      "type": "header",
+      "content": "Final touch"
+    },
+    {
+      "type": "checkbox",
+      "id": "has_final_touch",
+      "label": "Has final touch?"
+    },
+    {
+      "type": "text",
+      "id": "final_touch_title",
+      "default": "Serve and enjoy!",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "final_touch_content",
+      "default": "<p>Enjoy your Grind coffee black or with milk. We reccomend the Grind Milk Frother, if you’re using milk for the perfect coffee</p>",
+      "label": "Content"
+    },
+    {
+      "type": "text",
+      "id": "step_name",
+      "default": "STEP",
+      "label": "Step Name"
+    },
+    {
+      "type": "text",
+      "id":"requiredIngredientsTitle",
+      "label": "Required Ingredients Title",
+      "default": "What you'll need"
+    },
+    {
+      "type": "text",
+      "id":"optionalIngredientsTitle",
+      "label": "Optional Ingredients Title",
+      "default": "Nice to have"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "what-you-need",
+      "name": "What you'll need",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "what_you_need",
+          "label": "Item",
+          "default": "<p>The Grind One machine</p>"
+        },
+        {
+          "type": "text",
+          "id": "schema_text",
+          "label": "Text for Schema",
+          "default": "The Grind One machine",
+          "info": "Please include a plain text here for Google How-To Schema purposes."
+        },
+        {
+          "type": "select",
+          "id": "schemaType",
+          "label": "Schema Type",
+          "default": "tool",
+          "options": [
+            {
+              "value": "tool",
+              "label": "Tool"
+            },
+            {
+              "value": "supply",
+              "label": "Supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "nice-to-have",
+      "name": "Nice to have",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "nice_to_have",
+          "label": "Item",
+          "default": "<p>Milk frother</p>"
+        },
+        {
+          "type": "text",
+          "id": "schema_text",
+          "label": "Text for Schema",
+          "default": "Milk frother",
+          "info": "Please include a plain text here for Google How-To Schema purposes."
+        },
+        {
+          "type": "select",
+          "id": "schemaType",
+          "label": "Schema Type",
+          "default": "tool",
+          "options": [
+            {
+              "value": "tool",
+              "label": "Tool"
+            },
+            {
+              "value": "supply",
+              "label": "Supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "tutorial-step",
+      "name": "Tutorial step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "step_image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "stepVideoUrl",
+          "label":"Video URL"
+        },
+        {
+          "type": "text",
+          "id": "step_title",
+          "label": "Step title",
+          "default": "Push handle up!"
+        },
+        {
+          "type": "richtext",
+          "id": "step_descriptions",
+          "label": "Step description",
+          "default": "<p>Push handle on the right side of the machine into the upwards position.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_step_number",
+          "label": "Show step number?",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How To Content"
+    }
+  ]
+}
+{% endschema %}
+<script type="application/ld+json">
+  [{
+    "@context": "http://schema.org/",
+    "@type": "HowTo",
+    "name": "{{ title | escape }}",
+    "image": "{{ image | img_url: '600x600'}}",
+    "supply": [
+      {%- assign i = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'what-you-need' or block.type == 'nice-to-have' -%}
+          {%- if block.settings.schemaType == 'supply' %}
+          {%- assign i = i | plus: 1 -%}
+      { "@type": "HowToSupply", "name": "{{ block.settings.schema_text }}" }{%- if i != totalSupply -%},{%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor %}
+    ],
+    "tool": [
+      {%- assign i = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'what-you-need' or block.type == 'nice-to-have' -%}
+          {%- if block.settings.schemaType == 'tool' %}
+          {%- assign i = i | plus: 1 -%}
+      { "@type": "HowToTool", "name": "{{ block.settings.schema_text }}" }{%- if i != totalTool -%},{%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor %}
+    ],
+    "step": [
+    {%- assign i = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'tutorial-step' -%}
+      {%- assign i = i | plus: 1 -%}
+      {
+        "@type": "HowToStep",
+        "name": {% if block.settings.step_title != blank %} "{{ block.settings.step_title }}" {% else %} "Step {{ i }}" {% endif %},
+        "text": "{{ block.settings.step_descriptions }}",
+        "image": "{{ block.settings.step_image | img_url: '600x600'}}",
+        "url": "{{ shop.url | append: page.url | append: '#' | append: block.settings.step_title }}"
+      }{%- if i != totalSteps -%},{%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if video_id != blank -%}
+    ],
+    "video": {
+      "@type": "VideoObject",
+      "name": "{{ title | escape }}",
+      "description": "{{ text }}",
+      "thumbnailUrl": "{{ image | img_url: '600x600'}}",
+      "contentUrl": "https://vimeo.com/{{ video_id }}",
+      "embedUrl": "https://player.vimeo.com/video/{{ video_id }}?h=02740f7995&color=F5DADf",
+      "uploadDate": "{{ video_upload_date | date: "%Y-%m-%dT%H:%M:%S" }}"
+    }
+    {%- else -%}
+    ]
+    {%- endif -%}
+  {%- if video_id != blank -%}
+  },
+  {
+    "@type": "VideoObject",
+    "name": "{{ title | escape }}",
+    "description": "{{ text }}",
+    "thumbnailUrl": "{{ image | img_url: '600x600'}}",
+    "contentUrl": "https://vimeo.com/{{ video_id }}",
+    "embedUrl": "https://player.vimeo.com/video/{{ video_id }}?h=02740f7995&color=F5DADf",
+    "uploadDate": "{{ video_upload_date | date: "%Y-%m-%dT%H:%M:%S" }}"
+  }]
+  {%- else -%}
+  }]
+  {%- endif -%}
+</script>

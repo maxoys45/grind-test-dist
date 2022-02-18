@@ -1,0 +1,542 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<div class="product product--machine" data-section-id="{{ section.id }}"
+     itemscope
+     itemtype="http://schema.org/Product">
+
+    <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+    <meta itemprop="image" content="https:{{ product.featured_media.preview_image | img_url: '1440x' }}">
+    <meta itemprop="name" content="{{ product.title }}">
+    <meta itemprop="brand" content="{{ product.vendor }}">
+    <meta itemprop="description" content="{{ product.description | strip_html | escape }}">
+    <meta itemprop="sku" content="{{ product.selected_or_first_available_variant.sku }}">
+    <meta itemprop="google_product_category" content="{{collection.title}}">
+
+    <div class="product__hero">
+
+        {% if section.settings.background_image %}
+            <div class="product__hero-background"
+                 style="background-image: url({{ section.settings.background_image | img_url: '1440x' }});"></div>
+        {% endif %}
+
+        {% render 'breadcrumbs' %}
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-7">
+
+                    {% if product.featured_image != blank and section.settings.product_image == blank %}
+                        <div class="product__featured-image">
+                            <figure class="mb-0">
+                                {% render 'image',
+                                        image: product.featured_image,
+                                        class: 'img-fluid w-100',
+                                        size_lg: '800x',
+                                        size_xl: '800x',
+                                        size_xxl: '800x' %}
+                            </figure>
+                        </div>
+                    {% elsif section.settings.product_image != blank %}
+                        <div class="product__featured-image">
+                            <figure class="mb-0">
+                                {% render 'image',
+                                    image: section.settings.product_image,
+                                    class: 'img-fluid w-100',
+                                    size_lg: '800x',
+                                    size_xl: '800x',
+                                    size_xxl: '800x' %}
+                            </figure>
+                        </div>
+                    {% endif %}
+
+                </div>
+                <div class="col-12 col-md-5">
+                    <div class="product__information">
+                        <h1 class="product__title mb-3 mt-2 mt-md-0 gkit-h2 product__title"
+                            itemprop="name">{{ product.title }}</h1>
+
+                        {% if product.description != blank %}
+
+                            <div class="product__description gkit-p-17">
+                                {{ product.description }}
+                            </div>
+
+                        {% endif %}
+
+                        <div class="product__form"
+                             itemprop="offers"
+                             itemscope
+                             itemtype="http://schema.org/Offer">
+
+                            <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+                            <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+                            <link itemprop="availability"
+                                  href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+                            <form id="cartForm" action="/cart/add" method="post" enctype="multipart/form-data"
+                                  class="{{ inlineForm }} mb-4 mb-md-0 product-form" data-productid="{{ product.id }}" data-cart-submit>
+
+                                {% comment %}
+                                    Variants
+                                {% endcomment %}
+
+                                {% assign hide_variant_select = false %}
+
+                                {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+                                    {% assign hide_variant_select = true %}
+                                {% endif %}
+
+                                {% if product.available and product.variants.size > 0 %}
+
+                                    <div id="ProductSelect-{{ section.id }}"
+                                         class="product__variants">
+                                        <h4 class="product__variant-title gkit-p-15 gkit-bold">{{ 'products.product.variant_label' | t }}</h4>
+                                        <ul class="product__variant-list">
+                                            {% for variant in product.variants %}
+                                                <li class="product__variant-list-item">
+                                                    <input class="product__variant-input"
+                                                           type="radio"
+                                                           name="id"
+                                                           value="{{ variant.id }}"
+                                                           data-price="{{ variant.price | money | strip_html }}"
+                                                           id="radio_{{ variant.id }}"
+                                                            {% if forloop.first %} checked{% endif %}
+                                                            {% if variant.available == false %} disabled{% endif%} />
+                                                    <label class="product__variant-label"
+                                                           for="radio_{{ variant.id }}">{{ variant.title | escape }}</label>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+
+                                {% endif %}
+
+                                {% comment %}
+                                    Quantity
+                                {% endcomment %}
+
+                                {% if product.available %}
+
+                                    <div id="ProductQuantity-{{ section.id }}"
+                                         class="product__quantity">
+                                        <label class="product__quantity-label gkit-p-15 gkit-bold mb-0"
+                                               for="Quantity">{{ 'products.product.quantity' | t }}</label>
+                                        <div class="product__quantity-selector">
+                                            <button class="product__quantity-button"
+                                                    data-action="remove"
+                                                    type="button"
+                                                    aria-label="{{ 'products.product.quantity_remove' | t }}">
+                                                <span class="fa fa-minus"></span>
+                                            </button>
+                                            <input type="text"
+                                                   class="product__quantity-input"
+                                                   value="1"
+                                                   min="1"
+                                                   aria-label="{{ 'products.product.quantity' | t }}"
+                                                   pattern="[0-9]*"
+                                                   name="quantity"
+                                                   id="Quantity"
+                                                   autocomplete="off">
+                                            <button class="product__quantity-button"
+                                                    data-action="add"
+                                                    type="button"
+                                                    aria-label="{{ 'products.product.quantity_add' | t }}">
+                                                <span class="fa fa-plus"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+
+                                {% comment %}
+                                    Payment buttons and price
+                                {% endcomment %}
+
+                                <div class="product__payment-buttons">
+                                    <button type="submit"
+                                            name="add"
+                                            id="AddToCart"
+                                            data-current-variant="{{ current_variant.id }}"
+                                            data-current-price="{{ current_variant.price | money }}"
+                                            data-label-add="{{ 'products.product.add_to_cart' | t }}"
+                                            data-label-added="{{ 'products.product.added_to_cart' | t }}"
+                                            class="btn btn-block btn-loader"
+                                            {% unless current_variant.available %}disabled{% endunless %}>
+                                        <span class="btn-loader__text">
+                                            {% if current_variant.available %}
+                                                {{ 'products.product.add_to_cart' | t }}
+                                            {% else %}
+                                                {{ 'products.product.sold_out' | t }}
+                                            {% endif %}
+                                            &ndash; <span id="ProductPrice" itemprop="price">{{ current_variant.price | money }}</span>
+                                        </span>
+                                        <span class="btn-loader__spinner"></span>
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if section.blocks.size > 0 %}
+
+        <div class="product__blocks">
+
+            {% for block in section.blocks %}
+
+                {% if block.type == 'carousel-and-features' %}
+
+                    {% render 'block-carousel-and-features',
+                            title: block.settings.title,
+                            carousel_media: product.media,
+                            feature_image_1: block.settings.feature_image_1,
+                            feature_title_1: block.settings.feature_title_1,
+                            feature_text_1: block.settings.feature_text_1,
+                            feature_image_2: block.settings.feature_image_2,
+                            feature_title_2: block.settings.feature_title_2,
+                            feature_text_2: block.settings.feature_text_2,
+                            feature_image_3: block.settings.feature_image_3,
+                            feature_title_3: block.settings.feature_title_3,
+                            feature_text_3: block.settings.feature_text_3,
+                            feature_image_4: block.settings.feature_image_4,
+                            feature_title_4: block.settings.feature_title_4,
+                            feature_text_4: block.settings.feature_text_4 %}
+
+                {% elsif block.type == 'media-and-text' %}
+
+                    {% render 'block-media-and-text',
+                            title: block.settings.title,
+                            text: block.settings.text,
+                            media_type: block.settings.media_type,
+                            media_alignment: block.settings.media_alignment,
+                            image: block.settings.image,
+                            video_mp4: block.settings.video_mp4 %}
+
+                {% elsif block.type == 'product-information' %}
+                    {% render 'block-product-information',
+                            title: block.settings.title,
+                            column_title_1: block.settings.column_title_1,
+                            column_text_1: block.settings.column_text_1,
+                            column_title_2: block.settings.column_title_2,
+                            column_text_2: block.settings.column_text_2,
+                            column_title_3: block.settings.column_title_3,
+                            column_text_3: block.settings.column_text_3,
+                            background_image: block.settings.background_image %}
+                {% elsif block.type == "bg-image-text-block" %}
+                    {% assign section = block %}
+                    {% include 'section-bg-image-text-block' %}
+                {% elsif block.type == "2021-trustpilot-banner" %}
+                    {% include 'section-2021-trustpilot-banner' %}
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+    {% render 'section-misc-collection-product' %}
+
+</div>
+
+{% schema %}
+    {
+        "name": "Machine Product Page",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Content Area"
+            },
+            {
+                "type": "image_picker",
+                "id": "background_image",
+                "label": "Background Image"
+            },
+            {
+                "type": "image_picker",
+                "id": "product_image",
+                "label": "Product Image Override"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "carousel-and-features",
+                "name": "Carousel and Features",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "default": "The Details.",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Features"
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": "First feature"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "feature_image_1",
+                        "label": "Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "feature_title_1",
+                        "default": "Feature title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "richtext",
+                        "id": "feature_text_1",
+                        "label": "Text",
+                        "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": "Second feature"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "feature_image_2",
+                        "label": "Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "feature_title_2",
+                        "default": "Feature title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "richtext",
+                        "id": "feature_text_2",
+                        "label": "Text",
+                        "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": "Third feature"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "feature_image_3",
+                        "label": "Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "feature_title_3",
+                        "default": "Feature title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "richtext",
+                        "id": "feature_text_3",
+                        "label": "Text",
+                        "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": "Fourth feature"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "feature_image_4",
+                        "label": "Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "feature_title_4",
+                        "default": "Feature title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "richtext",
+                        "id": "feature_text_4",
+                        "label": "Text",
+                        "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+                    }
+                ]
+            },
+            {
+                "type": "media-and-text",
+                "name": "Media and Text",
+                "settings": [
+                    {
+                        "type": "header",
+                        "content": "Text"
+                    },
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "default": "Add a title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "richtext",
+                        "id": "text",
+                        "label": "Text",
+                        "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Media"
+                    },
+                    {
+                        "type": "radio",
+                        "id": "media_type",
+                        "options": [
+                            { "value": "image", "label": "Image"},
+                            { "value": "video", "label": "Video"}
+                        ],
+                        "label": "Media type",
+                        "info": "Add an image or a video"
+                    },
+                    {
+                        "type": "radio",
+                        "id": "media_alignment",
+                        "options": [
+                            { "value": "left", "label": "Left"},
+                            { "value": "right", "label": "Right"}
+                        ],
+                        "label": "Media alignment",
+                        "info": "Align the media to the left or right of the text"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "video_mp4",
+                        "placeholder": "https://cdn.shopify.com/s/files/",
+                        "label": "MP4",
+                        "info": "Upload the MP4 to your store and enter the file URL above"
+                    }
+                ]
+            },
+            {
+                "type": "product-information",
+                "name": "Product Information",
+                "settings": [
+                    {
+                        "type": "header",
+                        "content": "Text"
+                    },
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "default": "Add a title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Columns"
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": "First column"
+                    },
+                    {
+                        "type": "text",
+                        "id": "column_title_1",
+                        "default": "Column title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "richtext",
+                        "id": "column_text_1",
+                        "label": "Text",
+                        "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": "Second column"
+                    },
+                    {
+                        "type": "text",
+                        "id": "column_title_2",
+                        "default": "Column title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "richtext",
+                        "id": "column_text_2",
+                        "label": "Text",
+                        "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": "Third column"
+                    },
+                    {
+                        "type": "text",
+                        "id": "column_title_3",
+                        "default": "Column title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "richtext",
+                        "id": "column_text_3",
+                        "label": "Text",
+                        "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Background image"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "background_image",
+                        "label": "Image"
+                    }
+                ]
+            },
+            {
+                "type": "bg-image-text-block",
+                "name": "Backgrounded Text Block",
+                "settings": [
+                    {
+                        "type": "header",
+                        "content": "Background image"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "backgroundImage",
+                        "label": "Background Image",
+                        "info": "Will be aspect-filled to fit the block. If it's a big image, optimise using tinypng."
+                    },
+                    {
+                        "type": "header",
+                        "content": "Text"
+                    },
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "default": "Block Title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "richtext",
+                        "id": "body",
+                        "label": "Block Body",
+                        "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+                    }
+                ]
+            },
+            {
+                "type": "2021-trustpilot-banner",
+                "name": "2021 Trustpilot Banner",
+                "settings": []
+            }
+        ]
+    }
+{% endschema %}

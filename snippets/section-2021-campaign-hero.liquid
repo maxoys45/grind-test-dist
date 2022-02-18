@@ -1,0 +1,54 @@
+<section class="d-flex flex-column justify-content-center align-items-center campaign-cta" style="background-color: {{ section.settings.background_color }};">
+    <div class="py-5 container">
+        <div class="row">
+            <div class="col-12 col-lg-5 col-md-7">
+                <h1 class="gkit-bold">{{ section.settings.title }}</h1>
+                <p class="gkit-p-20 mt-3">{{ section.settings.content_body }}</p>
+                <div class="center-small">
+                    <a class="gkit-btn-lg gkit-btn-wide gkit-primary mt-4" href="{{ section.settings.link }}">{{ section.settings.button_text }}</a>
+                </div>
+                <div class="d-flex">
+                    <div class="mobile-image d-block d-md-none text-align-right">
+                        <img loading="lazy" class="float-right d-inline-block" style src="{{ section.settings.mobile_image | img_url: '1800x' }}">
+                    </div>
+                </div>
+                {% if section.settings.show_positives %}
+                <div class="container px-0 section-2020-positives horizontal-positive-points row">
+                    {% if settings.section.image_1 %}
+                    <div class="positive-point d-flex flex-row">
+                        <img loading="lazy" src="{{ section.settings.image_1 | img_url: "300x" }}" width="56" height="56"/>
+                        <div class="point-content mx-0">
+                            <h3 class="gkit-h3">{{ section.settings.title_1 }}</h3>
+                            <p class="gkit-p-15">{{ section.settings.subtitle_1 }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if settings.section.image_2 %}
+                    <div class="positive-point d-flex flex-row mt-4 small-margin-top-40">
+                        <img loading="lazy" src="{{ section.settings.image_2 | img_url: "300x" }}" width="56" height="56"/>
+                        <div class="point-content mx-0">
+                            <h3 class="gkit-h3">{{ section.settings.title_2 }}</h3>
+                            <p class="gkit-p-15">{{ section.settings.subtitle_2 }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if settings.section.image_3 %}
+                    <div class="positive-point d-flex flex-row mt-4 small-margin-top-40">
+                        <img loading="lazy" src="{{ section.settings.image_3 | img_url: "300x" }}" width="56" height="56"/>
+                        <div class="point-content mx-0">
+                            <h3 class="gkit-h3">{{ section.settings.title_3 }}</h3>
+                            <p class="gkit-p-15">{{ section.settings.subtitle_3 }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-12 col-lg-7 col-md-5">
+                <div class="img-container">
+                    <img loading="lazy" class="img d-none d-md-block" src="{{ section.settings.image | img_url: '1200x' }}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

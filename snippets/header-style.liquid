@@ -1,0 +1,20 @@
+{% assign templateSuffix = page.template_suffix %}
+{% assign templateStart = templateSuffix | truncate: 12, "" %}
+{% assign templateSustainabilityStart = templateSuffix | truncate: 14, "" %}
+{% if template.name == "index" or templateSuffix == "locations" or templateSuffix == "clerkenwell-grind" or templateSuffix == "shoreditch-grind" or templateSuffix == "soho-grind" or templateSuffix == "royal-exchange-grind" or templateSuffix == "whitechapel-grind" %}
+    {% assign bodyClasses = "transparent-header" %}
+
+{% elsif templateSuffix == "campaignMarch2021"%}
+    {% assign bodyClasses = "transparent-header doing-good" %}
+
+{% elsif template.name == "shortcode-how-to" or templateSuffix == "how-to-grind-one" or templateStart == "how-to-guide" %}
+    {% assign bodyClasses = "transparent-header doing-good" %}
+
+{% elsif templateSuffix == "birthday"%}
+    {% assign bodyClasses = "solid-header birthday-page" %}
+{% elsif templateSustainabilityStart == 'sustainability' %}
+    {% assign bodyClasses = "parallax-page" %}
+{% else %}
+    {% assign bodyClasses = "solid-header" %}
+
+{% endif %}

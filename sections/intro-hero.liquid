@@ -1,0 +1,118 @@
+{% for block in section.blocks %}
+    {% case block.type %}
+
+    {% when 'simple-hero' %}
+        {% render 'masthead-home-simple', options: block.settings %}
+
+    {% when 'gradient-hero' %}
+        {% render 'masthead-home-gradient', options: block.settings %}
+
+  {% endcase %}
+{% endfor %}
+
+
+{% schema %}
+  {
+    "name": "Intro hero",
+    "max_blocks": 1,
+	"blocks": [
+		{
+            "type": "simple-hero",
+            "name": "Simple hero",
+            "settings": [
+        {
+            "type": "image_picker",
+            "id": "background_image",
+            "label": "Background Image"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Great coffee,<br>at Home."
+        },
+        {
+            "type": "image_picker",
+            "id": "primary_image",
+            "label": "Hero Image"
+        },
+        {
+            "type": "url",
+            "id": "link",
+            "label": "Button Link"
+        },
+        {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button Text",
+            "default": "Get yours"
+        },
+        {
+            "type": "color",
+            "id": "button_color",
+            "label": "Button Colour",
+            "default": "#2D2926"
+        }
+        ]
+        },
+        {
+            "type": "gradient-hero",
+            "name": "Gradient hero",
+            "settings": [
+        {
+            "type": "color",
+            "id": "gradient_color_1",
+            "label": "Gradient Colour 1",
+            "default": "#FED4CE"
+        },
+        {
+            "type": "color",
+            "id": "gradient_color_2",
+            "label": "Gradient Colour 2",
+            "default": "#FFF1F4"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Great coffee, at Home."
+        },
+        {
+            "type": "text",
+            "id": "sub_title",
+            "label": "Sub-title",
+            "default": "Enjoy Grind coffee at home with compostable pods for your original capsule Nespresso® machine and ground or whole bean coffee."
+        },
+
+        {
+            "type": "url",
+            "id": "link",
+            "label": "Button Link"
+        },
+        {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button Text",
+            "default": "Get yours"
+        },
+        {
+            "type": "color",
+            "id": "button_color",
+            "label": "Button Colour",
+            "default": "#2D2926"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_left",
+            "label": "Left Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_right",
+            "label": "Right Image"
+        }
+        ]
+        }
+	]
+  }
+{% endschema %}

@@ -1,0 +1,49 @@
+<div class="my-4 my-sm-5 container" id="cafe-bars">
+    <div class="row">
+
+        {% if section.settings.cafeBarUrl1 %}
+            <div class="col-12 col-sm-6 wow fadeInUp">
+                {% include 'excerpt-cafe-bar',
+                    address: section.settings.cafeBarAddress1,
+                    thumbnail: section.settings.cafeBarThumbnail1,
+                    title: section.settings.cafeBarTitle1,
+                    url: section.settings.cafeBarUrl1
+                %}
+            </div>
+        {% endif %}
+
+        {% if section.settings.cafeBarUrl2 %}
+            <div class="col-12 col-sm-6 wow fadeInUp" data-wow-delay=".1s">
+                {% include 'excerpt-cafe-bar',
+                    address: section.settings.cafeBarAddress2,
+                    thumbnail: section.settings.cafeBarThumbnail2,
+                    title: section.settings.cafeBarTitle2,
+                    url: section.settings.cafeBarUrl2
+                %}
+            </div>
+        {% endif %}
+
+        {% if section.settings.cafeBarUrl3 %}
+            <div class="col-12 col-sm-6 wow fadeInUp" data-wow-delay=".2s">
+                {% include 'excerpt-cafe-bar',
+                    address: section.settings.cafeBarAddress3,
+                    thumbnail: section.settings.cafeBarThumbnail3,
+                    title: section.settings.cafeBarTitle3,
+                    url: section.settings.cafeBarUrl3
+                %}
+            </div>
+        {% endif %}
+
+        {% if section.settings.cafeBarUrl4 %}
+            <div class="col-12 col-sm-6 wow fadeInUp" data-wow-delay=".3s">
+                {% include 'excerpt-cafe-bar',
+                    address: section.settings.cafeBarAddress4,
+                    thumbnail: section.settings.cafeBarThumbnail4,
+                    title: section.settings.cafeBarTitle4,
+                    url: section.settings.cafeBarUrl4
+                %}
+            </div>
+        {% endif %}
+
+    </div>
+</div>

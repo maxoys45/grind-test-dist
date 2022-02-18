@@ -1,0 +1,84 @@
+{% include 'section-banner-image-cta' %}
+
+{% schema %}
+{
+  "name": "50/50 Image CTA",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Header"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Summary"
+    },
+    {
+      "type": "text",
+      "id": "btnText",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "btnLink",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Icons & Text"
+    },
+    {
+      "type": "range",
+      "id": "iconWidth",
+      "min": 16,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon Width",
+      "default": 24
+    },
+    {
+      "type": "image_picker",
+      "id": "iconOneImage",
+      "label": "Icon One Image"
+    },
+    {
+      "type": "text",
+      "id": "iconOneText",
+      "label": "Icon One Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "iconTwoImage",
+      "label": "Icon Two Image"
+    },
+    {
+      "type": "text",
+      "id": "iconTwoText",
+      "label": "Icon Two Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "iconThreeImage",
+      "label": "Icon Three Image"
+    },
+    {
+      "type": "text",
+      "id": "iconThreeText",
+      "label": "Icon Three Text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "50/50 Image CTA",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,20 @@
+<div class="my-4 my-sm-5 container">
+
+        <div class="row">
+
+            {% for article in blogs.features.articles limit: 6 %}
+                    <div class="mb-5 col-12 col-md-6 wow fadeInUp" data-wow-delay="0.{{ forloop.index }}s">
+                        {% include 'excerpt-feature',
+                            excerpt: article.excerpt,
+                            thumbnail: article.image,
+                            title: article.title,
+                            url: article.url
+                        %}
+                    </div>
+            {% endfor %}
+
+        </div>
+
+</div>
+
+

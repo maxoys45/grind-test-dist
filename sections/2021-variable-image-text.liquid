@@ -1,0 +1,238 @@
+{% include '2021-section-variable-image-text' %}
+
+{% schema %}
+{
+  "name": "Variable Image & Text",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse",
+      "label": "Reverse Order Of Image & Text",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Full-width Block",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "doubleRowGutter",
+      "label": "Increase Image & Text Gap",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "imageWidth",
+      "label": "Image Width",
+      "options": [
+        {
+          "value": "6",
+          "label": "Half"
+        },
+        {
+          "value": "4",
+          "label": "One Third"
+        },
+        {
+          "value": "3",
+          "label": "Quarter"
+        }
+      ],
+      "default": "6"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "verticalAlignment",
+      "label": "Content Vertical Alignment",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select", 
+      "id": "titleType",
+      "label": "Title Type",
+      "options": [
+        {
+          "value": "h0",
+          "label": "Heading 0"
+        },
+        {
+          "value": "h1",
+          "label": "Heading 1"
+        },
+        {
+          "value": "h2",
+          "label": "Heading 2"
+        },
+        {
+          "value": "h3",
+          "label": "Heading 3"
+        }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "titlePosition",
+      "label": "Title Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select", 
+      "id": "textSize",
+      "label": "Text Size",
+      "options": [
+        {
+          "value": "20",
+          "label": "Size 20"
+        },
+        {
+          "value": "17",
+          "label": "Size 17"
+        },
+        {
+          "value": "15",
+          "label": "Size 15"
+        },
+        {
+          "value": "13",
+          "label": "Size 13"
+        },
+        {
+          "value": "11",
+          "label": "Size 11"
+        }
+      ],
+      "default": "17"
+    },
+    {
+      "type": "select", 
+      "id": "textColor",
+      "label": "Text Color",
+      "options": [
+        {
+          "value": "charcoal",
+          "label": "Charcoal"
+        },
+        {
+          "value": "gkit-light",
+          "label": "Gray"
+        }
+      ],
+      "default": "charcoal"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "textPosition",
+      "label": "Text Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "btnText",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "btnLink",
+      "label": "Button Link"
+    },
+    {
+      "type": "select",
+      "id": "btnPosition",
+      "label": "Button Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Variable Image & Text",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}

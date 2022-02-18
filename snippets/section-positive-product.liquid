@@ -1,0 +1,58 @@
+{% assign backgroundColor = section.settings.backgroundColor %} {% assign
+iconSize = section.settings.iconSize %} {% assign title = section.settings.title
+%} {% assign imageP1 = section.settings.imageP1 %} {% assign imageP2 =
+section.settings.imageP2 %} {% assign imageP3 = section.settings.imageP3 %} {%
+assign headerP1 = section.settings.headerP1 %} {% assign headerP2 =
+section.settings.headerP2 %} {% assign headerP3 = section.settings.headerP3 %}
+{% assign subheaderP1 = section.settings.subheaderP1 %} {% assign subheaderP2 =
+section.settings.subheaderP2 %} {% assign subheaderP3 =
+section.settings.subheaderP3 %} {% if context %} {% assign mdClass =
+'shopify-section-nested md-show ' | append: context %} {% assign mdSection =
+'shopify-section-nested md-show' %} {% else %} {% assign mdClass = 'md-none' %}
+{% assign mdSection = 'shopify-section' %} {% endif %} {% unless title == blank
+and imageP1 == blank and headerP1 == blank and subheaderP1 == blank %}
+<div
+  id="shopify-section-section-positives-product"
+  class="{{ mdSection }} {{ mdClass }}"
+>
+  <section
+    class="container-fluid"
+    style="background-color: {{ backgroundColor }}"
+  >
+    <div class="container section-2020-positives d-flex">
+      <h2 class="gkit-h2">{{ title }}</h2>
+    </div>
+    <div class="container section-2020-positives d-flex">
+      <div class="positive-point d-flex">
+        <img loading="lazy" src="{{ imageP1 | img_url: "200x" }}" width="{{
+          iconSize
+        }}" height="{{ iconSize }}" style="width: {{ iconSize }}px" />
+        <div class="point-content">
+          <h3 class="gkit-p-17 gkit-bold">{{ headerP1 }}</h3>
+          <p class="gkit-p-13 gkit-regular subtitle">{{ subheaderP1 }}</p>
+        </div>
+      </div>
+
+      <div class="positive-point d-flex">
+        <img loading="lazy" src="{{ imageP2 | img_url: "200x" }}" width="{{
+          iconSize
+        }}" height="{{ iconSize }}" style="width: {{ iconSize }}px" />
+        <div class="point-content">
+          <h3 class="gkit-p-17 gkit-bold">{{ headerP2 }}</h3>
+          <p class="gkit-p-13 gkit-regular subtitle">{{ subheaderP2 }}</p>
+        </div>
+      </div>
+
+      <div class="positive-point d-flex">
+        <img loading="lazy" src="{{ imageP3 | img_url: "200x" }}" width="{{
+          iconSize
+        }}" height="{{ iconSize }}" style="width: {{ iconSize }}px" />
+        <div class="point-content">
+          <h3 class="gkit-p-17 gkit-bold">{{ headerP3 }}</h3>
+          <p class="gkit-p-13 gkit-regular subtitle">{{ subheaderP3 }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endunless %}

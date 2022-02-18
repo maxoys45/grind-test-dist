@@ -1,0 +1,115 @@
+{%- liquid
+  assign gradient = section.settings.gradient
+  assign backgroundColor = section.settings.backgroundColor | color_to_rgb
+  assign heading = section.settings.heading
+  assign description = section.settings.description
+  assign leftHand = section.settings.leftHand
+  assign rightHand = section.settings.rightHand
+  assign polaroids = section.blocks
+
+  case gradient
+    when 'no'
+      assign backgroundStyle = backgroundColor
+    when 'top-to-bottom'
+      assign backgroundStyle = "linear-gradient(180deg, " | append: backgroundColor | append: "60%, rgba(255,255,255,1) 85%);"
+    when 'bottom-to-top'
+      assign backgroundStyle = "linear-gradient(180deg, rgba(255,255,255,1) 65%, " | append: backgroundColor | append: " 100%);"
+  endcase
+-%}
+
+<section class="about-us_hero-container container-fluid position-relative">
+  <div class="position-absolute h-100 w-100" style="background: {{ backgroundStyle }}; z-index: -1; top: 0; bottom: 0;"></div>
+  <div class="mx-auto about-us_hero-text-block text-center px-3 px-md-0">
+    <h1 class="gkit-h0 d-none d-md-block">{{ heading }}</h1>
+    <h1 class="gkit-h1 d-md-none">{{ heading }}</h1>
+    <div class="gkit-p-20 gkit-light mx-md-auto" style="max-width: 560px;">{{ description }}</div>
+  </div>
+  <div class="about-us_hand" id="about-us_left-hand">
+    <img src="{{ leftHand | img_url: '1200x' }}" alt="left hand" class="w-100 h-100" style="object-fit: contain;"/>
+  </div>
+  <div class="about-us_hand" id="about-us_right-hand">
+    <img src="{{ rightHand | img_url: '1200x' }}" alt="right hand" class="w-100 h-100" style="object-fit: contain;"/>
+  </div>
+  <div class="about-us_hero-line-container d-flex justify-content-center">
+    <div id="about-us_hero-line"></div>
+  </div>
+  <div class="about-us_polaroids position-relative justify-content-center">
+    {% for polaroid in polaroids %}
+      {% render '2021-polaroid-card' with polaroid: polaroid.settings, imageQuality: '300x', size: forloop.length %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Us Animated Hero",
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "polaroid_card",
+      "name": "Polaroid Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "title"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Grind is a coffee company that lives in London."
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Since opening in Shoreditch in 2011, Grind has grown across London with cafés and a state-of-the-art coffee roastery.</p>"
+      },
+      {
+        "type": "image_picker",
+        "id": "leftHand",
+        "label": "Left Hand"
+      },
+      {
+        "type": "image_picker",
+        "id": "rightHand",
+        "label": "Right Hand"
+      },
+      {
+        "type": "header",
+        "content": "Settings"
+      },
+      {
+        "type": "select",
+        "id": "gradient",
+        "label": "Gradient?",
+        "options": [
+            { "value": "no", "label": "No gradient" },
+            { "value": "top-to-bottom", "label": "Top to bottom" },
+            { "value": "bottom-to-top", "label": "Bottom-to-top" }
+        ],
+        "default": "no"
+      },
+      {
+        "type": "color",
+        "id": "backgroundColor",
+        "label": "Background Colour",
+        "default": "#fff"
+      }
+    ]
+  }
+{% endschema %}

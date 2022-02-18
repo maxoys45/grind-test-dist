@@ -1,0 +1,195 @@
+{% assign backgroundColor = section.settings.prosConsBackgroundColor %}
+
+<section {% if section.settings.hasBottomMargin %}class="mb-5"{% endif %}>
+    <div class="position-absolute w-100" style="background: {{backgroundColor}}; height: 65%"></div>
+    <div style="max-width: 1160px" class="container mt-4 mt-md-5 {% if section.settings.hasBottomMargin %}mb-4 mb-md-5{% endif %}">
+        <div class="row pods-comparison-header">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <h2 class="gkit-h1 mb-md-4 mb-3">{{ section.settings.titleText }}</h2>
+                {% if section.settings.bodyText %}
+                    <p class="gkit-p-17 gkit-light">{{section.settings.bodyText}}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="positive-reason-card">
+                    <h2 class="gkit-h1 positive-reason-title mb-3">
+                        {% if section.settings.prosTitle %}
+                            {{ section.settings.prosTitle }}
+                        {% else %}
+                            Grind Nespresso® Pods.
+                        {% endif %}
+                    </h2>
+                    {% assign blockType = "pros" %}
+                    {% assign blockImage = section.settings.prosImage %}
+                    {% include "pods-comparison-block" %}
+                    {% if section.settings.prosImage %}
+                        <img class="positive-reason-image" src="{{section.settings.prosImage | img_url: "550x550"}}" alt="{{section.settings.prosImage.alt}}"/>
+                    {% endif %}
+                    {% if section.settings.ctaButtonLink %}
+                        <a class="btn gkit-btn gkit-primary mt-lg-4 mt-3 position-relative" href="{{section.settings.ctaButtonLink}}">
+                        {% if section.settings.ctaButtonText %}{{section.settings.ctaButtonText}}{% else %}Upgrade your coffee at home{% endif %}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-5 offset-xl-1 d-flex justify-content-center">
+                <div class="negative-reason-card">
+                    <h2 class="gkit-h3">
+                        {% if section.settings.consTitle %}
+                            {{ section.settings.consTitle }}
+                        {% else %}
+                            Own-Brand Nespresso® Pods.
+                        {% endif %}
+                    </h2>
+                    {% assign blockType = "cons" %}
+                    {% include "pods-comparison-block" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+    "name": "2021 Pros & Cons",
+    "blocks": [
+        {
+            "type": "positive",
+            "name": "Icon Points",
+            "limit": 4,
+            "settings": [
+                {
+                    "id": "image",
+                    "type": "image_picker",
+                    "label": "Icon"
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "label": "Title Text"
+                },
+                {
+                    "id": "body",
+                    "type": "text",
+                    "label": "Body Text"
+                }
+            ]
+        },
+        {
+            "type": "pros",
+            "name": "Pros",
+            "settings": [
+                {
+                    "id": "title",
+                    "type": "text",
+                    "label": "Reason"
+                },
+                {
+                    "id": "subtitle",
+                    "type": "text",
+                    "label": "Explanation"
+                }
+            ]
+        },
+
+        {
+            "type": "cons",
+            "name": "Cons",
+            "settings": [
+                {
+                    "id": "title",
+                    "type": "text",
+                    "label": "Reason"
+                },
+                {
+                    "id": "subtitle",
+                    "type": "text",
+                    "label": "Explanation"
+                }
+            ]
+        }
+
+    ],
+    "settings": [
+        {
+            "type": "textarea",
+            "id": "titleText",
+            "label": "Title Text",
+            "default": "Why Choose Grind Pods?"
+        },
+        {
+            "type": "textarea",
+            "id": "bodyText",
+            "label": "Body Text",
+            "default": "Environmentally friendly, organic and high-grade. Grind Pods are not only the superior choice to Nespresso, they’re cheaper and guaranteed compatible with any Nespresso Pod coffee machine."
+        },
+        {
+            "type": "range",
+            "id": "iconSize",
+            "label": "Icon Size",
+            "min": 16,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "default": 40
+        },
+        {
+            "type": "color",
+            "id": "prosConsBackgroundColor",
+            "label": "Background Colour",
+            "default": "#FEF8F4"
+        },
+        {
+            "id": "prosImage",
+            "type": "image_picker",
+            "label": "Pros Image"
+        },
+        {
+            "id": "prosTitle",
+            "type": "text",
+            "label": "Pros Title"
+        },
+        {
+          "type": "url",
+          "id": "ctaButtonLink",
+          "label":"CTA URL"
+        },
+        {
+          "type": "text",
+          "id": "ctaButtonText",
+          "label":"CTA button text",
+          "default": "Upgrade your coffee at home"
+        },
+        {
+            "id": "consTitle",
+            "type": "text",
+            "label": "Cons Title"
+        },
+        {
+          "id": "hasBottomMargin",
+          "type": "checkbox",
+          "label": "Has Bottom Margin",
+          "default": true
+        }
+    ],
+    "presets": [
+        {
+            "name": "2021 Pros & Cons",
+            "category": "Content",
+            "blocks": [
+                {
+                    "type": "positive"
+                },
+                {
+                    "type": "pros"
+                },
+                {
+                    "type": "cons"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

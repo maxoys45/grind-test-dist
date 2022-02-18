@@ -1,0 +1,26 @@
+{% assign buttonText = section.settings.mastheadButtonText %}
+{% assign buttonUrl = section.settings.mastheadButtonUrl %}
+{% assign includeOverlay = section.settings.mastheadOverlay %}
+{% assign title = section.settings.mastheadTitle | default: page.title %}
+{% assign subTitle = section.settings.mastheadSubTitle %}
+
+{% if includeOverlay %}
+    {% assign overlayClasses = "masthead-content masthead-content-bg" %}
+{% else %}
+    {% assign overlayClasses = "masthead-content" %}
+{% endif %}
+
+<div class="position-relative">
+    <div class="mb-4 mb-md-5 masthead masthead-product" style="background-image: url({{ section.settings.mastheadBackground | img_url: '1800x' }});">
+        <div class="d-md-flex h-100 {{ overlayClasses }}"></div>
+    </div>
+    <div class="mb-5 text-left container masthead-product-content">
+        <h1 class="mb-3 small font-weight-bold text-body text-uppercase title">{{ title }}</h1>
+        <p class="mb-0 h6 font-weight-light text-body sub-title">{{ subTitle }}</p>
+        {% if buttonText != "" and buttonUrl != "" %}
+            <a href="{{ buttonUrl }}" class="mt-3 btn btn-arrow-right btn-bottom-border">
+                <span class="btn-inner">{{ buttonText }}</span>
+            </a>
+        {% endif %}
+    </div>
+</div>

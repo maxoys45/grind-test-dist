@@ -1,0 +1,58 @@
+{% include 'birthday-form-hero', options: section.settings %}
+
+{% schema %}
+{
+  "name": "When’s your birthday?",
+  "settings": [
+    {
+        "type": "text",
+        "id": "page_title",
+        "default": "When’s your birthday ?",
+        "label": "Page title"
+    },
+    {
+        "type": "richtext",
+        "id": "introduction",
+        "label": "Introduction",
+        "default": "<p>Let us know when your birthday is and we will send you something cute.</p>"
+    },
+    {
+        "type": "header",
+        "content": "Image"
+    },
+    {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+    },
+    {
+        "type": "header",
+        "content": "Form"
+    },
+    {
+        "type": "text",
+        "id": "form_input_label",
+        "default": "Enter your D.O.B ",
+        "label": "Label"
+    },
+    {
+        "type": "text",
+        "id": "marketing_text",
+        "default": "I would like to receive news & promotions from Grind.",
+        "label": "Marketing text"
+    },
+    {
+        "type": "text",
+        "id": "form_button_text",
+        "default": "Submit",
+        "label": "Button text"
+    },
+    {
+        "type": "richtext",
+        "id": "small_print",
+        "label": "Small print",
+        "default": "<p>By submitting your entry you agree to the <a href=\"https://example.com/\">Terms and Conditions</a> and <a href=\"https://example.com/\">Privacy Policy</a></p>"
+    }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,235 @@
+{% if section.blocks.size > 0 %}
+
+  <div class="three-products">
+    <div class="container px-0 px-md-3">
+
+      {% if section.settings.title != "" or section.settings.subtitle != "" %}
+        <div class="text-center mx-auto mb-5 px-3" style="max-width: {{section.settings.maxWidth}}px">
+          {% if section.settings.title != "" %}
+            <h2 class="gkit-h1">{{section.settings.title}}</h2>
+          {% endif %}
+          {% if section.settings.subtitle != "" %}
+            <p class="gkit-p-17 gkit-light">{{section.settings.subtitle}}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <!-- Mobile view of products -->
+      <div class="d-md-none" id="productCarousel">
+        {% for block in section.blocks %}
+
+          {% if block.type == 'product' %}
+
+            {% liquid
+              assign image = block.settings.image
+              assign title = block.settings.title
+              assign subtitle = block.settings.subtitle
+              assign button_url = block.settings.button_url
+              assign button_text = block.settings.button_text
+            %}
+
+            <div class="mb-5 mb-md-0 text-center">
+              <a href="{{ button_url | escape }}" aria-label="{{ title | escape }}">
+
+                {% if image != blank %}
+                  <figure class="three-products__figure px-3">
+                    {% render 'image',
+                      image: image,
+                      size: '440x',
+                      size_sm: '440x',
+                      size_md: '440x',
+                      size_lg: '440x',
+                      size_xl: '440x',
+                      size_xxl: '440x',
+                      class: 'img-fluid w-100' %}
+                  </figure>
+                {% endif %}
+
+                <div class="px-4">
+                  {% if title != blank %}
+                    <h2 class="h3 gkit-h3">{{ title | escape }}</h2>
+                  {% endif %}
+  
+                  {% if subtitle != blank %}
+                    <p class="three-products__subtitle gkit-p-17 gkit-light mb-4">{{ subtitle | escape }}</p>
+                  {% endif %}
+  
+                  {% if button_text != blank %}
+                    <span class="three-products__cta gkit-btn-sm gkit-tertiary">{{ button_text | escape }}</span>
+                  {% endif %}
+                </div>
+
+              </a>
+            </div>
+
+          {% endif %}
+
+        {% endfor %}
+      </div>
+      <!-- Desktop view of products -->
+      <div class="d-none d-md-flex row">
+
+        {% for block in section.blocks %}
+
+          {% if block.type == 'product' %}
+
+            {% liquid
+              assign image = block.settings.image
+              assign title = block.settings.title
+              assign subtitle = block.settings.subtitle
+              assign button_url = block.settings.button_url
+              assign button_text = block.settings.button_text
+            %}
+
+            <div class="col-12 col-md-4 d-flex">
+              <div class="mb-5 mb-md-0 text-center align-self-stretch d-flex">
+                <a class="d-flex flex-column" href="{{ button_url | escape }}" aria-label="{{ title | escape }}">
+
+                  {% if image != blank %}
+                    <figure class="three-products__figure">
+                      {% render 'image',
+                        image: image,
+                        size: '440x',
+                        size_sm: '440x',
+                        size_md: '440x',
+                        size_lg: '440x',
+                        size_xl: '440x',
+                        size_xxl: '440x',
+                        class: 'img-fluid w-100' %}
+                    </figure>
+                  {% endif %}
+
+                  {% if title != blank %}
+                    <h2 class="h3 gkit-h3">{{ title | escape }}</h2>
+                  {% endif %}
+
+                  <div class="d-flex justify-content-between align-items-center flex-column flex-grow-1">
+                    {% if subtitle != blank %}
+                      <p class="three-products__subtitle gkit-p-17 gkit-light mb-4">{{ subtitle | escape }}</p>
+                    {% endif %}
+    
+                    {% if button_text != blank %}
+                      <span class="three-products__cta gkit-btn-sm gkit-tertiary">{{ button_text | escape }}</span>
+                    {% endif %}
+                  </div>
+
+                </a>
+              </div>
+            </div>
+
+          {% endif %}
+
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+
+{% schema %}
+
+{
+  "name": "Three Products",
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "limit": 3,
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "Image"
+        }, {
+          "id": "title",
+          "type": "text",
+          "label": "Title"
+        }, {
+          "id": "subtitle",
+          "type": "text",
+          "label": "Subtitle"
+        }, {
+          "id": "button_url",
+          "type": "url",
+          "label": "Button url"
+        }, {
+          "id": "button_text",
+          "type": "text",
+          "label": "Button text"
+        }
+      ]
+    }
+  ],
+  "settings": [
+        {
+            "id": "title",
+            "type": "text",
+            "label": "Title"
+        },
+        {
+            "type": "textarea",
+            "id": "subtitle",
+            "label": "Subtitle"
+        },
+        {
+            "type": "range",
+            "id": "maxWidth",
+            "label": "Text Max Width",
+            "min": 600,
+            "max": 1350,
+            "step": 10,
+            "unit": "px",
+            "default": 800
+        }
+    ],
+  "presets": [
+    {
+      "name": "Three Products",
+      "category": "Content"
+    }
+  ]
+}
+
+{% endschema %}
+
+<style>
+  #productCarousel .slick-list {
+    overflow: visible;
+  }
+  #productCarousel .slick-list.draggable {
+    padding: 25px;
+  }
+</style>
+
+<script>
+  $(document).ready(function(){
+    $("#productCarousel")
+      .slick({
+        arrows: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 1,
+        variableWidth: false,
+        centerMode: true,
+        pauseOnHover: true,
+        centerPadding: 20,
+        responsive: [
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              dots: false
+            },
+          },
+        ],
+      })
+      .on("setPosition", function (event, slick) {
+        $(slick.$slides)
+          .height("auto")
+          .css("height", $(slick.$slideTrack).height() + "px");
+      });
+  });
+
+</script>

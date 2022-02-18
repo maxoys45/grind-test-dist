@@ -1,0 +1,38 @@
+{% if article != blank %}
+
+    {% liquid
+        assign image = article.image
+        assign image_size = '800x545'
+        assign image_crop = 'center'
+    %}
+
+    <article class="article-feature">
+        <a class="article-feature__link"
+           href="{{ article.url }}"
+           aria-label="{{ 'blogs.article.read_more' | t }}">
+
+            {% if image != blank %}
+                <div class="article-feature__image" style="background-image: url({{ image | img_url: image_size, crop: image_crop, scale: 2 }});"></div>
+                <!--
+                <figure class="article-feature__figure">
+                    <img loading="lazy" alt="{{ image.alt }}"
+                         class="img-fluid w-100"
+                         srcset="{{ image | img_url: image_size, crop: image_crop }} 1x, {{ image | img_url: image_size, crop: image_crop, scale: 2 }} 2x"
+                         src="{{ image | img_url: image_size, crop: image_crop }}">
+                </figure>
+                -->
+            {% endif %}
+
+            <div class="article-feature__text">
+                <h2 class="article-feature__title">{{ article.title }}</h2>
+
+                {% if article.excerpt != blank %}
+                    <p class="article-feature__excerpt">{{ article.excerpt | strip_html | truncate: 150 }}</p>
+                {% endif %}
+
+                <span class="article-feature__cta">{{ 'blogs.article.read_more' | t }}</span>
+            </div>
+        </a>
+    </article>
+
+{% endif %}

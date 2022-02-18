@@ -1,0 +1,151 @@
+{% assign image1 = section.settings.image1 %}
+{% assign image2 = section.settings.image2 %}
+{% assign image3 = section.settings.image3 %}
+{% assign image4 = section.settings.image4 %}
+{% assign image5 = section.settings.image5 %}
+
+{% assign header1 = section.settings.header1 %}
+{% assign header2 = section.settings.header2 %}
+{% assign header3 = section.settings.header3 %}
+{% assign header4 = section.settings.header4 %}
+{% assign header5 = section.settings.header5 %}
+
+{% assign subheader1 = section.settings.subheader1 %}
+{% assign subheader2 = section.settings.subheader2 %}
+{% assign subheader3 = section.settings.subheader3 %}
+{% assign subheader4 = section.settings.subheader4 %}
+{% assign subheader5 = section.settings.subheader5 %}
+
+{% assign blendsTitle = section.settings.blendsTitle %}
+
+{% assign collection = collections['product-gallery'] %}
+
+{% unless removeLimit %}
+    {% assign limit = 7 %}
+{% else %}
+    {% assign limit = 999 %}
+{% endunless %}
+
+{% assign currentProduct = product.images | splice %}
+
+<div id="shopify-section-section-image-slider" class="shopify-section">
+	<section class="container">
+  <div class="content-container row md-rr">
+      <div class="col-12 col-lg-6 md-rr-1 order-2 order-lg-1">
+        <div class="splide" id="primary-slider">
+            <div class="splide__track">
+                <ul class="splide__list">
+                  {% if product.images.size > 1 %}
+                  	{% for image in product.images offset:1 %}
+                      <li class="splide__slide"><img loading="lazy" src="{{ image | img_url: '1180x1062', crop: 'center' }}" alt="{{ image.alt }}"/></li>
+                    {% endfor %}
+                  {%else %}
+                    {% for product in collection.products limit: limit %}
+                      {% if forloop.first %}
+                          {% assign animationTime = 0.75 %}
+                      {% else %}
+                          {% assign animationTime = animationTime | plus: 0.10 %}
+                      {% endif %}
+
+                      <li class="splide__slide"><img loading="lazy" class="generic" src="{{ product.images[0] | img_url: '1180x1062', crop: 'center' }}" alt="{{ product.title }}"/></li>
+                    {% endfor %}
+                  {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="splide" id="secondary-slider">
+            <div class="splide__track">
+                <ul class="splide__list">
+                  {% if product.images.size > 1 %}
+                  	{% for image in product.images offset:1 %}
+                      <li class="splide__slide"><img loading="lazy" src="{{ image | img_url: '180x180', crop: 'center' }}" alt="{{ image.alt }}"/></li>
+                    {% endfor %}
+                  {%else %}
+                    {% for product in collection.products limit: limit %}
+
+                      {% if forloop.first %}
+                          {% assign animationTime = 0.75 %}
+                      {% else %}
+                          {% assign animationTime = animationTime | plus: 0.10 %}
+                      {% endif %}
+
+                      <li class="splide__slide"><img loading="lazy" src="{{ product.images[0] | img_url: '180x180', crop: 'center' }}" alt="{{ product.title }}"/></li>
+                    {% endfor %}
+                  {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% include "section-positive-product" context: "md-show" %}
+
+<!--     %%insert-positive-section%% -->
+    {% unless image1 == blank %}
+    <div class="col-12 col-lg-6 order-1 order-lg-2">
+      <div class="content-container row content-padding">
+      	<h2 class="gkit-h2">{{ blendsTitle }}</h2>
+        <div class="col-sm-12 col-md-12 col-xs-12 content-padding-container">
+
+              <div class="thumbnail">
+                <div class="col-sm-1 col-md-1 col-xs-1 image-container">
+                  <img loading="lazy" src="{{ image1 | img_url: 'full', crop: 'center' }}" />
+                </div>
+
+                <div class="col-sm-9 col-md-8 col-xs-11 px-xs-0">
+
+                  <h3 class="gkit-p-17 gkit-bold">{{ header1 }}</h3>
+                   <p class="gkit-p-13 gkit-regular">{{ subheader1 }}</p>
+                </div>
+              </div>
+
+        </div>
+        <div class="col-sm-12 col-md-12 col-xs-12 content-padding-container">
+
+              <div class="thumbnail">
+                <div class="col-sm-1 col-md-1 col-xs-1 image-container">
+                  <img loading="lazy" src="{{ image2 | img_url: 'full', crop: 'center' }}" />
+                </div>
+
+                <div class="col-sm-9 col-md-8 col-xs-11 px-xs-0">
+
+                  <h3 class="gkit-p-17 gkit-bold">{{ header2 }}</h3>
+                   <p class="gkit-p-13 gkit-regular">{{ subheader2 }}</p>
+                </div>
+              </div>
+
+        </div>
+        <div class="col-sm-12 col-md-12 col-xs-12 content-padding-container">
+
+              <div class="thumbnail">
+                <div class="col-sm-1 col-md-1 col-xs-1 image-container">
+                  <img loading="lazy" src="{{ image3 | img_url: 'full', crop: 'center' }}" />
+                </div>
+
+                <div class="col-sm-9 col-md-8 col-xs-11 px-xs-0">
+
+                  <h3 class="gkit-p-17 gkit-bold">{{ header3 }}</h3>
+                   <p class="gkit-p-13 gkit-regular">{{ subheader3 }}</p>
+                </div>
+              </div>
+
+        </div>
+        {% if image4 %}
+        <div class="col-sm-12 col-md-12 col-xs-12 content-padding-container">
+          <div class="thumbnail">
+            <div class="col-sm-1 col-md-1 col-xs-1 image-container">
+              <img loading="lazy" src="{{ image4 | img_url: 'full', crop: 'center' }}" />
+            </div>
+
+            <div class="col-sm-9 col-md-8 col-xs-11 px-xs-0">
+              <h3 class="gkit-p-17 gkit-bold">{{ header4 }}</h3>
+                <p class="gkit-p-13 gkit-regular">{{ subheader4 }}</p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endunless %}
+  </div>
+</section>
+</div>

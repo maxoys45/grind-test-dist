@@ -1,0 +1,104 @@
+{% include 'section-hero-2020-pods' %}
+
+{% schema %}
+{
+    "name": "Hero 2020 - Type One",
+    "settings": [
+        {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Colour",
+            "default": "#F1E4DE"
+        },
+        {
+            "type": "image_picker",
+            "id": "heroImage",
+            "label": "Hero Image"
+        },
+        {
+            "type": "text",
+            "id": "heroVideo",
+            "placeholder": "https://cdn.shopify.com/s/files/",
+            "label": "MP4 video URL",
+            "info": "Upload the asset mp4 to your store and enter the file URL above"
+        },
+        {
+            "type": "text",
+            "id": "contentTitle",
+            "label": "Content Title",
+            "default": "Put a Title On It"
+        },
+        {
+            "type": "textarea",
+            "id": "contentBodyOne",
+            "label": "First Content Column",
+            "default": "Integer ac metus check it out arcu interdum aliquizzle. Quisque posuere. Dawg ass mofo. Dizzle leo pede, check it out izzle, condimentum izzle, phat shiznit, check it out. Vestibulizzle feugiat. Ut vehicula ultricies fo shizzle my nizzle."
+        },
+        {
+            "type": "textarea",
+            "id": "contentBodyTwo",
+            "label": "Second Content Column",
+            "default": "Quisque shizznit, orci a suscipizzle vulputate, enim fo shizzle mah nizzle fo rizzle, mah home g-dizzle commodo tellizzle, izzle eleifend diam fizzle nizzle metus. Mofo my shizz sollicitudizzle shiznit."
+        },
+        {
+            "type": "text",
+            "id": "ctaText",
+            "label": "CTA Text",
+            "default": "Shop from £10.00"
+        },
+        {
+            "type": "url",
+            "id": "ctaLink",
+            "label": "CTA Link"
+        },
+        {
+            "type": "checkbox",
+            "id": "isReversed",
+            "label": "Reverse Layout",
+            "default": false,
+            "info": "Using Reverse Layout will put the image on the right and copy on the left."
+        },
+        {
+            "type": "checkbox",
+            "id": "isImageOffset",
+            "label": "Offset Image",
+            "default": false,
+            "info": "This determines if your image will peek outside of the container"
+        },
+        {
+            "type": "checkbox",
+            "id": "isDarkMode",
+            "label": "Dark Background Mode",
+            "info": "This will turn content light - suitable for dark background colours.",
+            "default": false
+        },
+        {
+          "type": "select",
+          "id": "internationalVisibility",
+          "label": "International Visibility",
+          "options": [
+            {
+              "value": "all",
+              "label": "All"
+            },
+            {
+              "value": "eu",
+              "label": "EU Only"
+            },
+            {
+              "value": "gb",
+              "label": "UK Only"
+            }
+          ],
+          "default": "all"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Hero 2020 - Type One",
+            "category": "Content"
+        }
+    ]
+}
+  
+{% endschema %}

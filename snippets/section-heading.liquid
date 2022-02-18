@@ -1,0 +1,19 @@
+{% if section.settings.headingReduceWidth %}
+    {% assign innerClasses = 'inner reduced' %}
+{% else %}
+    {% assign innerClasses = 'inner' %}
+{% endif %}
+
+{% if section.settings.headingReduceSpacing %}
+    {% assign headingClasses = 'mb-3' %}
+{% elsif reduceBottomSpacing == true %}
+    {% assign headingClasses = 'mt-5 mb-3' %}
+{% else %}
+    {% assign headingClasses = 'my-5' %}
+{% endif %}
+
+<div class="container content-block">
+    <div class="{{ innerClasses }}">
+        <h2 class="{{ headingClasses }} gkit-h2 text-{{ section.settings.headingAlign }}">{{ section.settings.headingText }}</h2>
+    </div>
+</div>

@@ -1,0 +1,150 @@
+{%- liquid
+  assign googlePlaceId = section.settings.placeId
+  assign latitude = section.settings.latitude
+  assign longitude = section.settings.longitude
+  assign centerMapLatitude = section.settings.centerMapLatitude
+  assign centerMapLongitude = section.settings.centerMapLongitude
+  assign streetAddress = section.settings.streetAddress
+  assign phoneNumber = section.settings.phoneNumber
+  assign email = section.settings.email
+  assign title = section.settings.title
+-%}
+
+<section class="container-fluid position-relative px-0">
+  <div class="google-map_container">
+    <div id="google-map_grind"></div>
+  </div>
+  <div class="google-map_card-container container wow fadeInUp" data-wow-delay=".5s">
+    <div class="row h-100 w-100 no-gutters">
+      <div class="col-12 col-md-6 offset-md-2 d-flex align-items-center">
+        <div class="google-map_card-description">
+          <h2 class="gkit-h2 mb-3">{{ title }}</h2>
+          <p class="gkit-p-17 gkit-bold mb-4">{{ streetAddress }}</p>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <p class="gkit-p-17 gkit-bold"><i class="fa fa-phone mr-3"></i>{{ phoneNumber }}</p>
+            </div>
+            {% if email and email != blank %}
+            <div class="col-12 col-md-6">
+              <a href="mailto:{{email}}" class="gkit-p-17 gkit-bold"><i class="fa fa-envelope mr-3"></i>{{ email }}</a>
+            </div>
+            {% endif %}
+          </div>
+          <a class="mt-3 btn gkit-btn-md gkit-secondary gkit-btn-wide" href="https://www.google.com/maps/dir/?api=1&destination={{ streetAddress | url_encode }}&destination_place_id={{ googlePlaceId }}" target="_blank">
+            Get Directions
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+
+{
+  "name": "Google Map Container",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Google Map Settings"
+    },
+    {
+      "type": "text",
+      "id": "placeId",
+      "label": "Google Place ID",
+      "default": "ChIJ606aJVcDdkgRDWPCFKfsuY0"
+    },
+    {
+      "type": "text",
+      "id": "latitude",
+      "label": "Latitude",
+      "default": "51.50664556963049"
+    },
+    {
+      "type": "text",
+      "id": "longitude",
+      "label": "Longitude",
+      "default": "-0.08854406453624172"
+    },
+    {
+      "type": "text",
+      "id": "centerMapLatitude",
+      "label": "Map Center Latitude",
+      "default": "51.506394"
+    },
+    {
+      "type": "text",
+      "id": "centerMapLongitude",
+      "label": "Map Center Longitude",
+      "default": "-0.090535"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Where To Find Us"
+    },
+    {
+      "type": "text",
+      "id": "streetAddress",
+      "label": "Street Address",
+      "default": "2 London Bridge. London, SE1 9RA"
+    },
+    {
+      "type": "text",
+      "id": "phoneNumber",
+      "label": "Phone Number",
+      "default": "+44 (0)20 3019 7178"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "london@grind.co.uk"
+    },
+    {
+      "type": "text",
+      "id": "buttonText",
+      "label": "Button Text",
+      "default": "Get Directions"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Google Map Container"
+    }
+  ]
+}
+
+{% endschema %}
+
+<script>
+  const API_KEY = "AIzaSyCQE0UCZyKdUUx10r4QwYT0CAmOp3cC2Mo";
+  var script = document.createElement("script");
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&callback=initMap`;
+  script.async = true;
+
+  const options = {
+    center: { lat: {{ centerMapLatitude }}, lng: {{ centerMapLongitude }}},
+    zoom: 16,
+    mapTypeControl: false,
+    streetViewControl: false
+  }
+
+  window.initMap = function () {
+    // JS API is loaded and available
+    map = new google.maps.Map(document.getElementById("google-map_grind"), options);
+
+    var marker = new google.maps.Marker({
+      map: map,
+      position: { lat: {{ latitude }}, lng: {{ longitude }} }
+    });
+  };
+
+  // Append the 'script' element to 'head'
+  document.head.appendChild(script);
+</script>

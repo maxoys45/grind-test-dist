@@ -1,0 +1,95 @@
+{% assign backgroundColor = section.settings.backgroundColor %}
+{% assign heroImage = section.settings.image %}
+{% assign title = section.settings.title %}
+{% assign body = section.settings.body %}
+
+<section class="container my-4 my-md-5">
+  <div class="row align-items-center">
+    <div class="col-md">
+      <img loading="lazy" alt="title" class="img-fluid" src="{{ heroImage | img_url: '1000x' }}" />
+    </div>
+    <div class="col-md mt-3 mt-md-0">
+      <h3 class="gkit-h0 d-none d-lg-block">{{title}}</p>
+      <h3 class="gkit-h1 d-block d-lg-none mt-0">{{title}}</h3>
+      <p class="gkit-p-20 gkit-light">{{body}}</p>
+      <div class="row">
+        {% for block in section.blocks %}
+        <div class="col-md-6 d-flex align-items-center mt-3">
+          <img loading="lazy" alt="{{ block.settings.iconTitle }}" src="{{ block.settings.icon | img_url: "200x" }}" width="{{ section.settings.iconSize }}" height="{{ section.settings.iconSize }}" style="width: {{ section.settings.iconSize }}px;" />
+          <div class="d-flex flex-column align-items-start ml-3">
+            <h3 class="gkit-bold gkit-p-17 m-0">{{ block.settings.iconTitle }}</h3>
+            <p class="gkit-p-15 gkit-light m-0">{{ block.settings.iconSubtitle }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+{
+    "name": "2021 4 Icon Block",
+        "blocks": [
+        {
+            "type": "icon",
+            "name": "Icon",
+            "limit": 4,
+            "settings": [
+                {
+                    "id": "icon",
+                    "type": "image_picker",
+                    "label": "Icon"
+                },
+                {
+                    "id": "iconTitle",
+                    "type": "text",
+                    "label": "Title"
+                },
+                {
+                    "id": "iconSubtitle",
+                    "type": "text",
+                    "label": "Subtitle"
+                }
+            ]
+        }],
+        
+    "settings": [
+        {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title",
+            "default": "Four Icon Layout"
+        },
+        {
+            "type": "textarea",
+            "id": "body",
+            "label": "Body",
+            "default": "These is a comparison of Grind coffee, but very rough content. There’s no wrong decision really. Just go with your heart."
+        },
+        {
+            "id": "image",
+            "type": "image_picker",
+            "label": "image",
+            "info": "This image should be landscape."
+        },
+        {
+          "type": "range",
+          "id": "iconSize",
+          "label": "Icon Size",
+          "min": 16,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 40
+        }
+    ],
+    "presets": [
+        {
+            "name": "2021 4 Icon Block",
+            "category": "Content"
+        }
+    ]
+}
+{% endschema %}

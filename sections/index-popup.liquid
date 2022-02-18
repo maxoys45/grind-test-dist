@@ -1,0 +1,88 @@
+{% if section.settings.popupCheck == true %}
+    <div class="align-items-center modal fade pop-up" id="crowdFundingPopup" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="bg-primary modal-content">
+
+                <div class="position-relative justify-content-center border-0 modal-header">
+                    <h1 class="mb-0 text-center">{{ section.settings.popupTitle }}</h1>
+                    <!--
+                    <img src="{{ 'logo-black.svg' | asset_url }}" alt="" class="logo">
+                    -->
+                    <button type="button" class="m-0 close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="px-4 modal-body">
+                    <div class="rich-text-block">{{ section.settings.popupText }}</div>
+                </div>
+                <div class="media-container" style="background-image:url('{{ section.settings.popupImage | img_url: '1800x' }}')">
+
+                    {% if section.settings.popupVideo %}
+                        <div class="video-container">
+                            <iframe loading="lazy" class="video" src="{{ section.settings.popupVideo }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    {% endif %}
+
+                </div>
+                <div class="d-block px-4 border-0 modal-footer">
+                    <div class="d-flex flex-column flex-md-row mr-0 justify-content-between align-items-center">
+                        {% if section.settings.popupBtnLink != blank and section.settings.popupBtnText != blank %}
+                            <a href="{{ section.settings.popupBtnLink }}" class="mr-0 mr-md-2 mb-3 mb-md-0 btn btn-outline-dark popup-btn">{{ section.settings.popupBtnText }}</a>
+                            <button type="button" class="ml-0 btn btn-outline-dark popup-btn" data-dismiss="modal">Continue to Grind.co.uk</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(window).on('load',function(){
+            $('#crowdFundingPopup').modal('show');
+        });
+    </script>
+{% endif %}
+
+{% schema %}
+    {
+    "name": "Homepage Pop-up",
+    "settings": [
+    {
+    "type": "checkbox",
+    "id": "popupCheck",
+    "label": "Enable Pop-up",
+    "default": false
+    },
+    {
+    "type": "text",
+    "id": "popupTitle",
+    "label": "Pop-up Title"
+    },
+    {
+    "type": "richtext",
+    "id": "popupText",
+    "label": "Pop-up Text"
+    },
+    {
+    "type": "image_picker",
+    "id": "popupImage",
+    "label": "Pop-up Image"
+    },
+    {
+    "type": "url",
+    "id": "popupVideo",
+    "label": "Pop-up Video (Optional)"
+    },
+    {
+    "type": "text",
+    "id": "popupBtnText",
+    "label": "Pop-up Button text"
+    },
+    {
+    "type": "url",
+    "id": "popupBtnLink",
+    "label": "Pop-up Button Link"
+    }
+    ]
+    }
+{% endschema %}

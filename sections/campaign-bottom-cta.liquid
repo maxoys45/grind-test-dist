@@ -1,0 +1,48 @@
+{% render 'campaign-bottom-cta', options: section.settings %}
+
+{% schema %}
+{
+  "name": "Campaign Bottom CTA",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Colour",
+      "default": "#FEF8F4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Good days start with great coffee."
+    },
+    {
+      "type": "textarea",
+      "id": "content_body",
+      "label": "Content Body",
+      "default": "What are you waiting for? Use code GETSTARTED at checkout and get your first 30 pods for £9.95"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "CTA Text",
+      "default": "Get My Pods"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "CTA Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Campaign Bottom CTA"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,16 @@
+
+<div class="d-flex mt-3">
+  <div class="d-flex">
+    {% case blockType %}
+      {% when "pros" %}
+      <img height="24" width="{{ block.settings.iconSize }}" loading="lazy" alt="{{ block.settings.title }}" src="{{ 'icon-tick.svg' | asset_url }}" />
+     {% when "cons" %}
+      <img height="24" width="{{ block.settings.iconSize }}" loading="lazy" alt="{{ block.settings.title }}" src="{{ 'icon-x.svg' | asset_url }}" />
+    {% endcase %}
+  </div>
+
+  <div class="d-flex flex-column">
+    <p class="ml-2 gkit-p-17 fw-bold font-weight-bold mb-0">{{ block.settings.title }}</p>
+    {% if block.settings.subtitle %}<p class="ml-2 gkit-p-17 gkit-light mb-0 mt-0">{{ block.settings.subtitle }}</p>{% endif %}
+  </div>
+</div>

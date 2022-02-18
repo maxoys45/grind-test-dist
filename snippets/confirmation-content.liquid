@@ -1,0 +1,23 @@
+<article class="grind-away-confirmation-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="grind-away-confirmation-content__message">
+
+                    {% if title != blank %}
+                        <h1 class="grind-away-confirmation-content__message-title gkit-h2">{{ title }}</h1>
+                    {% endif %}
+
+                    {% if text != blank %}
+                        <div class="grind-away-confirmation-content__message-text gkit-p-17">{{ text }}</div>
+                    {% endif %}
+
+                    <a class="btn btn-charcoal btn-block"
+                       href="{{ shop.url }}"
+                       aria-label="{{ btn_text | default: 'Back' }}">{{ btn_text | default: 'Back' }}</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

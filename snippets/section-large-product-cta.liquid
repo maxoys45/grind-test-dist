@@ -1,0 +1,64 @@
+{% assign i18nVisibility = section.settings.internationalVisibility %}
+<!-- i18nVisibility: {{ i18nVisibility }}, {{ localization.country.iso_code }} -->
+{% unless i18nVisibility == 'eu' and localization.country.iso_code == 'GB' %}
+{% unless i18nVisibility == 'gb' and localization.country.iso_code != 'GB' %}
+
+{% assign ctas = "ctaOne ctaTwo ctaThree" | split: " " %}
+{% assign cta = section.settings %}
+
+<section class="container container-lg-0">
+
+    {% if cta.ctaOneImage and cta.ctaTwoImage %}
+        <div id="js-large-cta-slider" class="my-4 my-md-5 row justify-content-center product-image-slider cta-slider">
+            {% for block in ctas %}
+                {% assign image = block | append: 'Image' %}
+                {% assign title = block | append: 'Title' %}
+                {% assign summary = block | append: 'Summary' %}
+                {% assign btnText = block | append: 'BtnText' %}
+                {% assign btnLink = block | append: 'BtnLink' %}
+                {% assign btnTextTwo = block | append: 'BtnTextTwo' %}
+                {% assign btnLinkTwo = block | append: 'BtnLinkTwo' %}
+
+                {% if forloop.first %}
+                    {% assign animationTimeOne = 0.75 %}
+                    {% assign animationTimeTwo = 1.25 %}
+                {% else %}
+                    {% assign animationTimeOne = animationTimeOne | plus: 0.5 %}
+                    {% assign animationTimeTwo = animationTimeTwo | plus: 0.5 %}
+                {% endif %}
+
+                {% if cta[image] and cta[btnLink] %}
+                    <div class="col col-md-4 slide">
+
+                        <div class="d-flex flex-column h-100 text-center">
+                            <a href="{{ cta[btnLink] }}" class="d-block wow fadeInUp" data-wow-duration="{{ animationTimeTwo }}s">
+                                <img loading="lazy" src="{{ cta[image] | img_url: '600x600', crop: 'center' }}" alt="" class="mb-3 w-100">
+
+                                {% if cta[summary] != blank %}
+                                <div class="mt-3 gkit-p-15">
+                                    {{ cta[summary] }}
+                                </div>
+                                {% endif %}
+                            </a>
+
+                            {% if cta[btnLink] != blank and cta[btnText] != blank %}
+                                <div class="d-flex align-self-center align-items-center mt-auto">
+                                    <a href="{{ cta[btnLink] }}" class="gkit-btn-sm gkit-tertiary">{{ cta[btnText] }}</a>
+
+                                    {% if cta[btnLinkTwo] != blank and cta[btnTextTwo] != blank %}
+                                        <a href="{{ cta[btnLinkTwo] }}" class="ml-3 gkit-btn-sm gkit-tertiary">{{ cta[btnTextTwo] }}</a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</section>
+{% endunless %}
+{% endunless %}

@@ -1,0 +1,318 @@
+{% liquid
+    assign social_heading = section.settings.social_heading
+    assign social_facebook = section.settings.social_facebook
+    assign social_instagram = section.settings.social_instagram
+    assign social_twitter = section.settings.social_twitter
+    assign social_spotify = section.settings.social_spotify
+
+    assign find_heading = section.settings.find_heading
+    assign find_address = section.settings.find_address
+
+    assign contact_heading = section.settings.contact_heading
+    assign contact_email = section.settings.contact_email
+
+    assign legal_heading = section.settings.legal_heading
+    assign legal_menu = section.settings.legal_menu
+
+    assign help_heading = section.settings.help_heading
+    assign help_text = section.settings.help_text
+
+    assign more_heading = section.settings.more_heading
+    assign more_menu = section.settings.more_menu
+
+    assign subscribe_heading = section.settings.subscribe_heading
+    assign subscribe_text = section.settings.subscribe_text
+
+    assign class_col = 'col-md-3 footer-col'
+    assign class_heading = 'gkit-h3'
+    assign class_list = 'footer-2020__list'
+    assign class_link = 'gkit-p-17'
+    assign class_richtext = 'footer-2020__richtext'
+%}
+
+<div class="footer-2020">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <img
+                    loading="lazy"
+                    class="logo"
+                    src="{{ 'logo-black.svg' | asset_url }}"
+                    alt="{{ shop.name }} logo"
+                />
+            </div>
+        </div>
+        <div class="row">
+
+            {% comment %}
+                Social links and "Find us"
+            {% endcomment %}
+            <div class="{{ class_col }}">
+
+                {% if social_heading != blank %}
+                    <h3 class="{{ class_heading }}">{{ social_heading }}</h3>
+                {% endif %}
+
+                {% if social_facebook != blank or social_instagram != blank or social_twitter != blank or social_spotify != blank %}
+                    <p class="social-links">
+
+                        {% if social_instagram != blank %}
+                            <a href="{{ social_instagram }}" rel="noreferrer noopener" target="_blank">
+                                <span class="sr-only">Instagram</span>
+                                <i class="h2 fab fa-instagram"></i>
+                            </a>
+                        {% endif %}
+
+                        {% if social_twitter != blank %}
+                            <a href="{{ social_twitter }}" rel="noreferrer noopener" target="_blank">
+                                <span class="sr-only">Twitter</span>
+                                <i class="h2 fab fa-twitter"></i>
+                            </a>
+                        {% endif %}
+
+                        {% if social_facebook != blank %}
+                            <a href="{{ social_facebook }}" rel="noreferrer noopener" target="_blank">
+                                <span class="sr-only">Facebook</span>
+                                <i class="h2 fab fa-facebook"></i>
+                            </a>
+                        {% endif %}
+
+                        {% if social_spotify != blank %}
+                            <a href="{{ social_spotify }}" rel="noreferrer noopener" target="_blank">
+                                <span class="sr-only">Spotify</span>
+                                <i class="h2 fab fa-spotify"></i>
+                            </a>
+                        {% endif %}
+
+                    </p>
+                {% endif %}
+
+                {% if find_heading != blank %}
+                    <h3 class="{{ class_heading }}">{{ find_heading }}</h3>
+                {% endif %}
+
+                {% if find_address != blank %}
+                    <address class="gkit-p-17 gkit-light">{{ find_address | newline_to_br }}</address>
+                {% endif %}
+
+            </div>
+
+            {% comment %}
+                Contact & legal
+            {% endcomment %}
+            <div class="{{ class_col }}">
+
+                {% if contact_heading != blank %}
+                    <h3 class="{{ class_heading }}">{{ contact_heading }}</h3>
+                {% endif %}
+
+                {% if contact_email != blank %}
+                    <a class="gkit-p-17" aria-label="{{ 'contact.form.email' | t }}" href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+                {% endif %}
+
+                {% if legal_heading != blank %}
+                    <h3 class="{{ class_heading }}">{{ legal_heading }}</h3>
+                {% endif %}
+
+                {% if legal_menu != blank %}
+                    <ul class="{{ class_list }}">
+                        {% for link in linklists[legal_menu].links %}
+                            <li>
+                                <a class="{{ class_link }}"
+                                   href="{{ link.url }}"
+                                   aria-label="{{ link.title }}">{{ link.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+            </div>
+
+            {% comment %}
+                Help & more
+            {% endcomment %}
+            <div class="{{ class_col }}">
+
+                {% if help_heading != blank %}
+                    <h3 class="{{ class_heading }}">{{ help_heading }}</h3>
+                {% endif %}
+
+                {% if help_text != blank %}
+                    <div class="{{ class_richtext }}">{{ help_text }}</div>
+                {% endif %}
+
+                {% if more_heading != blank %}
+                    <h3 class="{{ class_heading }}">{{ more_heading }}</h3>
+                {% endif %}
+
+                {% if more_menu != blank %}
+                    <ul class="{{ class_list }}">
+                      {% for link in linklists[more_menu].links %}
+                        <li>
+                          <a class="{{ class_link }}"
+                             href="{{ link.url }}"
+                             aria-label="{{ link.title }}">{{ link.title }}</a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                {% endif %}
+
+            </div>
+
+            {% comment %}
+                Subscribe
+            {% endcomment %}
+            <div class="{{ class_col }}">
+
+                {% if subscribe_heading != blank %}
+                    <h3 class="{{ class_heading }}">{{ subscribe_heading }}</h3>
+                {% endif %}
+
+                {% if subscribe_text != blank %}
+                    <p class="gkit-p-17 gkit-light">{{ subscribe_text | escape }}</p>
+                {% endif %}
+
+                {% include 'newsletter-signup-field' %}
+
+            </div>
+        </div>
+        <div class="row justify-content-center bottom">
+            <div class="col-md-6">
+                {% render 'payment-icons' %}
+                <p class="text-center mt-3">{{ 'layout.footer.copyright' | t }} &copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+    {
+        "name": "Footer",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Social"
+            },
+            {
+                "type": "text",
+                "id": "social_heading",
+                "label": "Heading",
+                "default": "Follow us"
+            },
+            {
+                "type": "url",
+                "id": "social_facebook",
+                "label": "Facebook profile"
+            },
+            {
+                "type": "url",
+                "id": "social_instagram",
+                "label": "Instagram profile"
+            },
+            {
+                "type": "url",
+                "id": "social_spotify",
+                "label": "Spotify profile"
+            },
+            {
+                "type": "url",
+                "id": "social_twitter",
+                "label": "Twitter profile"
+            },
+            {
+                "type": "header",
+                "content": "Find us"
+            },
+            {
+                "type": "text",
+                "id": "find_heading",
+                "label": "Heading",
+                "default": "Find us"
+            },
+            {
+                "type": "textarea",
+                "id": "find_address",
+                "label": "Address",
+                "default": "Your address"
+            },
+            {
+                "type": "header",
+                "content": "Contact"
+            },
+            {
+                "type": "text",
+                "id": "contact_heading",
+                "label": "Heading",
+                "default": "Contact us"
+            },
+            {
+                "type": "text",
+                "id": "contact_email",
+                "label": "Email",
+                "default": "hello@grind.co.uk"
+            },
+            {
+                "type": "header",
+                "content": "Legal"
+            },
+            {
+                "type": "text",
+                "id": "legal_heading",
+                "label": "Heading",
+                "default": "Legal"
+            },
+            {
+                "type": "link_list",
+                "id": "legal_menu",
+                "label": "Menu"
+            },
+            {
+                "type": "header",
+                "content": "Help"
+            },
+            {
+                "type": "text",
+                "id": "help_heading",
+                "label": "Heading",
+                "default": "Help"
+            },
+            {
+                "type": "richtext",
+                "id": "help_text",
+                "label": "Text",
+                "default": "<p>Get in touch.</p>"
+            },
+            {
+                "type": "header",
+                "content": "More"
+            },
+            {
+                "type": "text",
+                "id": "more_heading",
+                "label": "Heading",
+                "default": "More"
+            },
+            {
+                "type": "link_list",
+                "id": "more_menu",
+                "label": "Menu"
+            },
+            {
+                "type": "header",
+                "content": "Subscribe"
+            },
+            {
+                "type": "text",
+                "id": "subscribe_heading",
+                "label": "Heading",
+                "default": "Subscribe"
+            },
+            {
+                "type": "text",
+                "id": "subscribe_text",
+                "label": "Text",
+                "default": "Sign up to our newsletter"
+            }
+        ]
+    }
+{% endschema %}

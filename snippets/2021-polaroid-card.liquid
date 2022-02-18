@@ -1,0 +1,13 @@
+{% liquid
+  assign image = polaroid.image
+  assign width = width
+  assign class = class
+  assign imageQuality = imageQuality
+  assign size = size
+%}
+
+<div class="polaroid-card position-absolute {{ class }}" data-polaroid-size="{{size}}">
+  <div class="polaroid-card_container h-100">
+    <img loading="lazy" src="{{ image | img_url: imageQuality }}" alt="{{ image.alt }}" class="h-100 w-100" />
+  </div>
+</div>

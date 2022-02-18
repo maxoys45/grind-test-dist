@@ -1,0 +1,17 @@
+<div class="masthead-gradient" style="background: linear-gradient(180deg, {{ options.gradient_color_1 | color_to_rgb }} 0%, {{ options.gradient_color_2 | color_to_rgb }} 100%);">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="container" style="margin-bottom: 0px !important">
+            <h1 class="mb-4 text-center title">{{ options.title }}</h1>
+            <p class="gkit-p-20 text-center">{{ options.sub_title }}</p>
+            <div class="text-center">
+                <a href="{{ options.link }}" 
+                class="mt-4 gkit-btn-lg gkit-tertiary gkit-btn-superwide text-white" 
+                style="background-color: {{ options.button_color }}">{{ options.button_text }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="position-relative image-block">
+        <img loading="lazy" class="position-absolute left-image" src="{{ options.image_left | img_url: '800x800' }}" alt="">
+        <img loading="lazy" class="position-absolute right-image" src="{{ options.image_right | img_url: '800x800' }}" alt="">
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<article class="mb-4 mb-md-5 product-excerpt text-center">
+    <a href="{{ url }}">
+
+        <div class="position-relative mx-auto mb-3 thumbnail-wrap">
+
+            {% unless tags == blank %}
+                {% for tag in tags %}
+
+                    {% if tag == 'tasting-notes-house-blend' %}
+                        <div class="bg-primary p-4 font-size-xs text-body tasting-notes">
+                            <h3 class="mb-3 font-italic font-weight-bold small text-black-50 text-uppercase">Tasting Notes</h3>
+                            <p class="mb-2">Our house blend is all about the sweetness.</p>
+                            <p class="mb-0">The new year means the arrival of fresh crop Brazils and Colombians, which means the arrival of epic chocolate flavours!</p>
+                        </div>
+
+                    {% elsif tag == 'tasting-notes-other-blend' %}
+                        <div class="bg-primary p-4 font-size-xs text-body tasting-notes">
+                            <h3 class="mb-3 font-italic font-weight-bold small text-black-50 text-uppercase">Tasting Notes</h3>
+                            <p class="mb-0">This is some testing tasting notes.</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endunless %}
+
+            {% if thumbnail and hoverThumbnail %}
+                <img loading="lazy" src="{{ thumbnail | img_url: '480x480' | crop: 'center' }}" alt="{{ title }}" class="img-fluid thumbnail featuredThumbnail" />
+                <img loading="lazy" src="{{ hoverThumbnail | img_url: '480x480' | crop: 'center' }}" alt="{{ title }}" class="img-fluid thumbnail hoverThumbnail" />
+            {% elsif thumbnail and hoverThumbnail == blank  %}
+                <img loading="lazy" src="{{ thumbnail | img_url: '480x480' | crop: 'center' }}" alt="{{ title }}" class="img-fluid thumbnail" />
+            {% else %}
+                <img loading="lazy" src="{{ 'thumbnail_search_default.png' | asset_img_url: '480x480' | crop: 'center' }}" alt="{{ title }}" class="img-fluid thumbnail" />
+            {% endif %}
+        </div>
+
+        <h2 class="mb-0 gkit-p-17"><strong>{{ title }}</strong></h2>
+
+        {% if showPrice %}
+            <p class="mt-2 mb-2 gkit-p-15 gkit-light">
+                {% if compareAtPrice > price %}
+                    {% if price_varies %}
+                        {%- assign sale_price = price | money -%}
+                        {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                    {% else %}
+                        {{ 'products.product.on_sale' | t }}
+                        {{ price|money }}
+                    {% endif %}
+
+                {% else %}
+                    {% if price_varies %}
+                        {%- assign price = price | money -%}
+                        {{ 'products.product.from_text_html' | t: price: price }}
+                    {% else %}
+                        {{ price|money }}
+                    {% endif %}
+
+                {% endif %}
+
+                {% if compareAtPrice > price %}
+                    <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+                    <s>{{ compareAtPrice|money }}</s>
+                {% endif %}
+
+                {% unless product.available %}
+                    {{ 'products.product.sold_out' | t }}
+                {% endunless %}
+            </p>
+        {% endif %}
+        <button class="gkit-btn-sm gkit-tertiary mt-auto text-center">Shop Now</button>
+    </a>
+</article>

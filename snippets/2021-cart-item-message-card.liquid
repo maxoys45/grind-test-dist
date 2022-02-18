@@ -1,0 +1,13 @@
+<div class="gift-message-block ml-5 px-3 py-2 mt-3 d-flex align-items-center" rv-if="item.handle | messagecard">
+    <img loading="lazy" class="thumb" rv-alt="item.title" rv-src="item.image | product_image_size '180x180" />
+
+    <div class="ml-3 flex-grow-1">
+        <p class="gkit-p-15 gkit-bold mb-0" rv-text="item.product_title"></p>
+        <p class="gkit-p-13 my-0">"<span rv-text="item.properties.gift_message"></span>"</p>
+    </div>
+
+    <div class="ml-3 text-right">
+        <img loading="lazy" alt="Remove message card" src="{{ 'cart-check.svg' | asset_url }}" rv-data-cart-remove="index | plus 1" />
+        <p class="mb-0 mt-3 gkit-p-15" rv-text="item.final_price | money Currency.currentCurrency"></p>
+    </div>
+</div>

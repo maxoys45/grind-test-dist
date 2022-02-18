@@ -1,0 +1,43 @@
+{% assign backgroundColor = options.background_color %}
+{% assign cardColor = options.card_color %}
+
+<section class="container-fluid px-0" style="background: {{ backgroundColor }}">
+    <div class="container mx-auto py-4 py-sm-5 row campaign-featured-product">
+        <div class="col-lg-3 col-md-6 col-sm-12 d-flex p-0 p-md-3 my-2">
+            <div class="card custom-shadow card-body" style="background: {{ cardColor }}">
+                <h3 class="gkit-h2">{{ options.title_1 }}</h3>
+                <p class="gkit-p-15 gkit-light">{{ options.subtitle_1 }}</p>
+                {% if options.image_1 %}
+                    <img loading="lazy" src="{{ options.image_1 | img_url: "200x" }}"/>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 d-flex p-0 p-md-3 my-2">
+            <div class="card custom-shadow card-body" style="background: {{ cardColor }}">
+                <h3 class="gkit-h2">{{ options.title_2 }}</h3>
+                <p class="gkit-p-15 gkit-light">{{ options.subtitle_2 }}</p>
+                {% if options.image_2 %}
+                    <img loading="lazy" src="{{ options.image_2 | img_url: "200x" }}"/>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 d-flex p-0 p-md-3 my-2">
+            <div class="card custom-shadow card-body" style="background: {{ cardColor }}">
+                <h3 class="gkit-h2">{{ options.title_3 }}</h3>
+                <p class="gkit-p-15 gkit-light">{{ options.subtitle_3 }}</p>
+                {% if options.image_3 %}
+                    <img loading="lazy" src="{{ options.image_3 | img_url: "200x" }}"/>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 d-flex p-0 p-md-3 my-2">
+            <div class="card custom-shadow card-body" style="background: {{ cardColor }}">
+                <h3 class="gkit-h2">{{ options.title_4 }}</h3>
+                <p class="gkit-p-15 gkit-light">{{ options.subtitle_4 }}</p>
+                {% if options.image_4 %}
+                    <img loading="lazy" src="{{ options.image_4 | img_url: "200x" }}" height="16" width="96"/>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>

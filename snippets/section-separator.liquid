@@ -1,0 +1,11 @@
+{% if section.settings.separatorType == "solid" %}
+    {% assign outerClasses = 'pt-md-1' %}
+    {% assign innerClasses = 'mt-5 mb-3' %}
+{% else %}
+    {% assign outerClasses = 'p-0' %}
+    {% assign innerClasses = 'm-0 invisible' %}
+{% endif %}
+
+<div class="{{ outerClasses }} container">
+    <hr class="{{ innerClasses }}" />
+</div>

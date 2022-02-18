@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ shop.locale }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="{{ settings.color_primary }}" />
+    <meta
+      name="google-site-verification"
+      content="DhBHXmLxxgXdiZLkxmRlXSsPGAxZkPeV1wN2JBq4KMw"
+    />
+    <link rel="canonical" href="{{ canonical_url }}" />
+
+    {% if settings.favicon != blank %}
+    <link
+      rel="shortcut icon"
+      href="{{ settings.favicon | img_url: '32x32' }}"
+      type="image/png"
+    />
+    {% endif %} {% capture seo_title %}
+    {{
+      page_title
+    }}
+    {% if current_tags %} {%- assign meta_tags = current_tags | join: ', ' %}
+    &ndash;
+    {{ 'general.meta.tags' | t: tags: meta_tags -}}
+    {% endif %} {% if current_page != 1 %} &ndash;
+    {{
+      "general.meta.page" | t: page:current_page
+    }}
+    {% endif %} {% unless page_title contains shop.name %} &ndash;
+    {{
+      shop.name
+    }}
+    {% endunless %} {% endcapture %}
+
+    <title>{{ seo_title }}</title>
+
+    {% if page_description %}
+    <meta
+      name="description"
+      content="{% include 'shortcode' load: page_description | escape %}"
+    />
+    {% endif %} {% include 'social-meta-tags' %}
+
+    <style>
+      @font-face {
+        font-family: "ApercuPro";
+        font-weight: 300;
+        src: url("{{ 'ApercuLight.woff' | asset_url }}") format("woff");
+      }
+      @font-face {
+        font-family: "ApercuPro";
+        font-weight: 400;
+        src: url("{{ 'ApercuRegular.woff' | asset_url }}") format("woff");
+      }
+      @font-face {
+        font-family: "ApercuPro";
+        font-weight: 500;
+        src: url("{{ 'ApercuMedium.woff' | asset_url }}") format("woff");
+      }
+      @font-face {
+        font-family: "ApercuPro";
+        font-weight: 700;
+        src: url("{{ 'ApercuBold.eot' | asset_url }}");
+        src: url("{{ 'ApercuBold.eot' | asset_url }}?#iefix")
+            format("embedded-opentype"),
+          url("{{ 'ApercuBold.woff2' | asset_url }}") format("woff2"),
+          url("{{ 'ApercuBold.woff' | asset_url }}") format("woff"),
+          url("{{ 'ApercuBold.ttf' | asset_url }}") format("truetype");
+      }
+      @font-face {
+        font-family: "ApercuPro Monospace";
+        font-weight: "normal";
+        src: url("{{ 'ApercuMono.eot' | asset_url }}")
+            format("embedded-opentype"),
+          url("{{ 'ApercuMono.woff2' | asset_url }}") format("woff2"),
+          url("{{ 'ApercuMono.woff' | asset_url }}") format("woff"),
+          url("{{ 'ApercuMono.ttf' | asset_url }}") format("truetype");
+      }
+    </style>
+
+    {{
+      "style.scss.css" | asset_url | stylesheet_tag
+    }}
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.3.1/css/solid.css"
+      integrity="sha384-VGP9aw4WtGH/uPAOseYxZ+Vz/vaTb1ehm1bwx92Fm8dTrE+3boLfF1SpAtB1z7HW"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.3.1/css/brands.css"
+      integrity="sha384-rf1bqOAj3+pw6NqYrtaE1/4Se2NBwkIfeYbsFdtiR6TQz0acWiwJbv1IM/Nt/ite"
+      crossorigin="anonymous"
+    />
+
+    <script defer src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css"
+    />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"
+    ></script>
+
+    <!-- Include animejs -->
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"
+    ></script>
+
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      window.theme = {
+          strings: {
+              addToCart: {{ 'products.product.add_to_cart' | t | json }},
+              soldOut: {{ 'products.product.sold_out' | t | json }},
+              unavailable: {{ 'products.product.unavailable' | t | json }}
+          },
+          moneyFormat: {{ shop.money_format | json }},
+          currentCountryCode: {{ localization.country.iso_code | json }},
+          currentCurrencyCode: {{ localization.country.currency.iso_code | json}},
+          domain: {{ shop.domain | json }},
+          variantUnavailability: {
+            {% for product in collections['all-products'].products %}{% for variant in product.variants %}
+            "{{ variant.id }}": {{ variant.metafields.grind.unavailable_countries.value | json }},{% endfor %}{% endfor %}
+          }
+      };
+    </script>
+
+    {% if template.directory == 'customers' %}
+    <!--[if (gt IE 9)|!(IE)]><!-->
+    <script
+      src="{{ 'shopify_common.js' | shopify_asset_url }}"
+      defer="defer"
+    ></script>
+    <!--<![endif]-->
+    <!--[if lte IE 9
+      ]><script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script
+    ><![endif]-->
+    {% endif %}
+
+    <!--[if (gt IE 9)|!(IE)]><!-->
+    <script
+      src="{{ 'option_selection.js' | shopify_asset_url }}"
+      defer="defer"
+    ></script>
+    <!--<![endif]-->
+    <!--[if lt IE 9
+      ]><script src="{{ 'option_selection.js' | shopify_asset_url }}"></script
+    ><![endif]-->
+
+    {{
+      "vendor.js" | asset_url | script_tag
+    }}
+
+    <!--[if (gt IE 9)|!(IE)]><!-->
+    <script src="{{ 'script.js' | asset_url }}" defer="defer"></script>
+    <!--<![endif]-->
+    <!--[if lt IE 9
+      ]><script src="{{ 'script.js' | asset_url }}"></script
+    ><![endif]-->
+
+    <!-- Google Tag Manager -->
+    <!--
+          19th July 2020 | Shane Reid: Removed as was interfering with website functionality. 
+          21st July 2020 | Shane Reid: Re-added as GTM is apparently fixed now
+      -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-MGRCJHV");
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <script defer src="https://widgets.resy.com/embed.js"></script>
+    <script>
+      !(function (e) {
+        function r(r) {
+          for (
+            var n, i, l = r[0], p = r[1], f = r[2], c = 0, s = [];
+            c < l.length;
+            c++
+          )
+            (i = l[c]),
+              Object.prototype.hasOwnProperty.call(o, i) &&
+                o[i] &&
+                s.push(o[i][0]),
+              (o[i] = 0);
+          for (n in p)
+            Object.prototype.hasOwnProperty.call(p, n) && (e[n] = p[n]);
+          for (a && a(r); s.length; ) s.shift()();
+          return u.push.apply(u, f || []), t();
+        }
+        function t() {
+          for (var e, r = 0; r < u.length; r++) {
+            for (var t = u[r], n = !0, l = 1; l < t.length; l++) {
+              var p = t[l];
+              0 !== o[p] && (n = !1);
+            }
+            n && (u.splice(r--, 1), (e = i((i.s = t[0]))));
+          }
+          return e;
+        }
+        var n = {},
+          o = { 1: 0 },
+          u = [];
+        function i(r) {
+          if (n[r]) return n[r].exports;
+          var t = (n[r] = { i: r, l: !1, exports: {} });
+          return e[r].call(t.exports, t, t.exports, i), (t.l = !0), t.exports;
+        }
+        (i.m = e),
+          (i.c = n),
+          (i.d = function (e, r, t) {
+            i.o(e, r) ||
+              Object.defineProperty(e, r, { enumerable: !0, get: t });
+          }),
+          (i.r = function (e) {
+            "undefined" != typeof Symbol &&
+              Symbol.toStringTag &&
+              Object.defineProperty(e, Symbol.toStringTag, { value: "Module" }),
+              Object.defineProperty(e, "__esModule", { value: !0 });
+          }),
+          (i.t = function (e, r) {
+            if ((1 & r && (e = i(e)), 8 & r)) return e;
+            if (4 & r && "object" == typeof e && e && e.__esModule) return e;
+            var t = Object.create(null);
+            if (
+              (i.r(t),
+              Object.defineProperty(t, "default", { enumerable: !0, value: e }),
+              2 & r && "string" != typeof e)
+            )
+              for (var n in e)
+                i.d(
+                  t,
+                  n,
+                  function (r) {
+                    return e[r];
+                  }.bind(null, n)
+                );
+            return t;
+          }),
+          (i.n = function (e) {
+            var r =
+              e && e.__esModule
+                ? function () {
+                    return e.default;
+                  }
+                : function () {
+                    return e;
+                  };
+            return i.d(r, "a", r), r;
+          }),
+          (i.o = function (e, r) {
+            return Object.prototype.hasOwnProperty.call(e, r);
+          }),
+          (i.p = "/");
+        var l = (this["webpackJsonpgrind-web-subscription-ui"] =
+            this["webpackJsonpgrind-web-subscription-ui"] || []),
+          p = l.push.bind(l);
+        (l.push = r), (l = l.slice());
+        for (var f = 0; f < l.length; f++) r(l[f]);
+        var a = p;
+        t();
+      })([]);
+    </script>
+
+    <!-- Impact Tracking Code -->
+    <!-- Added to GTM
+    <script type="text/javascript">
+      (function (a, b, c, d, e, f, g) {
+        e["ire_o"] = c;
+        e[c] =
+          e[c] ||
+          function () {
+            (e[c].a = e[c].a || []).push(arguments);
+          };
+        f = d.createElement(b);
+        g = d.getElementsByTagName(b)[0];
+        f.async = 1;
+        f.src = a;
+        g.parentNode.insertBefore(f, g);
+      })(
+        "https://d.impactradius-event.com/A2740924-0b9f-4913-8940-d3f9307087541.js",
+        "script",
+        "ire",
+        document,
+        window
+      );
+    </script>
+    -->
+
+    <!-- Hotjar Tracking Code for grind.co.uk -->
+    <!-- Added to GTM
+    <script>
+      (function (h, o, t, j, a, r) {
+        h.hj =
+          h.hj ||
+          function () {
+            (h.hj.q = h.hj.q || []).push(arguments);
+          };
+        h._hjSettings = { hjid: 1743183, hjsv: 6 };
+        a = o.getElementsByTagName("head")[0];
+        r = o.createElement("script");
+        r.async = 1;
+        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window, document, "https://static.hotjar.com/c/hotjar-", ".js?sv=");
+    </script>
+    -->
+    {{
+      content_for_header
+    }}
+
+    <!-- Bing Event Tracking -->
+    <!-- Added to GTM
+    <script>
+      (function (w, d, t, r, u) {
+        var f, n, i;
+        (w[u] = w[u] || []),
+          (f = function () {
+            var o = { ti: "17448511" };
+            (o.q = w[u]), (w[u] = new UET(o)), w[u].push("pageLoad");
+          }),
+          (n = d.createElement(t)),
+          (n.src = r),
+          (n.async = 1),
+          (n.onload = n.onreadystatechange =
+            function () {
+              var s = this.readyState;
+              (s && s !== "loaded" && s !== "complete") ||
+                (f(), (n.onload = n.onreadystatechange = null));
+            }),
+          (i = d.getElementsByTagName(t)[0]),
+          i.parentNode.insertBefore(n, i);
+      })(window, document, "script", "//bat.bing.com/bat.js", "uetq");
+    </script>
+    -->
+    <!-- End Bing Event Tracking -->
+
+    <!-- Global site tag (gtag.js) - Google Ads: 794865512 -->
+    <!--
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=AW-794865512"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "AW-794865512");
+    </script>
+    -->
+    <!-- End Global site tag (gtag.js) - Google Ads: 794865512 -->
+
+    <!-- TikTok Tracking Pixel -->
+    <!-- Added to GTM
+    <script>
+      !function (w, d, t) {
+        w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+        ttq.load('C6JR6TAO6DGUDE0A3L1G');
+        ttq.page();
+      }(window, document, 'ttq');
+      </script>
+    -->
+
+    <!-- Trustpilot Widget -->
+    <script
+      type="text/javascript"
+      src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
+      defer
+    ></script>
+    <!-- Trustpilot Widget -->
+
+    <!-- Start of Littledata - Fix Google Analytics Script-->
+    {% include 'LittledataLayer' %}
+    <!-- End of Littledata - Fix Google Analytics Script -->
+    {% render 'minmaxify-head' %}
+  </head>
+
+  {% include 'header-style' %}
+  {% assign bodyClasses = bodyClasses | append: " header-2021" %}
+
+  <body class="{{ bodyClasses }}" style="font-size: 16px">
+    <!-- Impact Identify  -->
+    <!-- GTM Now
+    <script type="text/javascript">
+      ire("identify", { customerId: "", customerEmail: "" });
+    </script>
+    -->
+
+    {% if settings.useCart2021 %}
+      {% include 'cart-2021' %}
+    {% else %}
+      {% include 'cart' %}
+    {% endif %}
+
+    <header id="outer-header-container">
+      {% section "announcement-bar" %}
+      {% section 'header-2021' %}
+    </header>
+
+    <!-- Google Tag Manager (noscript) -->
+    <!--
+    19th July 2020 | Shane Reid: Removed as was interfering with website functionality.
+    21st July 2020 | Shane Reid: Re-added as GTM is apparently fixed now
+-->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-MGRCJHV"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <main role="main" id="MainContent" class="main-content">
+      <article>
+        {{ content_for_layout }}
+      </article>
+    </main>
+
+    <div class="bottom-content">{% section 'footer-new' %}</div>
+
+    <script>
+      jQuery(document).ready(function($){
+          const countryCode = window.theme.currentCountryCode;
+          const unavailabilityLookup = window.theme.variantUnavailability;
+
+          function itemIsAvailable(item) {
+            const unavailableCountries = unavailabilityLookup[String(item.variant_id)];
+            return !unavailableCountries || unavailableCountries.indexOf(countryCode) === -1
+          };
+
+          rivets.binders.backgroundimage = function(el, value) {
+            el.style.backgroundImage = "url(" + value + ")";
+          }
+
+          
+
+          // Registered a rivetjs formatter for conditional rendering of gift message card link.
+          rivets.formatters.messagecard = function(handle) {
+              return handle === 'message-card'
+          };
+          rivets.formatters.priceFormat = function(price) {
+            if(Intl && Intl.NumberFormat) {
+              return new Intl.NumberFormat(`en-${countryCode}`, {
+                style: "currency",
+                currency: (window.theme || {}).currentCurrencyCode || 'GBP'
+              }).format(parseFloat(price));
+            } else {
+              return price;
+            }
+          };
+          rivets.formatters.join = function(arr) {
+            return arr.join(', ')
+          }
+          rivets.formatters.isSubscription = function(items) {
+              let isSubscription = false;
+              for (let itemIdx = 0; itemIdx < items.length; itemIdx++) {
+                  const item = items[itemIdx];
+
+                  if(item.properties.subscription || item.properties.recipient_email) {
+                      isSubscription = true;
+                  }
+              }
+              return isSubscription;
+          };
+          rivets.formatters.cartTotalLessThan = function(cartTotal, shippingLimit) {
+              return parseFloat(cartTotal) / 100 < shippingLimit;
+          };
+          rivets.formatters.firstSubscription = function(items, item_key) {
+             let firstSubscription = false;
+              for (let itemIdx = 0; itemIdx < items.length; itemIdx++) {
+                  const item = items[itemIdx];
+
+                  if(item.properties.subscription) {
+                      if(item.key === item_key) {
+                          firstSubscription = true;
+                      }
+                      return firstSubscription;
+                  }
+              }
+          };
+          rivets.formatters.hasGiftSubscription = function(items) {
+              let hasGiftSubscription = false;
+              for (let itemIdx = 0; itemIdx < items.length; itemIdx++) {
+                  const item = items[itemIdx];
+
+                  if(item.properties.recipient_email) {
+                      hasGiftSubscription = true;
+                  }
+              }
+              return hasGiftSubscription;
+          };
+          rivets.formatters.isMessage = function(items) {
+              let isMessage = false;
+              for (let itemIdx = 0; itemIdx < items.length; itemIdx++) {
+                  const item = items[itemIdx];
+
+                  if(item.handle === 'message-card') {
+                      isMessage = true;
+                  }
+              }
+              return isMessage;
+          };
+          rivets.formatters.itemIsRegionallyValid = itemIsAvailable;
+          rivets.formatters.cartIsRegionallyValid = function(items) {
+            let regionallyValid = true;
+
+            for (let itemIdx = 0; itemIdx < items.length; itemIdx++) {
+              const lineItem = items[itemIdx];
+
+              if(!itemIsAvailable(lineItem)) {
+                regionallyValid = false;
+                break;
+              }
+            }
+
+            return regionallyValid;
+          };
+          CartJS.init({{ cart | json }}, {
+              currency: "{{ shop.currency }}",
+              moneyFormat: "{{ shop.money_format }}",
+              moneyWithCurrencyFormat: "{{ shop.money_with_currency_format }}"
+          });
+      });
+    </script>
+
+    <!-- This handles the sticky header -->
+    <script type="text/javascript">
+      (function ($) {
+        window.onscroll = function () {
+          offsetHeader();
+        };
+        const header = document.getElementById("shopify-section-header-2021");
+        const main = document.getElementById("MainContent");
+        const sticky = header.offsetTop;
+        function offsetHeader() {
+          if (window.pageYOffset > sticky) {
+            header.classList.add("position-fixed");
+            main.classList.add("m-0");
+          } else {
+            header.classList.remove("position-fixed");
+            main.classList.remove("m-0");
+          }
+        }
+      })(jQuery);
+    </script>
+
+    {% include 'subscription-theme-footer' %}
+
+    <!-- This line added automatically by JSON-LD for SEO. -->
+    {% include 'jsonld-for-seo' %}
+
+    <!-- Ivo Gorgias Chat Widget Start-->
+    <!--
+    <script id="gorgias-chat-widget-install">!function(_){_.GORGIAS_CHAT_APP_ID="2933",_.GORGIAS_CHAT_BASE_URL="us-east1-898b.production.gorgias.chat",_.GORGIAS_API_BASE_URL="config.gorgias.chat";var e=new XMLHttpRequest;e.open("GET","https://config.gorgias.chat/applications/2933",!0),e.onload=function(t){if(4===e.readyState)if(200===e.status){var n=JSON.parse(e.responseText);if(!n.application||!n.bundleVersion)throw new Error("Missing fields in the response body - https://config.gorgias.chat/applications/2933");if(_.GORGIAS_CHAT_APP=n.application,_.GORGIAS_CHAT_BUNDLE_VERSION=n.bundleVersion,n&&n.texts&&(_.GORGIAS_CHAT_TEXTS=n.texts),n&&n.sspTexts&&(_.GORGIAS_CHAT_SELF_SERVICE_PORTAL_TEXTS=n.sspTexts),!document.getElementById("gorgias-chat-container")){var o=document.createElement("div");o.id="gorgias-chat-container",document.body.appendChild(o);var r=document.createElement("script");r.setAttribute("defer",!0),r.src="https://storage.googleapis.com/gorgias-chat-production-client-builds/{bundleVersion}/static/js/main.js".replace("{bundleVersion}",n.bundleVersion),document.body.appendChild(r)}}else console.error("Failed request GET - https://config.gorgias.chat/applications/2933")},e.onerror=function(_){console.error(_)},e.send()}(window||{});</script><script id="gorgias-chat-shopify-install">!function(_){_.SHOPIFY_PERMANENT_DOMAIN="{{shop.permanent_domain}}",_.SHOPIFY_CUSTOMER_ID="{{customer.id}}",_.SHOPIFY_CUSTOMER_EMAIL="{{customer.email}}"}(window||{});</script>
+    -->
+    <script type="text/javascript">
+      var maxRepetitions = 60;
+      var repetitionCount = 0;
+      var isWindowStyleAppended = false;
+      var gorgiasChatInterval = window.setInterval(function () {
+        var container = document.querySelector("#gorgias-chat-container");
+        var chatButtonHead = container
+          ?.querySelector("#chat-button")
+          ?.contentWindow.document.querySelector("head");
+        var chatWindowHead = container
+          ?.querySelector("#chat-window")
+          ?.contentWindow.document.querySelector("head");
+        var chatCampaignsHead = container
+          ?.querySelector("#chat-campaigns")
+          ?.contentWindow.document.querySelector("head");
+        if (
+          chatButtonHead?.children.length &&
+          chatWindowHead?.children.length &&
+          !isWindowStyleAppended
+        ) {
+          var buttonStyle = document.createElement("style");
+          buttonStyle.textContent = ".whatyouwanttochange {property: value}"; // the custom CSS for the chat button
+          chatButtonHead.appendChild(buttonStyle);
+          console.log("Adding some whacky styles");
+          var windowStyles = document.createElement("style");
+          windowStyles.textContent =
+            ".message-window-iframe-odswpc, .message-window-iframe-znmtuk, .message-window-iframe-1nt3lhh, .message-window-iframe-s5f3mr, .message-window-iframe-1wuq220, .message-window-iframe-q4pcz2, .message-window-iframe-1sqbc1r, .message-window-iframe-1r44it2 { color: rgb(45, 41, 38);}"; // the custom CSS for the chat window
+          chatWindowHead.appendChild(windowStyles);
+          isWindowStyleAppended = true;
+        }
+        if (chatCampaignsHead?.children.length) {
+          window.clearInterval(gorgiasChatInterval); // this line breaks out of the loop - make sure it's not deleted.
+          var campaignStyles = document.createElement("style");
+          campaignStyles.textContent = ".whatyouwanttochange {property: value}"; // the custom CSS for the chat campaigns
+          chatCampaignsHead.appendChild(campaignStyles);
+        }
+        if (++repetitionCount == maxRepetitions) {
+          window.clearInterval(gorgiasChatInterval);
+        }
+      }, 100);
+    </script>
+    <!--Ivo Gorgias Chat Widget End-->
+    <!--Gorgias Chat Widget Start-->
+    <script id="gorgias-chat-widget-install">
+      !(function (_) {
+        (_.GORGIAS_CHAT_APP_ID = "2933"),
+          (_.GORGIAS_CHAT_BASE_URL = "us-east1-898b.production.gorgias.chat"),
+          (_.GORGIAS_API_BASE_URL = "config.gorgias.chat");
+        var e = new XMLHttpRequest();
+        e.open("GET", "https://config.gorgias.chat/applications/2933", !0),
+          (e.onload = function (t) {
+            if (4 === e.readyState)
+              if (200 === e.status) {
+                var n = JSON.parse(e.responseText);
+                if (!n.application || !n.bundleVersion)
+                  throw new Error(
+                    "Missing fields in the response body - https://config.gorgias.chat/applications/2933"
+                  );
+                if (
+                  ((_.GORGIAS_CHAT_APP = n.application),
+                  (_.GORGIAS_CHAT_BUNDLE_VERSION = n.bundleVersion),
+                  n && n.texts && (_.GORGIAS_CHAT_TEXTS = n.texts),
+                  n &&
+                    n.sspTexts &&
+                    (_.GORGIAS_CHAT_SELF_SERVICE_PORTAL_TEXTS = n.sspTexts),
+                  !document.getElementById("gorgias-chat-container"))
+                ) {
+                  var o = document.createElement("div");
+                  (o.id = "gorgias-chat-container"),
+                    document.body.appendChild(o);
+                  var r = document.createElement("script");
+                  r.setAttribute("defer", !0),
+                    (r.src =
+                      "https://storage.googleapis.com/gorgias-chat-production-client-builds/{bundleVersion}/static/js/main.js".replace(
+                        "{bundleVersion}",
+                        n.bundleVersion
+                      )),
+                    document.body.appendChild(r);
+                }
+              } else
+                console.error(
+                  "Failed request GET - https://config.gorgias.chat/applications/2933"
+                );
+          }),
+          (e.onerror = function (_) {
+            console.error(_);
+          }),
+          e.send();
+      })(window || {});
+    </script>
+    <script id="gorgias-chat-shopify-install">
+      !(function (_) {
+        (_.SHOPIFY_PERMANENT_DOMAIN = "{{shop.permanent_domain}}"),
+          (_.SHOPIFY_CUSTOMER_ID = "{{customer.id}}"),
+          (_.SHOPIFY_CUSTOMER_EMAIL = "{{customer.email}}");
+      })(window || {});
+    </script>
+    <!--Gorgias Chat Widget End-->
+  <!-- This line added automatically by JSON-LD for SEO. -->{% include 'jsonld-for-seo' %}
+</body>
+</html>

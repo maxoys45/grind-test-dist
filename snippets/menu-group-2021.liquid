@@ -1,0 +1,19 @@
+{% if groupLinks!= blank %}
+    <div class="py-lg-0">
+        <h2 class="submenu-title">{{ groupTitle }}</h2>
+        <ul class="nav flex-column submenu">
+            {% for link in groupLinks %}
+            {% unless localization.country.iso_code != 'GB' and link.title contains 'Bean' %}
+            {% unless localization.country.iso_code != 'GB' and link.title contains 'Ground' %}
+            {% unless localization.country.iso_code != 'GB' and link.title contains 'Book' %}
+            {% unless localization.country.iso_code != 'GB' and link.title contains 'Gift' %}
+                <li class="nav-item"><a href="{{ link.url }}" class="submenu-item">{{ link.title }}</a></li>
+            {% endunless %}
+            {% endunless %}
+            {% endunless %}
+            {% endunless %}
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endif %}

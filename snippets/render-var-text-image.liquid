@@ -1,0 +1,83 @@
+{% assign image = options.image %}
+{% assign imageWidth = options.imageWidth %}
+{% assign verticalAlignment = options.verticalAlignment %}
+{% assign title = options.title %}
+{% assign titlePosition = options.titlePosition %}
+{% assign text = options.text %}
+{% assign textPosition = options.textPosition %}
+{% assign btnLink = options.btnLink %}
+{% assign btnText = options.btnText %}
+{% assign btnPosition = options.btnPosition %}
+{% assign doubleGutters = options.doubleRowGutters %}
+{% assign gradient = options.gradient %}
+{% assign backgroundColor = options.background_color | color_to_rgb %}
+{% assign larger_title = options.larger_title %}
+
+{% if options.reverse %}
+    {% assign imageOrderClass = 'order-md-1' %}
+    {% assign contentOrderClass = 'order-md-0' %}
+{% else %}
+    {% assign imageOrderClass = 'order-md-0' %}
+    {% assign contentOrderClass = 'order-md-1' %}
+{% endif %}
+
+{% if options.doubleRowGutter %}
+    {% assign rowClasses = 'row double-gutters' %}
+{% else %}
+    {% assign rowClasses = 'row' %}
+{% endif %}
+
+{% if options.fullwidth %}
+    {% assign containerClass = '' %}
+{% else %}
+    {% assign containerClass = 'container' %}
+{% endif %}
+
+{% case gradient %}
+    {% when 'no' %}
+        {% assign backgroundStyle = backgroundColor %}
+    {% when 'top-to-bottom' %}
+        {% assign backgroundStyle = "linear-gradient(180deg, " | append: backgroundColor | append: "0%, rgba(255,255,255,1) 35%);"%}
+    {% when 'bottom-to-top' %}
+        {% assign backgroundStyle = "linear-gradient(180deg, rgba(255,255,255,1) 65%, " | append: backgroundColor | append: " 100%);" %}
+{% endcase %}
+
+<div style="background: {{ backgroundStyle }}">
+    <div class="py-4 py-sm-5 {{ containerClass }}" >
+        <div class="{{ rowClasses }}">
+            {% unless image == blank %}
+                <div class="col-12 col-md-6 col-lg-{{ imageWidth }} {{ imageOrderClass }}">
+                    <figure class="d-block mb-4 mb-sm-5 mb-md-0 figure">
+                        <img loading="lazy" src="{{ image | img_url: '1000x1000', crop: 'center' }}" alt="{{ image.alt }}" class="d-block mb-0 figure-img w-100">
+                    </figure>
+                </div>
+            {% endunless %}
+
+            {% if title != blank or text != blank or btnLink != blank or btnText != blank %}
+                <div class="col-12 col-md {{ contentOrderClass }} content-no-margin wow fadeInUp" data-wow-delay=".1s">
+                    <div class="d-flex align-items-{{ verticalAlignment }} h-100">
+                        <div class="my-4 my-md-0 px-lg-5">
+                            {% if title != blank %}
+                                <h2 class="mb-0 text-{{ titlePosition }} {% if larger_title %} gkit-h1 {% else %} gkit-h2 {% endif %}">{{ title }}</h2>
+                            {% endif %}
+
+                            {% if text != blank %}
+                                <div class="mt-4 text-{{ textPosition }} gkit-p-17">{{ text }}</div>
+                            {% endif %}
+
+                            {% if btnLink != blank and btnText != blank %}
+                                <div class="text-{{ btnPosition }} gkit-legacy-hide">
+                                    <a href="{{ btnLink }}" class="gkit-btn-md gkit-primary">{{ btnText }}</a>
+                                </div>
+
+                                <div class="text-{{ btnPosition }} gkit-legacy-show">
+                                    <a href="{{ btnLink }}" class="my-4 my-md-5 btn btn-sm btn-lg-md btn-outline-dark btn-long-text">{{ btnText }}</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+{% if blog.all_tags != blank %}
+
+    {% liquid
+        assign current_tag = ''
+
+        if blog.tags.size < 2
+            for tag in blog.tags
+                assign current_tag = tag
+            endfor
+        else
+            assign current_tag = ''
+        endif
+    %}
+
+    <div class="blog-tags-select">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-auto">
+                    <h5 class="mb-0 font-weight-normal">{{ 'blogs.general.categories' | t }}:</h5>
+                </div>
+                <div class="col-auto">
+                    <label class="sr-only" for="BlogTags">{{ 'blogs.general.categories' | t }}</label>
+                    <select class="custom-select" id="BlogTags">
+                        <option value {% if current_tag == '' %}selected{% endif %}>{{ 'blogs.general.all_articles' | t }}</option>
+
+                        {% for tag in blog.all_tags %}
+                            <option value="{{ tag | handleize }}" {% if current_tag == tag %} selected{% endif %}>{{ tag }}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endif %}

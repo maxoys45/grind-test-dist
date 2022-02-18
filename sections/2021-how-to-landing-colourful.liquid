@@ -1,0 +1,235 @@
+{% assign page_title = section.settings.title %} {% assign guide_url =
+section.settings.guide_url %} {% assign recipes_url =
+section.settings.recipes_url %}
+
+<div class="how-to-landing">
+  {% if section.blocks.size > 0 %}
+    {% for block in section.blocks %}
+      {% assign image = block.settings.image %}
+      {% assign background_color = block.settings.background_color %}
+      {% assign inactive_text_color = block.settings.inactive_text_color %}
+      {% if image != blank and forloop.index0 %}
+        {% assign page_title_style = inactive_text_color | prepend: 'color: ' %}
+      {% endif %}
+
+  <style>
+    .how-to-landing__bg--{{ forloop.index0 }} {
+      background-color: {{ background_color | escape }};
+    }
+    .how-to-landing__bg--{{ forloop.index0 }} .how-to-landing__bg-inner {
+      background-image: url({{ image.src | img_url: '700x' }});
+    }
+  </style>
+  <div
+    class="how-to-landing__bg how-to-landing__bg--{{ forloop.index0 }}"
+    data-index="{{ forloop.index0 }}"
+    style="opacity: 0; visibility: hidden"
+  >
+    <div class="how-to-landing__bg-inner"></div>
+  </div>
+
+    {% endfor %}
+  {% endif %} 
+
+  <nav class="how-to-landing__nav">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          {% if page_title != blank %}
+          <h1 class="how-to-landing__page-title">{{ page_title | escape }}</h1>
+          {% endif %}
+
+          <ul class="how-to-landing__nav-list">
+            {% for block in section.blocks %}
+              {% assign title = block.settings.title %}
+              {% assign image = block.settings.image %}
+              {% assign url = block.settings.url %}
+              {% assign active_text_color = block.settings.active_text_color %}
+              {% assign inactive_text_color = block.settings.inactive_text_color %}
+                {% if image != blank %}
+
+            <li class="how-to-landing__nav-list-item">
+              <a
+                class="how-to-landing__nav-list-item-link"
+                href="{{ url | escape }}"
+                data-index="{{ forloop.index0 }}"
+                data-active-color="{{ active_text_color | escape }}"
+                data-inactive-color="{{ inactive_text_color | escape }}"
+                aria-label="View {{ title | escape }} guide"
+                >{{ title | escape }}</a
+              >
+            </li>
+                {% endif %}
+              {% endfor %}
+          </ul>
+
+          {% if guide_url != blank or recipes_url != blank %}
+          <div class="how-to-landing__guides">
+            <ul class="how-to-landing__guides-list">
+              {% if guide_url != blank %}
+              <li class="how-to-landing__guides-list-item">
+                <a
+                  class="how-to-landing__guides-list-item-link"
+                  href="{{ guide_url | escape }}"
+                  aria-label="View guide"
+                  >Guide to Grind Coffee.</a
+                >
+              </li>
+              {% endif %}
+              {% if recipes_url != blank %}
+              <li class="how-to-landing__guides-list-item">
+                <a
+                  class="how-to-landing__guides-list-item-link"
+                  href="{{ recipes_url | escape }}"
+                  aria-label="View recipes"
+                  >Grind Coffee Recipes.</a
+                >
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+
+{% schema %}
+{
+  "name": "How To",
+  "settings": [
+    { "type": "text", "id": "title", "default": "Title", "label": "Title" },
+    { "type": "header", "content": "Additional resources" },
+    { "type": "url", "id": "guide_url", "label": "Guide URL" },
+    { "type": "url", "id": "recipes_url", "label": "Recipes url" }
+  ],
+  "blocks": [
+    {
+      "type": "guide",
+      "name": "Guide",
+      "settings": [
+        { "type": "text", "id": "title", "default": "Title", "label": "Title" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "url", "label": "Guide URL" },
+        { "type": "header", "content": "Colours" },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background",
+          "default": "#2d2926"
+        },
+        {
+          "type": "color",
+          "id": "active_text_color",
+          "label": "Active text",
+          "default": "#f5dadf"
+        },
+        {
+          "type": "color",
+          "id": "inactive_text_color",
+          "label": "Inactive text",
+          "default": "#fff"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    /**
+     * How to landing page
+     */
+    const howToSections = function() {
+      const sectionLinks = document.querySelectorAll(
+        `.how-to-landing__nav-list-item-link`
+      );
+      const sectionPanels = document.querySelectorAll(`.how-to-landing__bg`);
+      const pageTitle = document.querySelector(`.how-to-landing__page-title`);
+      const guideLinks = document.querySelectorAll(
+        `.how-to-landing__guides-list-item-link`
+      );
+
+      if (sectionLinks && sectionPanels) {
+        const updateSections = (evt) => {
+          const target = evt.target;
+          const index = target.dataset.index;
+          const activeColor = target.dataset.activeColor;
+          const inactiveColor = target.dataset.inactiveColor;
+
+          // console.log(index, activeColor, inactiveColor);
+
+          //  update links
+          Array.from(sectionLinks).forEach((sectionLink) => {
+            if (sectionLink.dataset.index === index) {
+              sectionLink.style.color = activeColor;
+            } else {
+              sectionLink.style.color = inactiveColor;
+            }
+          });
+
+          // update background panels
+          Array.from(sectionPanels).forEach((sectionPanel) => {
+            if (sectionPanel.dataset.index === index) {
+              sectionPanel.style.visibility = "visible";
+              sectionPanel.style.opacity = "1";
+            } else {
+              sectionPanel.style.visibility = "hidden";
+              sectionPanel.style.opacity = "0";
+            }
+          });
+
+          // update page title colour
+          if (pageTitle) {
+            pageTitle.style.color = inactiveColor;
+          }
+
+          // update guide links
+          if (guideLinks) {
+            Array.from(guideLinks).forEach((guideLink) => {
+              guideLink.style.color = inactiveColor;
+            });
+          }
+        };
+
+        const hideSections = function() {
+          //  reset links
+          Array.from(sectionLinks).forEach((sectionLink) => {
+            sectionLink.removeAttribute(`style`);
+          });
+
+          // reset background panels
+          Array.from(sectionPanels).forEach((sectionPanel) => {
+            sectionPanel.style.opacity = "0";
+            sectionPanel.style.visibility = "hidden";
+          });
+
+          // reset page title colour
+          if (pageTitle) {
+            pageTitle.removeAttribute(`style`);
+          }
+
+          // reset guide links
+          if (guideLinks) {
+            Array.from(guideLinks).forEach((guideLink) => {
+              guideLink.removeAttribute(`style`);
+            });
+          }
+        };
+
+        // set up mouse over event
+        Array.from(sectionLinks).forEach((sectionLink) => {
+          sectionLink.addEventListener(`mouseover`, updateSections, false);
+          sectionLink.addEventListener(`mouseleave`, hideSections, false);
+        });
+      }
+    };
+
+    /**
+     * Chocks away!
+     */
+    howToSections();
+  });
+</script>

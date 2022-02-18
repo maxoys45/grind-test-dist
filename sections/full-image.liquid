@@ -1,0 +1,42 @@
+{% include 'section-full-image',
+    testimonial_image: section.settings.testimonial_image,
+    testimonial_mobile_image: section.settings.testimonial_mobile_image,
+    testimonial_source: section.settings.icon,
+    testimonial_quote: section.settings.testimonial_quote,
+    testimonial_subtitle: section.settings.testimonial_subtitle 
+    no_container_margin: true %}
+
+{% schema %}
+{
+  "name": "Full image",
+  "settings": [
+      {
+          "type": "image_picker",
+          "id": "testimonial_image",
+          "label": "Image"
+      },
+      {
+          "type": "image_picker",
+          "id": "testimonial_mobile_image",
+          "label": "Mobile image"
+      },
+      {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+      },
+      {
+          "type": "text",
+          "id": "testimonial_quote",
+          "default": "The most sustainable Pods you can buy.",
+          "label": "Quote"
+      },
+      {
+          "type": "text",
+          "id": "testimonial_subtitle",
+          "default": "Soil association certified 100% organic coffee, sourced and roasted by Grind in London. 0% plastic and 100% vegan.",
+          "label": "Subtitle"
+      }
+  ]
+}
+{% endschema %}

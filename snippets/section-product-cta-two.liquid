@@ -1,0 +1,30 @@
+<section class="my-4 my-md-5 container">
+    <div class="row">
+        {% for block in section.blocks %}
+            {% unless forloop.last %}
+                {% assign margin = 'mb-5 mb-md-0' %}
+            {% else %}
+                {% assign margin = null %}
+            {% endunless %}
+
+            {% if forloop.first %}
+                {% assign animationTime = 0.75 %}
+            {% else %}
+                {% assign animationTime = animationTime | plus: 0.5 %}
+            {% endif %}
+
+            <div class="col-12 col-md wow fadeInUp" data-wow-duration="{{ animationTime }}s">
+
+                <div class="d-md-flex flex-md-column {{ margin }} h-100 text-center">
+                    <a href="{{ block.settings.buttonLink }}" class="d-block">
+                        <img loading="lazy" src="{{ block.settings.image | img_url: '800x600', crop: 'center' }}" alt="" class="mb-4 w-100">
+                        <h3 class="h2">{{ block.settings.title }}</h3>
+                        <div class="py-3 px-md-3 px-lg-4 font-weight-light h5 richtext-container">{{ block.settings.summary }}</div>
+                    </a>
+
+                    <a href="{{ block.settings.buttonLink }}" class="align-self-md-center mt-md-auto btn btn-sm btn-lg-md btn-outline-dark">{{ block.settings.buttonText }}</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

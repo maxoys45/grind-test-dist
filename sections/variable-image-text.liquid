@@ -1,0 +1,170 @@
+{% include 'section-variable-image-text' %}
+
+{% schema %}
+{
+  "name": "Variable Image & Text",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse",
+      "label": "Reverse Order Of Image & Text",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Full-width Block",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "doubleRowGutter",
+      "label": "Increase Image & Text Gap",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "imageWidth",
+      "label": "Image Width",
+      "options": [
+        {
+          "value": "6",
+          "label": "Half"
+        },
+        {
+          "value": "4",
+          "label": "One Third"
+        },
+        {
+          "value": "3",
+          "label": "Quarter"
+        }
+      ],
+      "default": "6"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "verticalAlignment",
+      "label": "Content Vertical Alignment",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "titlePosition",
+      "label": "Title Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "textPosition",
+      "label": "Text Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "btnText",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "btnLink",
+      "label": "Button Link"
+    },
+    {
+      "type": "select",
+      "id": "btnPosition",
+      "label": "Button Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Variable Image & Text",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}

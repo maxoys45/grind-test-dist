@@ -1,0 +1,127 @@
+{% assign i18nVisibility = section.settings.internationalVisibility %}
+{% unless i18nVisibility == 'eu' and localization.country.iso_code == 'GB' %}
+{% unless i18nVisibility == 'gb' and localization.country.iso_code != 'GB' %}
+<div class="collections-upsell-2021">
+{% include "section-2021-collections-upsell" %}
+</div>
+{% endunless %}
+{% endunless %}
+
+{% schema %}
+{
+  "name": "Collections 2021 Upsell",
+  "blocks": [
+    {
+      "type": "upsell",
+      "name": "Upsell Point",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Image",
+          "info": "Ideal size 135x135"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "body",
+          "label": "Body"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "color",
+      "id": "backgroundColor",
+      "label": "Background Color",
+      "default": "#E4F0EB"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "body",
+      "label": "Body"
+    },
+    {
+      "type": "text",
+      "id": "cta",
+      "label": "CTA",
+      "default": "Browse subscriptions"
+    },
+    {
+      "type": "text",
+      "id": "ctaURL",
+      "label": "CTA URL",
+      "default": "#/gcharge-create-plan"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobileOffset",
+      "label": "Offset Mobile Image",
+      "default": false,
+      "info": "If set to true, you'll need to adjust the offset in the below 2 parameters until perfect."
+    },
+    {
+      "type": "range",
+      "id": "xOffset",
+      "min": -200,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "X Offset",
+      "info": "Positive is Right, Negative is Left.",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "yOffset",
+      "min": -200,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Y Offset",
+      "info": "Positive is Down, Negative is Up.",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "internationalVisibility",
+      "label": "International Visibility",
+      "options": [
+        {
+          "value": "all",
+          "label": "All"
+        },
+        {
+          "value": "eu",
+          "label": "EU Only"
+        },
+        {
+          "value": "gb",
+          "label": "UK Only"
+        }
+      ],
+      "default": "all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop Page Upsell (2021)"
+    }
+  ]
+}
+{% endschema %}

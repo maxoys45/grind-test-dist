@@ -1,0 +1,32 @@
+{% liquid
+    assign list_item_class = 'pagination__list-item'
+    assign link_class = 'pagination__link'
+    assign number_class = 'pagination__list-number'
+%}
+
+<nav class="pagination" aria-label="Pagination">
+
+    {% if paginate.previous.is_link %}
+        <!-- {{ paginate.previous.title }} -->
+        <a class="{{ link_class }}" href="{{ paginate.previous.url }}">«<span class="d-none d-md-inline"> Previous</span></a>
+    {% else %}
+        <div></div>
+    {% endif %}
+
+    <ul class="pagination__list">
+
+        {% for part in paginate.parts %}
+            <li class="{{ list_item_class }}">
+                <a class="{{ number_class }}{% if part.title == paginate.current_page %} {{ number_class | append: '--current' }}{% endif %}" href="{{ part.url }}">{{ part.title }}</a>
+            </li>
+        {% endfor %}
+
+    </ul>
+
+    {% if paginate.next.is_link %}
+        <!--{{ paginate.next.title }}-->
+        <a class="{{ link_class }}" href="{{ paginate.next.url }}"><span class="d-none d-md-inline">Next </span>»</a>
+    {% else %}
+        <div></div>
+    {% endif %}
+</nav>

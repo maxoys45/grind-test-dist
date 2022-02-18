@@ -1,0 +1,51 @@
+{% assign collection = collections['cups-merchandise'] %}
+
+{% unless removeContainer %}
+    {% assign containerClasses = 'container' %}
+{% else %}
+    {% assign containerClasses = '' %}
+{% endunless %}
+
+{% unless bordered %}
+    {% assign containerClasses = containerClasses | prepend: 'my-4 my-md-5 ' %}
+{% else %}
+    {% assign containerClasses = containerClasses | prepend: 'mb-5 pb-5 border-bottom ' %}
+{% endunless %}
+
+{% unless removeLimit %}
+    {% assign limit = 4 %}
+{% else %}
+    {% assign limit = 999 %}
+{% endunless %}
+
+<section class="{{ containerClasses }}">
+    <div class="mb-4 mb-md-5 wow fadeInUp" data-wow-duration="0.5s">
+        <h2 class="text-center gkit-h3">{{ collection.title }}</h2>
+        <div class="text-center gkit-p-17">{{ collection.description }}</div>
+    </div>
+
+    <div class="row">
+        {% for product in collection.products limit: limit %}
+
+            {% if forloop.first %}
+                {% assign animationTime = 0.75 %}
+            {% else %}
+                {% assign animationTime = animationTime | plus: 0.10 %}
+            {% endif %}
+
+            <div class="col-12 col-md-6 col-lg-3 wow fadeInUp" data-wow-duration="{{ animationTime }}s">
+                <div class="d-flex flex-column pb-4 h-100">
+                    <a class="d-block" href="{{ product.url }}">
+                        <img loading="lazy" class="w-100" src="{{ product.images[0] | img_url: '600x600', crop: 'center' }}" alt="{{ product.title }}">
+
+                        <div class="d-flex flex-column flex-grow-1 px-3 pt-3 text-center">
+                            <p class="mb-1 gkit-p-15"><strong>{{ product.title }}</strong></p>
+                            <p class="gkit-p-13 mb-3 mt-1 gkit-light">{{ product.price | money }}</p>
+                            <a href="{{ product.url }}" class="align-self-start mx-auto mt-auto gkit-btn-sm gkit-tertiary">Shop Now</a>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

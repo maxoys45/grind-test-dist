@@ -1,0 +1,142 @@
+{% assign address = section.settings.restaurantOverviewAddress %}
+{% assign logo = section.settings.restaurantOverviewLogo %}
+{% assign mapUrl = section.settings.restaurantOverviewMapURL %}
+{% assign openingTimes = section.settings.restaurantOverviewOpeningTimes %}
+
+{% assign menuOneName = section.settings.restaurantOverviewMenuOneName|default: 'Download Menu' %}
+{% assign menuOneUrl = section.settings.restaurantOverviewMenuOneUrl %}
+{% assign menuTwoName = section.settings.restaurantOverviewMenuTwoName|default: 'Download Menu' %}
+{% assign menuTwoUrl = section.settings.restaurantOverviewMenuTwoUrl %}
+{% assign menuThreeName = section.settings.restaurantOverviewMenuThreeName|default: 'Download Menu' %}
+{% assign menuThreeUrl = section.settings.restaurantOverviewMenuThreeUrl %}
+{% assign menuFourName = section.settings.restaurantOverviewMenuFourName|default: 'Download Menu' %}
+{% assign menuFourUrl = section.settings.restaurantOverviewMenuFourUrl %}
+{% assign menuFiveName = section.settings.restaurantOverviewMenuFiveName|default: 'Download Menu' %}
+{% assign menuFiveUrl = section.settings.restaurantOverviewMenuFiveUrl %}
+{% assign menuSixName = section.settings.restaurantOverviewMenuSixName|default: 'Download Menu' %}
+{% assign menuSixUrl = section.settings.restaurantOverviewMenuSixUrl %}
+
+<div class="my-4 my-sm-5 container">
+    <div class="row restaurant-overview wow fadeInUp">
+
+        {% unless logo == blank %}
+            <div class="col-12 col-md-4 first">
+                <div class="pb-3 pb-md-0 px-5 h-100 inner">
+                    <img loading="lazy" src="{{ logo | img_url: '480x480', crop: 'center' }}" alt="" class="d-block mx-auto w-100 logo">
+                </div>
+            </div>
+        {% endunless %}
+
+        <div class="col-12 col-md-4 second">
+            <div class="h-100 inner">
+                <div class="row justify-content-center">
+
+                    {% unless openingTimes == blank %}
+                        <div class="col-12 col-sm-6 col-md-12">
+                            <div class="py-3 py-md-0 px-md-3 text-center opening-times text-lg-left">
+                                <div class="inner gkit-p-15">
+                                    {{ openingTimes }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endunless %}
+
+                    {% unless menuOneUrl == blank %}
+                        <div class="col-12 col-sm-6 col-md-12">
+                            <div class="py-3 py-md-0 pt-md-3 px-md-3 menu-items">
+                                <div class="row list">
+
+                                    <div class="col-6 col-sm-4 col-md-6 col-lg-4 text-center text-lg-left list-first">
+                                        <span class="mb-2 gkit-p-15 d-block"><a href="{{ menuOneUrl }}" target="_blank">{{ menuOneName }}</a></span>
+                                    </div>
+
+                                    {% unless menuTwoUrl == blank %}
+                                        <div class="col-6 col-sm-4 col-md-6 col-lg-4 text-center text-lg-left list-second">
+                                            <span class="mb-2 gkit-p-15 d-block"><a href="{{ menuTwoUrl }}" target="_blank">{{ menuTwoName }}</a></span>
+                                        </div>
+                                    {% endunless %}
+
+                                    {% unless menuThreeUrl == blank %}
+                                        <div class="col-12 col-sm-4 col-md-12 col-lg-4 text-center text-lg-left list-third">
+                                            <span class="mb-2 gkit-p-15 d-block"><a href="{{ menuThreeUrl }}" target="_blank">{{ menuThreeName }}</a></span>
+                                        </div>
+                                    {% endunless %}
+
+                                </div>
+                                {% unless menuFourUrl == blank %}
+                                    <div class="row list">
+
+                                        <div class="col-6 col-sm-4 col-md-6 col-lg-4 text-center text-lg-left list-first">
+                                            <span class="mb-2 mb-lg-0 gkit-p-15 d-block"><a href="{{ menuFourUrl }}" target="_blank">{{ menuFourName }}</a></span>
+                                        </div>
+
+                                        {% unless menuFiveUrl == blank %}
+                                            <div class="col-6 col-sm-4 col-md-6 col-lg-4 text-center text-lg-left list-second">
+                                                <span class="mb-2 mb-lg-0 gkit-p-15 d-block"><a href="{{ menuFiveUrl }}" target="_blank">{{ menuFiveName }}</a></span>
+                                            </div>
+                                        {% endunless %}
+
+                                        {% unless menuSixUrl == blank %}
+                                            <div class="col-12 col-sm-4 col-md-12 col-lg-4 text-center text-lg-left list-third">
+                                                <span class="gkit-p-15 d-block"><a href="{{ menuSixUrl }}" target="_blank">{{ menuSixName }}</a></span>
+                                            </div>
+                                        {% endunless %}
+
+                                    </div>
+                                {% endunless %}
+                            </div>
+                        </div>
+                    {% endunless %}
+
+                    {% comment %}
+                    <div class="col-12 col-sm-6 col-md-12">
+                        <div class="py-3 py-md-0 pt-md-3 px-md-3 menu-items">
+                            <div class="row list">
+                                <div class="col-6 col-sm-4 col-md-6 col-lg-4 text-center text-lg-left list-first">
+                                    <span class="d-block">Breakfast Menu</span>
+                                </div>
+                                <div class="col-6 col-sm-4 col-md-6 col-lg-4 text-center text-lg-left list-second">
+                                    <span class="d-block">All-Day Menu</span>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-12 col-lg-4 text-center text-lg-left list-third">
+                                    <span class="d-block">Brunch Menu</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endcomment %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 third">
+            <div class="h-100 inner">
+                <div class="row">
+
+                    {% unless address == blank %}
+                        <div class="col-12 col-sm-6 col-md-12">
+                            <div class="pt-3 py-sm-3 py-md-0 px-md-3 text-center address">
+                                <div class="inner gkit-p-15">
+                                    {{ address }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endunless %}
+
+                    {% unless mapUrl == blank %}
+                        <div class="col-12 col-sm-6 col-md-12">
+                            <div class="py-3 py-md-0 pt-md-3 px-md-3 map-button">
+                                <p class="px-4 px-md-3 px-lg-5 mb-0">
+                                    <a href="{{ mapUrl }}" class="gkit-btn-md gkit-secondary btn-block" target="_blank">View on map</a>
+                                </p>
+                            </div>
+                        </div>
+                    {% endunless %}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

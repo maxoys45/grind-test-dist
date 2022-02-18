@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="21px" viewBox="0 0 16 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="White-Nav_Desktop" transform="translate(-1204.000000, 0.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <path d="M1218,7 L1217,7 L1217,5 C1217,2.24 1214.76,0 1212,0 C1209.24,0 1207,2.24 1207,5 L1207,7 L1206,7 C1204.9,7 1204,7.9 1204,9 L1204,19 C1204,20.1 1204.9,21 1206,21 L1218,21 C1219.1,21 1220,20.1 1220,19 L1220,9 C1220,7.9 1219.1,7 1218,7 Z M1208.9,5 C1208.9,3.29 1210.29,1.9 1212,1.9 C1213.71,1.9 1215.1,3.29 1215.1,5 L1215.1,7 L1208.9,7 L1208.9,5 Z M1218,19 L1206,19 L1206,9 L1218,9 L1218,19 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

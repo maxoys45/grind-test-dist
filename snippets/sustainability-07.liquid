@@ -1,0 +1,26 @@
+<article class="sustainability-07 sustainability-section__container" style="background-color: {{ background_colour }}; color: {{ text_colour }};">
+  <div class="sustainability-section__content-container">
+    <div class="overflow-container">
+      {% if background_image != blank %}
+      <div class="sustainability-section__background" id="animatable-section-seven-background" style="background-image: url({{ background_image | img_url: '1440x' }});"></div>
+      <div class="sustainability-section__gradient"></div>
+      {% endif %}
+
+      <div class="sustainability-section__inner-content text-center">
+        {% if title != blank %}
+        <h2 class="sustainability-section__title gkit-h1 my-0">{{ title | escape }}</h2>
+        {% endif %}
+
+        {% if paragraph != blank %}
+        <div class="sustainability-section__body gkit-p-20 mt-4 mb-0">{{ paragraph }}</div>
+        {% endif %}
+
+        {% if link_url != blank and link_title != blank %}
+        <div class="sustainability-07__link">
+          <a class="btn btn-primary mt-4" href="{{ link_url | escape }}" aria-label="{{ link_title | escape }}">{{ link_title | escape }}</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</article>

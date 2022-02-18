@@ -1,0 +1,114 @@
+<div class="collections-list-2021">
+  <div class="container" id="collection-list">
+    {% for block in section.blocks %}
+    {% assign i18nVisibility = block.settings.internationalVisibility %}
+    {% unless i18nVisibility == 'eu' and localization.country.iso_code == 'GB' %}
+    {% unless i18nVisibility == 'gb' and localization.country.iso_code != 'GB' %}
+    {% assign collection = collections[block.settings.collection] %}
+    <div id="collection-{{ collection.handle }}" name="collection-{{ collection.handle }}" class="collection-container">
+      <div class="collection-meta">
+        {% if block.settings.icon != blank %}
+        <img loading="lazy" class="collection-icon" src="{{ block.settings.icon | img_url: '400x' }}" />
+        {% endif %}
+        <h3 class="gkit-h1">{{ block.settings.titleOverride }}</h3>
+        <p class="gkit-p-17 gkit-light">{{ block.settings.descriptionOverride }}</p>
+      </div>
+      <div class="collection-products row">
+        
+        {% for product in collection.products %}
+        {% comment %}
+        Check if variant is available in the current country
+        {% endcomment %}
+        {% assign currentVariant = product.selected_or_first_available_variant %}
+        {% assign defaultArray = "" | split: "" %}
+        {% assign unavailableCountries = currentVariant.metafields.grind.unavailable_countries.value | default: defaultArray %}
+        {% unless unavailableCountries contains localization.country.iso_code %}
+        <div class="collection-product col-6 col-lg-4 mb-3">
+          <a href="{{ product.url }}" class="d-flex flex-column text-center align-items-center h-100">
+            <div class="collection-product-img-container">
+              <img loading="lazy" class="collection-product-img" alt="{{ product.title }}" src="{{ product.images[0] | img_url: '800x' }}" />
+            </div>
+            <p class="d-none d-md-block gkit-p-20 gkit-bold mt-3 mb-0">{{ product.title }}</p>
+            <p class="d-md-none gkit-p-15 gkit-bold mt-3 mb-0">{{ product.title }}</p>
+
+            {% assign subscriptionPrice = null %}
+
+            {% if product.tags contains 'Subscription' or product.tags contains 'subscription' %}
+                {% assign discount = settings.subDiscount | divided_by: 100.0 %}
+                {% assign subDiscount = 1.0 | minus: discount %}
+                {% assign subscriptionPrice = product.price_min | times: subDiscount %}
+            {% endif %}
+            <p class="d-none d-md-block gkit-p-17 gkit-light mt-1">{% if subscriptionPrice %}From {% endif %}{{ subscriptionPrice | default: product.price_min | money }}</p>
+            <p class="d-md-none gkit-p-13 gkit-light mt-1">{% if subscriptionPrice %}From {% endif %}{{ subscriptionPrice | default: product.price_min | money }}</p>
+          </a>
+        </div>
+        {% endunless %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endunless %}
+    {% endunless %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collections 2021 List",
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon",
+          "info": "Ideal Size 120x120"
+        },
+        {
+          "type": "text",
+          "id": "titleOverride",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "descriptionOverride",
+          "label": "Description"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "select",
+          "id": "internationalVisibility",
+          "label": "International Visibility",
+          "options": [
+            {
+              "value": "all",
+              "label": "All"
+            },
+            {
+              "value": "eu",
+              "label": "EU Only"
+            },
+            {
+              "value": "gb",
+              "label": "UK Only"
+            }
+          ],
+          "default": "all"
+        }
+      ]
+    }
+  ],
+  "settings": [],
+  "presets": [
+    {
+      "name": "Shop Page Product List (2021)"
+    }
+  ]
+} 
+{% endschema %}

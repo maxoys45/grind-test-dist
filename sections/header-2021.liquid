@@ -1,0 +1,244 @@
+{% include 'header-style' %}
+
+{% if section.settings.nav_text_colour == 'charcoal' %}
+    {% assign headerColourClass = 'dark-text-colour' %}
+    {% assign inlineStyleOverrideDark = 'style="display: block !important"' %}
+    {% assign inlineStyleOverrideHide = 'style="display: none !important"' %}
+{% else %}
+    {% assign headerColourClass = 'white-text-colour' %}
+{% endif %}
+
+<header class="header {{ headerColourClass }}" role="banner">
+
+    <div class="header-container container container-fluid">
+        <div class="py-3 p-lg-0 inner">
+            <nav class="d-flex align-items-center p-0 navbar navbar-custom">
+
+                <a href="#discover-menu-accessible" class="navbar-toggler mr-auto mr-lg-4 d-block d-lg-none hamburger" aria-expanded="false" aria-label="Navigation menu" title="Navigation menu" id="js-discover-menu-toggle">
+                    <span class="hamburger__box">
+                        <span class="hamburger__box__inner"></span>
+                    </span>
+                </a>
+
+                <ul class="d-none d-lg-flex mr-lg-0 text-uppercase nav nav-tab" id="header-2021-nav">
+                    <div id="nav-slider"></div>
+                    <li class="nav-link">
+                        <a class="bg-transparent p-0 cursor-pointer font-weight-bold text-uppercase"  data-toggle="tab" role="tab" href="#js-shop-menu-2021" id="js-shop-menu-2021-nav">Shop</button>
+                    </li>
+
+                    {% comment %}
+                    Only Show Visit Us For UK
+                    {% endcomment %}
+                    {% if localization.country.iso_code == 'GB' %}
+                    <li class="nav-link">
+                        <a class="bg-transparent p-0 cursor-pointer font-weight-bold text-uppercase" data-toggle="tab" role="tab" href="#js-locations-menu-2021" id="js-locations-menu-2021-nav">Visit us</button>
+                    </li>
+                    
+                    <li class="nav-link">
+                        <a class="bg-transparent p-0 cursor-pointer font-weight-bold text-uppercase"  data-toggle="tab" role="tab" href="#js-everything-menu-2021" id="js-everything-menu-2021-nav">Everything else</button>
+                    </li>
+                    {% endif %}
+                </ul>
+
+                {% if template.name == 'index' %}
+                    <h1 class="mb-0 logo"><a href="/" title="Return to homepage" class="d-block">{{ shop.name }}</a></h1>
+                {% else %}
+                    <p class="mb-0 logo"><a href="/" title="Return to homepage" class="d-block">{{ shop.name }}</a></p>
+                {% endif %}
+                <div class="right-container d-flex align-items-center d-lg-none ml-auto">
+                  {% render 'country-selector', is_mobile: true %}
+                  
+                  <a href="javascript:;" class=" ml-3 mb-0 h5 text-no-decoration header-link header-link-icon header-link-cart js-cart-toggle-open">
+                      <img class="icon icon-light" {{ inlineStyleOverrideHide }} src="{{ 'bag.svg' | asset_url }}" alt="Shopping cart icon">
+                      <img class="icon icon-dark" {{ inlineStyleOverrideDark }} src="{{ 'bag-dark.svg' | asset_url }}" alt="Shopping cart icon">
+
+                      {% if cart.item_count > 0 %}<span class="counter-item"><span class="font-weight-light counter js-cart-counter">{{ cart.item_count }}</span></span>{% endif %}
+                  </a>
+                </div>
+
+                <ul class="d-none d-lg-flex align-items-center ml-auto nav" id="header-2021-nav">
+                    {% if section.settings.linkBtnCheck == true %}
+
+                        {% unless page.url == '/pages/getstarted' %}
+
+                        <a href="{{ section.settings.linkBtnLink }}" class="gkit-btn-md gkit-secondary gkit-white hide-solid" {{ inlineStyleOverrideHide }}>{{ section.settings.linkBtnText }}</a>
+                        <a href="{{ section.settings.linkBtnLink }}" class="gkit-btn-md gkit-secondary show-solid" {{ inlineStyleOverrideDark }}>{{ section.settings.linkBtnText }}</a>
+
+                        {% endunless %}
+                    {% endif %}
+
+                    {% render 'country-selector', is_mobile: false %}
+
+                    <li class="d-none d-lg-flex nav-link">
+                      <a class="header-link header-link-icon" data-toggle="tab" role="tab" id="js-2021-menu-search-nav">
+                        <img {{ inlineStyleOverrideHide }} class="icon icon-light" src="{{ 'icon-search.svg' | asset_url }}" alt="Account icon" width="28" height="28">
+                        <img {{ inlineStyleOverrideDark }} class="icon icon-dark" src="{{ 'icon-search.svg' | asset_url }}" alt="Account icon" width="28" height="28">
+                      </a>
+                    </li>
+
+                    {% if shop.customer_accounts_enabled %}
+                        <li class="d-none d-lg-flex nav-link" data-toggle="tab" role="tab" id="js-login-menu-2021-nav">
+                            <a href="https://my.grind.co.uk" class="font-weight-bold text-no-decoration header-link header-link-icon" >
+                                <img {{ inlineStyleOverrideHide }} class="icon icon-light" src="{{ 'account.svg' | asset_url }}" alt="Account icon" width="28" height="28">
+                                <img {{ inlineStyleOverrideDark }} class="icon icon-dark" src="{{ 'account-dark.svg' | asset_url }}" alt="Account icon" width="28" height="28">
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <li class="d-none d-lg-flex nav-link">
+                        <a href="#" id="js-cart-menu-2021-nav" class="font-weight-bold text-no-decoration header-link header-link-icon header-link-cart js-cart-toggle-open">
+                            <img {{ inlineStyleOverrideHide }} class="icon icon-light" src="{{ 'bag.svg' | asset_url }}" alt="Shopping cart icon" width="28" height="28">
+                            <img {{ inlineStyleOverrideDark }} class="icon icon-dark" src="{{ 'bag-dark.svg' | asset_url }}" alt="Shopping cart icon" width="28" height="28">
+
+                            {% if cart.item_count > 0 %}<span class="font-weight-light counter js-cart-counter">{{ cart.item_count }}{% endif %}</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+    </div>
+
+    <script>
+    (function($) {
+        // This section is responsible for setting the nav-links active
+        $('#header-2021-nav li a').on('mouseenter', function(e) {
+            e.preventDefault();
+            $(this).tab('show');
+            var theThis = $(this);
+            if (!theThis.parent().is('[class*="no-hovering-background"]')){
+                $('#header-2021-nav li').removeClass('active');
+                theThis.addClass('active');
+            }
+        });
+        // This section is responsible for the sliding effect
+        $("#header-2021-nav li a").on('mouseenter', function() {
+            var parent = $(this).parent()
+            var position = $(parent).position();
+            var width = $(parent).width() + 52;
+            if (!parent.is('[class*="no-hovering-background"]')){
+                $("#nav-slider").css({"left":+ position.left,"width":width});
+            }
+        });
+        $("#js-login-menu-2021-nav").on('mouseleave', function() {
+            $('#header-2021-nav li').removeClass('active');
+            $("#nav-slider").css({"width":0});
+        });
+        $("#js-login-menu-2021-nav").click(function() {
+            window.location.href = "https://my.grind.co.uk";
+        });
+        $("#js-cart-menu-2021-nav").on('mouseleave', function() {
+            $('#header-2021-nav li').removeClass('active');
+            $("#nav-slider").css({"width":0});
+        });
+    })(jQuery);
+    </script>
+
+    {% include 'menu-mobile-2021', classes: 'hide', id: 'js-discover-menu', accessible: false %}
+    {% include 'menu-shop-2021' %}
+    
+    
+    {% comment %}
+    Only Show Visit Us For UK
+    {% endcomment %}
+    {% if localization.country.iso_code == 'GB' %}
+    {% include 'menu-everything-else-2021' %}
+    {% include 'menu-locations-2021' %}
+    {% endif %}
+    {% include '2021-menu-search' %}
+
+</header>
+
+{% schema %}
+    {
+    "name": "Header",
+    "settings": [
+        {
+            "type": "select",
+            "id": "nav_text_colour",
+            "label": "Navbar Text Colour on transparent",
+            "options": [
+                {
+                    "value": "white",
+                    "label": "White"
+                },
+                {
+                    "value": "charcoal",
+                    "label": "Charcoal"
+                }
+            ],
+            "default": "charcoal"
+        },
+        {
+            "type": "header",
+            "content": "Desktop advert"
+        },
+        {
+            "type": "text",
+            "id": "desktop_ad_title",
+            "label": "Title",
+            "default": "Great coffee, at Home."
+        },
+        {
+            "type": "image_picker",
+            "id": "desktop_ad_img",
+            "label": "Image",
+            "info": "Choose an image without the overlay"
+        },
+        {
+            "type": "text",
+            "id": "desktop_ad_message",
+            "label": "Message",
+            "default": "Get a free Grind refillable tin and your first 30 pods for £9.95 + Free Shipping, use the code GETSTARTED"
+        },
+        {
+            "type": "text",
+            "id": "desktop_ad_btn_text",
+            "label": "Button text",
+            "default": "Get yours now"
+        },
+        {
+            "type": "url",
+            "id": "desktop_ad_link",
+            "label": "Desktop link"
+        },
+        {
+            "type": "header",
+            "content": "Mobile advert"
+        },
+        {
+            "type": "text",
+            "id": "mobile_ad_title",
+            "label": "Title",
+            "default": "Great coffee,<br>at Home."
+        },
+        {
+            "type": "image_picker",
+            "id": "mobile_ad_img",
+            "label": "Image",
+            "info": "Choose an image without the overlay"
+        },
+        {
+            "type": "text",
+            "id": "mobile_ad_btn_text",
+            "label": "Button text",
+            "default": "Get the offer"
+        },
+        {
+            "type": "url",
+            "id": "mobile_ad_link",
+            "label": "Mobile link"
+        },
+        {
+            "type": "header",
+            "content": "Mobile booking banner"
+        },
+        {
+            "type": "image_picker",
+            "id": "mobile_booking_img",
+            "label": "Banner image",
+            "info": "Choose an image without the overlay"
+        }
+    ]
+    }
+{% endschema %}

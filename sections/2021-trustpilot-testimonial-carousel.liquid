@@ -1,0 +1,159 @@
+{% assign slideColor = section.settings.slideColor %}
+{% assign image = section.settings.image %}
+{% assign title = section.settings.title %}
+{% assign subtitle = section.settings.subtitle %}
+{% assign slides = section.blocks %}
+
+<section class="container my-4 my-md-5 review-block-2021">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-6 text-center">
+            <h2 class="gkit-h1">{{ title }}</h2>
+            <p class="gkit-p-17 gkit-light">{{ subtitle }}</p>
+            {% unless section.settings.trustpilotInsideCard %}
+            <img loading="lazy" alt="{{ title }}" class="mb-3" src="{{ 'trustpilot.svg' | asset_url }}" />
+            {% endunless %}
+        </div>
+    </div>
+    <div class="row{% if image == blank %} justify-content-center{% endif %}">
+        <div class="variable-review-height pt-5 {% if image == blank %}col-lg-8 col-xl-6{% else %}col-lg-5{% endif %}" style="background-color: {{ section.settings.slideColor }};">
+            {% if section.settings.trustpilotInsideCard %}
+            <img loading="lazy" alt="{{ title }}" class="my-3" src="{{ 'trustpilot.svg' | asset_url }}" />
+            {% endif %}
+
+            <div id="testimonialCarousel" class="carousel slide h-100 d-flex flex-column" data-interval="{{section.settings.time}}000" data-ride="carousel">
+                <p id="test-cimg"></p>
+                <div class="carousel-inner flex-grow-1 h-100 d-flex flex-row">
+                {% for slide in slides %}
+                    <div class="carousel-item {% if forloop.first == true %} active{% endif %} pb-3">
+                        <div class="d-flex flex-column justify-content-center h-100 text-center">
+                            <p class="gkit-h2" style="font-weight: normal;">{{slide.settings.quote}}</p>
+                            <div>
+                                {% unless slide.settings.testimonialImage == blank %}
+                                <img loading="lazy" alt="{{ slide.settings.name }}" class="testimonial-img" src="{{ slide.settings.testimonialImage | img_url: '300x' }}">
+                                {% endunless %}
+                                <p class="gkit-p-17 gkit-light mt-2 mb-0">{{slide.settings.name}}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+
+                <ol class="carousel-indicators position-static">
+                {% for slide in slides %}
+                    <li data-target="#testimonialCarousel" data-slide-to="{{forloop.index0}}"{% if forloop.first == true %} class="active"{% endif %}></li>
+                {% endfor %}
+                </ol>
+            </div>
+        </div>
+        {% if image != blank %}
+        <div class="col-lg-7 variable-review-height">
+            <div class="h-md-100 bg-cover bg-show" style="background-image: url('{{ section.settings.image | img_url: '1200x' }}')"></div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% schema %}
+{
+    "name": "2021 Testimonials Block",
+        "blocks": [
+        {
+            "type": "testimonial",
+            "name": "Testimonial",
+            "limit": 4,
+            "settings": [
+                {
+                    "id": "testimonialImage",
+                    "type": "image_picker",
+                    "label": "Image"
+                },
+                {
+                    "id": "quote",
+                    "type": "text",
+                    "label": "Quote"
+                },
+                {
+                    "id": "name",
+                    "type": "text",
+                    "label": "Name"
+                }
+            ]
+        }
+    ],    
+    "settings": [
+        {
+            "type": "color",
+            "id": "slideColor",
+            "label": "Slide Background Colour",
+            "default": "#FEF8F4"
+        },
+        {
+            "type": "range",
+            "id": "time",
+            "label": "Slide Interval in seconds",
+            "min": 0,
+            "max": 20,
+            "step": 1,
+            "default": 3
+        },
+        {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title",
+            "default": "What do people think of us?"
+        },
+        {
+            "type": "textarea",
+            "id": "subtitle",
+            "label": "Body",
+            "default": "People love Grind so much we have a 4.8 star average review on Trustpilot."
+        },
+        {
+            "id": "image",
+            "type": "image_picker",
+            "label": "image"
+        },
+        {
+            "id": "trustpilotInsideCard",
+            "type": "checkbox",
+            "label": "Show Trustpilot Image with Review",
+            "info": "Without will show it with block title & body.",
+            "default": false
+        }
+    ],
+    "presets": [
+        {
+            "name": "2021 Testimonials Block",
+            "category": "Content"
+        }
+    ]
+}
+{% endschema %}
+
+<script>
+    function carouselNormalization() {
+        var items = $('#testimonialCarousel .carousel-item'), heights = [], tallest; 
+
+        if (items.length) {
+            function normalizeHeights() {
+                items.each(function() { 
+                    heights.push($(this).height());
+                    console.log($(this).height())
+                });
+                tallest = Math.max.apply(null, heights); 
+                items.each(function() {
+                    $(this).css('height', tallest + 'px');
+                });
+            };
+            normalizeHeights();
+        }
+    }
+
+    /**
+    * Wait until all the assets have been loaded so a maximum height 
+    * can be calculated correctly.
+    */
+    window.onload = function() {
+        carouselNormalization();
+    }
+</script>

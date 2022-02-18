@@ -1,0 +1,121 @@
+{% assign title = section.settings.title %}
+{% assign subtitle = section.settings.subtitle %}
+{% assign heroImage = section.settings.image %}
+{% assign isImageOffset = section.settings.isImageOffset %}
+
+<section class="container my-3 my-md-4">
+    <div class="row align-items-center{% unless heroImage %} justify-content-center{% endunless %}">
+    {% if heroImage %}
+      <div class="col-md">
+        <h2 class="gkit-h0 my-0 d-none d-lg-block">{{ title }}</h2>
+        <h2 class="gkit-h1 my-0 d-block d-lg-none">{{ title }}</h2>
+        <p class="gkit-p-20 gkit-light mb-0 mt-3">{{ subtitle }}</p>
+      </div>
+      <div class="col-md mt-3 mt-md-0">
+        <img loading="lazy" alt="{{ title }}" class="img-fluid" src="{{ heroImage | img_url: '1000x'}}" />
+      </div>
+      {% else %}
+      <div class="col-md-6 text-center">
+          <h2 class="gkit-h1">{{title}}</h2>
+          <p class="gkit-p-17 gkit-light m-0">{{subtitle}}</p>
+      </div>
+      {% endif %}
+    </div>
+    <div class="row mt-3 mt-md-4">
+    {% for block in section.blocks %}
+        {% assign imageBackgroundColor = block.settings.imageBackgroundColor %}
+        {% assign cardImage = block.settings.image %}
+        {% assign cardTitle = block.settings.title %}
+        {% assign cardPrice = block.settings.price %}
+        {% assign cardContent = block.settings.content %}
+        {% assign cardUrl = block.settings.url %}
+        {% assign cardButtonText = block.settings.buttonText %}
+
+        <div class="col-sm-6 col-lg-3 mt-3 mt-lg-0">
+            {% include "cta-card" %}
+        </div>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+    {
+        "name": "2021 Comparison CTA 4x",
+        "blocks": [
+            {
+                "type": "CTA",
+                "name": "CTA",
+                "limit": 4,
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title Text"
+                    },
+                    {
+                        "type": "text",
+                        "id": "price",
+                        "label": "Price"
+                    },
+                    {
+                        "type": "text",
+                        "id": "content",
+                        "label": "Content Text"
+                    },
+                    {
+                        "type": "url",
+                        "id": "url",
+                        "label": "Select the page to use"
+                    },
+                    {
+                        "type": "text",
+                        "id": "buttonText",
+                        "label": "Button text"
+                    },
+                    {
+                        "type": "color",
+                        "id": "imageBackgroundColor",
+                        "label": "Image Background Colour",
+                        "info": "Setting this will put your card image in a coloured circle"
+                    }
+                ]
+            }
+        ],
+        "settings": [
+            {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Hero Image"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title Text"
+            },
+            {
+                "type": "text",
+                "id": "subtitle",
+                "label": "Subtitle Text"
+            },
+            {
+                "type": "checkbox",
+                "id": "isImageOffset",
+                "label": "Offset Image",
+                "default": false,
+                "info": "This determines if your card images will peek outside of the container"
+            }
+        ],
+        "presets": [
+            {
+                "name": "2021 Comparison CTA 4x",
+                "category": "Content"
+            }
+        ]
+    }
+{% endschema %}

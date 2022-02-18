@@ -1,0 +1,135 @@
+<div class="mb-5">
+
+    <div class="row no-gutters quote-slider">
+        <div class="col-12 col-md-6 order-md-1">
+            <figure class="d-block mb-0 figure">
+                <div id="js-events-slider" class="product-image-slider">
+                    {% for block in section.blocks %}
+                        {% if block.type == 'slide' %}
+                            <div class="position-relative slide ">
+                                <img loading="lazy" src="{{ block.settings.slideImage | img_url: '1600x1600' | crop: "center" }}" alt="{{ image.alt | escape }}" class="mb-0 figure-img w-100">
+
+                                <div class="bg-primary pt-4 pr-4 pb-3 pl-3 pt-lg-5 pr-lg-5 pb-lg-4 pl-lg-4 quote wow fadeInUp">
+                                    <h2 class="quote-title">{{ block.settings.slideQuote }}</h2>
+                                    <p class="mb-0">{{ block.settings.slideQuoteAuthor }}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </figure>
+        </div>
+
+        <div class="col-12 col-md-6 order-md-0">
+            <div class="mx-lg-auto pt-md-5 quote-slider-intro">
+                {% include 'section-heading', reduceBottomSpacing: true %}
+                {% include 'section-richText' %}
+            </div>
+        </div>
+    </div>
+
+    {% include 'section-two-text' %}
+
+    <div class="my-4 my-sm-5 container">
+        <div class="content-block">
+            <div class="inner reduced">
+                <div class="row justify-content-between">
+                    <div class="col-12 col-md-6">
+                        {{ page.content }}
+                    </div>
+
+                    <div class="col-12">
+                        {% include 'form-contact',
+                        formClass: 'form-mobile-barista-coffee-events',
+                        formName: 'Mobile Barista Coffee Events form'
+                        %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row image-gallery">
+            {% for block in section.blocks %}
+                {% if block.type == 'image-gallery' %}
+                    {% include 'section-image-gallery' paddingClass:'pb-4' %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% schema %}
+{
+"name": "Events",
+"settings": [
+{
+"type": "text",
+"id": "headingText",
+"label": "Heading"
+},
+{
+"type": "select",
+"id": "headingAlign",
+"options": [
+{ "value": "left", "label": "Left"},
+{ "value": "center", "label": "Center"},
+{ "value": "right", "label": "Right"}
+],
+"label": "Heading Alignment"
+},
+{
+"type": "richtext",
+"id": "richText",
+"label": "Heading Summary"
+},
+{
+"type": "richtext",
+"id": "twoTextOne",
+"label": "Text Column 1"
+},
+{
+"type": "richtext",
+"id": "twoTextTwo",
+"label": "Text Column 2"
+}
+],
+"blocks": [
+{
+"type": "slide",
+"name": "Slide",
+"settings": [
+{
+"type": "image_picker",
+"id": "slideImage",
+"label": "Slide Image"
+},
+{
+"type": "text",
+"id": "slideQuote",
+"label": "Slide Quote"
+},
+{
+"type": "text",
+"id": "slideQuoteAuthor",
+"label": "Quote Author"
+}
+]
+},
+{
+"type": "image-gallery",
+"name": "Gallery Image",
+"settings": [
+{
+"type": "image_picker",
+"id": "galleryImage",
+"label": "Gallery Image"
+}
+]
+}
+]
+}
+
+{% endschema %}

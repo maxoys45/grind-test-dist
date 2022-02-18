@@ -1,0 +1,211 @@
+{%- liquid
+  assign title = section.settings.title
+  assign mobileLimit = section.settings.mobileLimit | times: 1
+  assign colorType = section.settings.colorType
+  assign textWidth = section.settings.textWidth
+  assign blocks = section.blocks
+
+  case colorType
+    when 'dark'
+      assign backgroundColor = 'gkit-bg-dark'
+      assign buttonColor = 'gkit-secondary gkit-white'
+      assign textColor = 'text-white'
+      assign descriptionColor = 'gkit-light-3'
+    when 'light'
+      assign backgroundColor = 'bg-white'
+      assign buttonColor = 'gkit-primary'
+      assign textColor = ''
+      assign descriptionColor = ''
+    when 'grind'
+      assign backgroundColor = 'gkit-bg-pink'
+      assign buttonColor = 'gkit-primary'
+      assign textColor = ''
+      assign descriptionColor = ''
+  endcase
+-%}
+
+
+
+<section class="{{ backgroundColor }} py-5">
+  <div class="container px-4 px-md-3">
+    <h1 class="gkit-h1 mb-4 d-none d-md-block {% if textColor != blank -%}{{ textColor }}{%- endif -%}">{{ title }}</h1>
+    <h2 class="gkit-h2 mt-0 mb-4 d-md-none {% if textColor != blank -%}{{ textColor }}{%- endif -%}">{{ title }}</h2>
+
+    <div class="position-relative">
+      <!-- Arrows -->
+      {%- if blocks.size > 3 -%}
+      <div class="slick-next-arrow position-absolute d-none d-md-block" style="right: 0; top: calc(50% - 26px); width: 14px;">
+        <svg width="14" height="26" viewBox="0 0 14 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 25L13 13L1 1" stroke="#F5DADF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="slick-prev-arrow position-absolute d-none d-md-block" style="left: 0; top: calc(50% - 26px); width: 14px;">
+        <svg width="14" height="26" viewBox="0 0 14 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 25L1 13L13 1" stroke="#F5DADF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      {%- endif -%}
+
+      <!-- Slick Carousel -->
+      <div id="columnMobileCarousel" {%- if blocks.size > 3 -%}class="px-md-5"{%- endif -%}>
+        {%- for block in blocks -%}
+          {% assign timer = forloop.index | times: 0.25 %}
+            <div class="w-100 pr-3 px-sm-3 px-md-4 px-lg-5 d-md-block wow fadeInUp" data-wow-delay="{{timer}}s">
+              {% render '2021-image-title-desc-button' with image: block.settings.image, 
+                buttonText: block.settings.buttonText,
+                url: block.settings.url,
+                title: block.settings.title,
+                description: block.settings.description,
+                titleColor: textColor,
+                descriptionColor: descriptionColor,
+                buttonColor: buttonColor
+              %}
+            </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Venue Detail",
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "content",
+      "name": "Content",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "buttonText",
+          "label": "Button Text"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "select",
+      "id": "mobileLimit",
+      "label": "Limit results on Mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "One"
+        },
+        {
+          "value": "2",
+          "label": "Two"
+        },
+        {
+          "value": "3",
+          "label": "Three"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "colorType",
+      "label": "Color Scheme",
+      "options": [
+        {
+          "value": "dark",
+          "label": "Dark"
+        },
+        {
+          "value": "light",
+          "label": "Light"
+        },
+        {
+          "value": "grind",
+          "label": "Grind"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "2022 Visit Us"
+    }
+  ]
+}
+{% endschema %}
+
+
+<style>
+  #columnMobileCarousel .slick-list {
+    overflow: visible;
+  }
+  @media screen and (min-width: 480px) {
+    #columnMobileCarousel .slick-list {
+      overflow: hidden;
+    }
+  }
+</style>
+
+<script>
+  $(document).ready(function(){
+    $("#columnMobileCarousel")
+      .slick({
+        arrows: true,
+        prevArrow: $('.slick-prev-arrow'),
+        nextArrow: $('.slick-next-arrow'),
+        infinite: false,
+        speed: 300,
+        slidesToShow: 3,
+        variableWidth: false,
+        centerMode: false,
+        pauseOnHover: true,
+        responsive: [
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              dots: false,
+            },
+          },
+        ],
+      })
+      .on("setPosition", function (event, slick) {
+        $(slick.$slides)
+          .height("auto")
+          .css("height", $(slick.$slideTrack).height() + "px");
+      });
+  });
+
+</script>

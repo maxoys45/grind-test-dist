@@ -1,0 +1,160 @@
+{% liquid
+    assign heading = section.settings.heading
+    assign paragraph = section.settings.paragraph
+    assign background = section.settings.background
+    assign slider_speed = section.settings.slider_speed
+%}
+
+<article class="product-testimonials">
+
+    {% if background != blank %}
+        <style>
+            #shopify-section-{{ section.id }} .product-testimonials {
+              background: {{ background }};
+            }
+        </style>
+    {% endif %}
+
+    <div class="container">
+        <div class="row align-items-lg-center justify-content-md-center">
+
+            {% if heading != blank or paragraph != blank %}
+
+                <div class="col-12 col-md-10 col-lg-4 text-center text-lg-left">
+
+                    {% if heading != blank %}
+                        <h2 class="gkit-h2 mb-lg-3">{{ heading | escape }}</h2>
+                    {% endif %}
+
+                    {% if paragraph != blank %}
+                        <div class="gkit-p-17 gkit-light">{{ paragraph }}</div>
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+            {% if section.blocks.size > 0 %}
+
+                <div class="col-12 col-lg-5 offset-lg-1">
+                    <div class="product-testimonials__slider-wrap">
+                        <ul class="product-testimonials__slider"
+                            data-speed="{{ slider_speed | append: '000' }}">
+
+                            {% for block in section.blocks %}
+
+                                {% if block.type == 'testimonial' %}
+
+                                    {% liquid
+                                        assign quote = block.settings.quote
+                                        assign logo = block.settings.logo
+                                    %}
+
+                                    {% if quote != blank %}
+                                        <li class="product-testimonials__slide">
+                                            <div class="product-testimonials__slide-inner">
+                                                <div class="my-auto">
+                                                    <blockquote class="gkit-p-20 gkit-bold mb-0">{{ quote }}</blockquote>
+
+                                                    {% if logo != blank %}
+                                                        <figure class="mb-0 mt-3">
+                                                            <img class="img-fluid"
+                                                                 alt="{{ logo.alt }}"
+                                                                 loading="lazy"
+                                                                 srcset="{{ logo | img_url: '140x' }} 1x, {{ logo | img_url: '140x', scale: 2 }} 2x"
+                                                                 src="{{ logo | img_url: '140x' }}" />
+                                                        </figure>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% endif %}
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+</article>
+
+{% schema %}
+    {
+        "name": "Product Testimonials",
+        "settings": [
+            {
+                "type": "text",
+                "id": "heading",
+                "label": "Heading",
+                "default": "Heading"
+            },
+            {
+                "type": "richtext",
+                "id": "paragraph",
+                "label": "Paragraph",
+                "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vestibulum ipsum mauris, sollicitudin feugiat tortor varius in.</p>"
+            },
+            {
+                "type": "color_background",
+                "id": "background",
+                "label": "Background",
+                "default": "#fcf4f6"
+            },
+            {
+                "type": "number",
+                "id": "slider_speed",
+                "label": "Slider speed",
+                "default": 3,
+                "info": "Autoplay speed (in seconds)"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "testimonial",
+                "name": "Testimonial",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "quote",
+                        "label": "Quote",
+                        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "logo",
+                        "label": "Logo"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Product Testimonials",
+                "category": "Content",
+                "blocks": [
+                    {
+                        "type": "testimonial"
+                    },
+                    {
+                        "type": "testimonial"
+                    },
+                    {
+                        "type": "testimonial"
+                    },
+                    {
+                        "type": "testimonial"
+                    },
+                    {
+                        "type": "testimonial"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

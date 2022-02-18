@@ -1,0 +1,179 @@
+
+
+<section class="shoppable-image-block position-relative" id="shoppable-block-{{ section.id }}">
+  <img alt="Shop our range" class="w-100 d-none d-md-block" src="{{ section.settings.desktopBackgroundImage | img_url: '1800x' }}" />
+  <img alt="Shop our range" class="w-100 d-block d-md-none" src="{{ section.settings.mobileBackgroundImage | img_url: '800x' }}" />
+  <div class="shoppable-click-layer position-absolute w-100 h-100" style="top: 0; bottom: 0; left: 0; right: 0;">
+    {% for block in section.blocks %}
+    <a class="shoppable-clicker d-none d-md-block" data-target="#shoppable-{{ block.settings.product.handle }}" style="left: {{block.settings.xPercent}}%; top: {{block.settings.yPercent}}%;"></a>
+    <a class="shoppable-clicker shoppable-clicker__mobile d-md-none" data-target="#shoppable-sm-{{ block.settings.product.handle }}" style="left: {{block.settings.xMobilePercent}}%; top: {{block.settings.yMobilePercent}}%;"></a>
+    {% endfor %}
+  </div>
+
+  {% for block in section.blocks %}
+  <div class="shoppable-card off-{% if block.settings.xPercent >= 50 %}left{% else %}right{% endif %}" id="shoppable-{{ block.settings.product.handle }}">
+    {% if block.settings.product.images[0] %}
+    <div class="h-100 w-100 bg-cover bg-square d-none d-md-block" style="background: url('{{ block.settings.product.images[0] | img_url: '600x600' }}'); margin-bottom: 20px"></div>
+    {% endif %}
+    <div class="d-flex align-items-center justify-content-center justify-content-sm-start">
+      <h2 class="gkit-h3 shoppable-card__title">{{block.settings.product.title}}</h2>
+      <img class="d-block d-sm-none ml-2" width="14" src="{{ 'arrowRight.svg' | asset_url }}" alt="Show now {{block.settings.product}}" />
+    </div>
+    <p class="gkit-p-17 gkit-light mt-0 shoppable-card__description d-none d-sm-block">{{block.settings.shortDescription}}</p>
+      {% if block.settings.product.price_varies%}
+      <p class="gkit-p-17 mb-1 gkit-bold d-none d-lg-block">From,</p>
+      {% endif %}
+    <p class="gkit-h2 shoppable-card__price d-none d-lg-block">{{block.settings.product.price_min | money }}</p>
+    <a class="d-none d-sm-block btn gkit-btn gkit-primary w-100" href="{{ block.settings.product.url }}">
+      Shop now
+    </a>
+  </div>
+
+  <a href="{{ block.settings.product.url }}" class="d-block d-md-none shoppable-card shoppable-card__mobile d-flex flex-row align-items-center justify-content-start off-{% if block.settings.xMobilePercent <= 50 %}left{% else %}right{% endif %}" style="top: 3rem;" id="shoppable-sm-{{ block.settings.product.handle }}">
+    <img class="shoppable-card__thumb" alt="{{ block.settings.product.title }}" src="{{ block.settings.product.images[0] | img_url }}" />
+    <div class="d-flex flex-row align-items-center ml-2">
+      <p class="gkit-p-15 gkit-bold my-0">{{ block.settings.product.title }}</p>
+      <img class="d-block ml-2" width="7" src="{{ 'arrowRight.svg' | asset_url }}" alt="{{ block.settings.product.title }}" />
+    </div>
+  </a>
+  {% endfor %}
+</section>
+
+
+
+<!-- We do not want to redo this several times -->
+<!-- {{ section.id }} -->
+<script>
+  (function($) {
+    $(function() {
+      // Preload images that'll show on click. Preload little thumbs + bigger
+      // ones.
+      const productImages = [
+        {% for block in section.blocks %}
+        "{{ block.settings.product.images[0] | img_url }}",
+        "{{ block.settings.product.images[0] | img_url: '600x600' }}",
+        {% endfor %}
+      ];
+      for (let imageIdx = 0; imageIdx < productImages.length; imageIdx++) {
+        const imageUrl = productImages[imageIdx];
+        new Image().src = imageUrl;
+      }
+
+      // Get the container specifically for this instance of this block.
+      const $blockContainer = $('#shoppable-block-{{ section.id }}');
+      
+      // Click handler for our throbbers
+      $blockContainer.find('.shoppable-clicker').on('click', function(e) {
+        const targetSelector = $(this).data('target');
+
+        const $target = $blockContainer.find(targetSelector);
+
+        // Remove from all
+        $blockContainer.find('.shoppable-card').each(function() {
+          // Ignore if it's the ting they've clicked for
+          if($target.get(0) === $(this).get(0)) {
+            return;
+          }
+
+          if($(this).hasClass('shoppable-show')) {
+            $(this).removeClass('shoppable-show');
+          }
+        });
+
+        $target.toggleClass('shoppable-show');
+        
+        return false;
+      });
+    });
+  })(jQuery);
+</script>
+
+
+{% schema %}
+{
+    "name": "2022 Shoppable Block",
+        "blocks": [
+        {
+            "type": "shoppable",
+            "name": "Shoppable",
+            "limit": 6,
+            "settings": [
+                {
+                  "type": "url",
+                  "id": "shoppableLink",
+                  "label": "Link to the product page"
+                },
+                {
+                  "type": "product",
+                  "id": "product",
+                  "label": "Product"
+                },
+                {
+                  "id": "shortDescription",
+                  "type": "text",
+                  "label": "Short(!) description"
+                },
+                {
+                  "type": "range",
+                  "id": "yPercent",
+                  "label": "Y %",
+                  "min": 0,
+                  "max": 100,
+                  "step": 1,
+                  "unit": "%",
+                  "default": 40
+                },
+                {
+                  "type": "range",
+                  "id": "xPercent",
+                  "label": "X %",
+                  "min": 0,
+                  "max": 100,
+                  "step": 1,
+                  "unit": "%",
+                  "default": 40
+                },
+                {
+                  "type": "range",
+                  "id": "yMobilePercent",
+                  "label": "Mobile Y %",
+                  "min": 0,
+                  "max": 100,
+                  "step": 1,
+                  "unit": "%",
+                  "default": 40
+                },
+                {
+                  "type": "range",
+                  "id": "xMobilePercent",
+                  "label": "Mobile X %",
+                  "min": 0,
+                  "max": 100,
+                  "step": 1,
+                  "unit": "%",
+                  "default": 40
+                }
+            ]
+        }],
+        
+    "settings": [
+        {
+            "id": "desktopBackgroundImage",
+            "type": "image_picker",
+            "label": "Desktop Background Image",
+            "info": "This image should be landscape."
+        },
+        {
+            "id": "mobileBackgroundImage",
+            "type": "image_picker",
+            "label": "Mobile Background Image"
+        }
+    ],
+    "presets": [
+        {
+            "name": "2022 Shoppable Block",
+            "category": "Content"
+        }
+    ]
+}
+{% endschema %}

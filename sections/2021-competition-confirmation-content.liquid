@@ -1,0 +1,52 @@
+<article class="grind-competition-confirmation-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="grind-competition-confirmation-content__message">
+        {% if section.settings.title != blank %}
+            <h1 class="grind-competition-confirmation-content__message-title gkit-h2">{{ section.settings.title | escape }}</h1>
+        {% endif %}
+
+        {% if section.settings.text != blank %}
+            <div class="grind-competition-confirmation-content__message-text gkit-p-17">{{ section.settings.text }}</div>
+        {% endif %}
+
+        <a class="btn btn-charcoal btn-block"
+            href="{{ shop.url }}"
+            aria-label="{{ section.settings.btn_text | default: 'Back' }}">{{ section.settings.btn_text | default: 'Back' }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Competition Confirmation",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "default": "Back",
+      "label": "Button text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Competition Confirmation"
+    }
+  ]
+}
+{% endschema %}

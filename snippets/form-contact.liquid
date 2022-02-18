@@ -1,0 +1,115 @@
+{% form 'contact' %}
+
+    <div class="my-4 my-md-0 form {{ formClass }}">
+
+        {% if form.posted_successfully? %}
+            <p class="form-success">{{ 'contact.form.post_success' | t }}</p>
+        {% endif %}
+
+        {{ form.errors | default_errors }}
+
+        <div class="d-none">
+            <input type="text"
+                   name="contact[Form Name]"
+                   id="ContactFormFormName"
+                   value="{{ formName }}">
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-12 col-lg-6 field-first-name">
+                <label class="gkit-input-label" for="ContactFormFirstName">First Name</label>
+                <input type="text"
+                       name="contact[FirstName]"
+                       id="ContactFormFirstName"
+                       placeholder="First Name"
+                       value="{% if form[FirstName] %}{{ form[FirstName] }}{% elsif customer %}{{ customer.first_name }}{% endif %}"
+                       class="mb-4 gkit-input-md">
+            </div>
+            <div class="col-12 col-sm-6 col-md-12 col-lg-6 field-last-name">
+                <label class="gkit-input-label" for="ContactFormLastName">Last Name</label>
+                <input type="text"
+                       name="contact[LastName]"
+                       id="ContactFormLastName"
+                       placeholder="Last Name"
+                       value="{% if form[LastName] %}{{ form[LastName] }}{% elsif customer %}{{ customer.last_name }}{% endif %}"
+                       class="mb-4 gkit-input-md">
+            </div>
+            <div class="col-12 field-email">
+                <label class="gkit-input-label" for="ContactFormEmail">Email Address</label>
+                <input type="email"
+                       name="contact[email]"
+                       id="ContactFormEmail"
+                       placeholder="Email Address"
+                       value=""
+                       required="required"
+                       class="mb-4 gkit-input-md">
+            </div>
+            <div class="col-12 field-telephone">
+                <label class="gkit-input-label" for="ContactFormFirstName">Phone Number</label>
+                <input type="tel"
+                       name="contact[Phone Number]"
+                       placeholder="Phone Number"
+                       id="ContactFormPhoneNumber"
+                       class="mb-4 gkit-input-md">
+            </div>
+            <div class="col-12 col-sm-6 field-event-type">
+                <select id="ContactFormEventType" name="contact[EventType]" class="mb-4 gkit-select-md">
+                    <option value="" selected disabled hidden>Event Type</option>
+                    <option value="Private Hire">Private Hire</option>
+                    <option value="Event">Event</option>
+                    <option value="Pop-up Event">Pop-up Event</option>
+                    <option value="Christmas">Christmas</option>
+                    <option value="Other / Not Sure">Other / Not Sure</option>
+                </select>
+            </div>
+            <div class="col-12 col-sm-6 field-event-location">
+                <select id="ContactFormEventLocation" name="contact[EventLocation]" class="mb-4 gkit-select-md">
+                    <option value="" selected disabled hidden>Location</option>
+                    <option value="Shoreditch Grind">Shoreditch Grind</option>
+                    <option value="Exmouth Market Grind">Exmouth Market Grind</option>
+                    <option value="Clerkenwell Grind">Clerkenwell Grind</option>
+                    <option value="Soho Grind">Soho Grind</option>
+                    <option value="London Grind">London Grind</option>
+                    <option value="Covent Garden Grind">Covent Garden Grind</option>
+                    <option value="Whitechapel Grind">Whitechapel Grind</option>
+                    <option value="Royal Exchange Grind">Royal Exchange Grind</option>
+                    <option value="Greenwich Grind">Greenwich Grind</option>
+                    <option value="Liverpool Street Grind">Liverpool Street Grind</option>
+                    <option value="External Event">External Event</option>
+                    <option value="I'm Not Sure">I'm Not Sure</option>
+                </select>
+            </div>
+            <div class="col-8 field-subject">
+                <select id="ContactFormSubject" name="contact[Subject]" class="mb-4 gkit-select-md">
+                    <option value="" selected disabled hidden>Subject</option>
+                    <option value="Customer Feedback">Customer Feedback</option>
+                    <option value="Events & Private Hire">Events & Private Hire</option>
+                    <option value="Pop-up External Coffee Events">Pop-up External Coffee Events</option>
+                    <option value="Wholesale Enquiry">Wholesale Enquiry</option>
+                    <option value="Partnerships, Press & Marketing">Partnerships, Press & Marketing</option>
+                    <option value="Black Card / Grind App">Black Card / Grind App</option>
+                    <option value="Job / Careers Enquiry">Job / Careers Enquiry</option>
+                    <option value="Online Shopping Support">Online Shopping Support</option>
+                    <option value="Other">Other</option>
+
+                </select>
+            </div>
+            <div class="col-12 field-enquiry">
+                <textarea rows="5"
+                          name="contact[Enquiry]"
+                          id="ContactFormMessage"
+                          placeholder="Message"
+                          class="mb-4 gkit-input">
+                    {%- if form.body -%}
+                        {{- form.body -}}
+                    {%- endif -%}
+                </textarea>
+            </div>
+            <div class="col-12">
+                <input type="submit" class="gkit-btn-md gkit-primary" value="Submit">
+            </div>
+        </div>
+
+    </div>
+
+{% endform %}

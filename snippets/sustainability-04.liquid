@@ -1,0 +1,46 @@
+{% liquid
+    if capsule_image_1 != blank
+        assign pod_image_url_1 = capsule_image_1 | img_url
+    endif
+
+    if capsule_image_2 != blank
+        assign pod_image_url_2 = capsule_image_2 | img_url
+    endif
+%}
+
+<section class="sustainability-04 sustainability-section__container" style="background-color: {{ background_colour }}; color: {{ text_colour }};">
+  <div class="sustainability-section__content-container">
+    <div class="overflow-container">
+      {% if pod_image_url_1 != blank and pod_image_url_2 != blank %}
+      <figure class="sustainability-04__image sustainability-04__image--1" id="animatable-section-four-pod-1">
+        <img alt="Pods that leave no trace." src="{{ pod_image_url_1 }}" class="img-fluid" role="presentation" />
+      </figure>
+      <figure class="sustainability-04__image sustainability-04__image--2" id="animatable-section-four-pod-2">
+        <img alt="Pods that leave no trace." src="{{ pod_image_url_1 }}" class="img-fluid" role="presentation" />
+      </figure>
+      <figure class="sustainability-04__image sustainability-04__image--3" id="animatable-section-four-pod-3">
+        <img alt="Pods that leave no trace." src="{{ pod_image_url_1 }}" class="img-fluid" role="presentation" />
+      </figure>
+      <figure class="sustainability-04__image sustainability-04__image--4" id="animatable-section-four-pod-4">
+        <img alt="Pods that leave no trace." src="{{ pod_image_url_2 }}" class="img-fluid" role="presentation" />
+      </figure>
+      <figure class="sustainability-04__image sustainability-04__image--5" id="animatable-section-four-pod-5">
+        <img alt="Pods that leave no trace." src="{{ pod_image_url_1 }}" class="img-fluid" role="presentation" />
+      </figure>
+      <figure class="sustainability-04__image sustainability-04__image--6" id="animatable-section-four-pod-6">
+        <img alt="Pods that leave no trace." src="{{ pod_image_url_2 }}" class="img-fluid" role="presentation" />
+      </figure>
+      {% endif %}
+
+      <div class="sustainability-section__inner-content text-center" id="animatable-section-four-content">
+        {% if title != blank %}
+        <h2 class="sustainability-section__title gkit-h0 my-0">{{ title | escape }}</h2>
+        {% endif %}
+
+        {% if paragraph != blank %}
+        <div class="sustainability-section__body gkit-p-20 mt-4">{{ paragraph }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

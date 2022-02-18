@@ -1,0 +1,44 @@
+{% assign ctaText = section.settings.ctaText %}
+{% assign ctaLink = section.settings.ctaLink %}
+{% assign reversed = section.settings.isReversed %}
+{% assign offset = section.settings.isImageOffset %}
+{% assign isDarkMode = section.settings.isDarkMode %}
+{% assign i18nVisibility = section.settings.internationalVisibility %}
+
+{% unless i18nVisibility == 'eu' and localization.country.iso_code == 'GB' %}
+{% unless i18nVisibility == 'gb' and localization.country.iso_code != 'GB' %}
+<section
+  class="container-fluid px-0"
+  style="background-color: {{ section.settings.background_color }};"
+>
+  <div class="container hero-2020-pods{% if isDarkMode %} dark-mode{% endif %}">
+    <div class="row">
+      <div class="col-md-4 hero-img{% if reversed %} order-md-2{% endif %}">
+        <div class="img-container{% if offset %} is-offset{% endif %}">
+          {% if section.settings.heroImage %}
+          <img
+            loading="lazy"
+            src="{{ section.settings.heroImage | img_url: '1000x' }}"
+          />
+          {% endif %} {% if section.settings.heroVideo != '' %}
+          <video loading="lazy" src="{{ section.settings.heroVideo }}" type="video/mp4" muted autoplay loop playsinline />
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-md-8 hero-content{% if reversed %} order-md-1{% endif %}">
+        <h2>{{ section.settings.contentTitle }}</h2>
+        <div class="para-container row">
+          <div class="col-md-6">
+            <p>{{ section.settings.contentBodyOne }}</p>
+          </div>
+          <div class="col-md-6">
+            <p>{{ section.settings.contentBodyTwo }}</p>
+          </div>
+        </div>
+        <a class="btn btn-outline-2020" href="{{ ctaLink }}">{{ ctaText }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endunless %}
+{% endunless %}

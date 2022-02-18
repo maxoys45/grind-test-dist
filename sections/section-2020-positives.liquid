@@ -1,0 +1,95 @@
+{% assign i18nVisibility = section.settings.internationalVisibility %}
+<!-- i18nVisibility: {{ i18nVisibility }}, {{ localization.country.iso_code }} -->
+{% unless i18nVisibility == 'eu' and localization.country.iso_code == 'GB' %}
+{% unless i18nVisibility == 'gb' and localization.country.iso_code != 'GB' %}
+{% assign backgroundColor = section.settings.backgroundColor %}
+{% assign iconSize = section.settings.iconSize %}
+<section class="container-fluid px-0" style="background-color: {{ backgroundColor }}">
+    <div class="container section-2020-positives d-flex">
+    {% for block in section.blocks %}
+        <div class="positive-point d-flex">
+            <img src="{{ block.settings.image | img_url: "200x" }}" style="width: {{ iconSize }}px" />
+            <div class="point-content">
+                <h3 class="gkit-h3">{{ block.settings.title }}</h3>
+                <p class="gkit-p-15 gkit-light">{{ block.settings.subtitle }}</p>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</section>
+{% endunless %}
+{% endunless %}
+
+{% schema %}
+{
+    "name": "Section - Icon Banner",
+    "blocks": [
+        {
+            "type": "positive",
+            "name": "Positive",
+            "limit": 4,
+            "settings": [
+                {
+                    "id": "image",
+                    "type": "image_picker",
+                    "label": "icon"
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "label": "Title"
+                },
+                {
+                    "id": "subtitle",
+                    "type": "text",
+                    "label": "Subtitle"
+                }
+            ]
+        }
+    ],
+    "settings": [
+        {
+            "type": "color",
+            "id": "backgroundColor",
+            "label": "Background Colour",
+            "default": "#F5DADF"
+        },
+        {
+            "type": "range",
+            "id": "iconSize",
+            "label": "Icon Size",
+            "min": 16,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "default": 60
+        },
+        {
+          "type": "select",
+          "id": "internationalVisibility",
+          "label": "International Visibility",
+          "options": [
+            {
+              "value": "all",
+              "label": "All"
+            },
+            {
+              "value": "eu",
+              "label": "EU Only"
+            },
+            {
+              "value": "gb",
+              "label": "UK Only"
+            }
+          ],
+          "default": "all"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Section - Icon Banner",
+            "category": "Content"
+        }
+    ]
+}
+{% endschema %}

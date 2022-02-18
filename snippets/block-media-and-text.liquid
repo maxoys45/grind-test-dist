@@ -1,0 +1,55 @@
+{%- if media_alignment == 'right' -%}
+    {%- assign col_media_order_class = 'order-2' -%}
+    {%- assign col_text_order_class = 'order-1' -%}
+{%- else -%}
+    {%- assign col_media_order_class = 'order-2 order-md-1' -%}
+    {%- assign col_text_order_class = 'order-1 order-md-2' -%}
+{%- endif -%}
+
+<article class="block-media-and-text">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-6 {{ col_media_order_class }}">
+
+                {%- if media_type == 'image' and image != blank -%}
+
+                    <figure class="block-media-and-text__figure mb-0">
+                        {%- render 'image',
+                                image: image,
+                                class: 'img-fluid w-100',
+                                size_md: '520x',
+                                size_lg: '520x',
+                                size_xl: '520x',
+                                size_xxl: '520x' -%}
+                    </figure>
+
+                {%- elsif media_type == 'video' and video_mp4 != blank -%}
+
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <video loading="lazy" class="embed-responsive-item" width="320" height="340">
+                            <source src="{{ video_mp4 }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+
+                {%- endif -%}
+
+            </div>
+            <div class="col-12 col-md-6 {{ col_text_order_class }}">
+                <div class="block-media-and-text__text">
+
+                    {%- if title != blank -%}
+                        <h2 class="block-media-and-text__text-title mb-4">{{ title | escape }}</h2>
+                    {%- endif -%}
+
+                    {%- if text != blank -%}
+                        <div class="gkit-p-17 pr-lg-4">
+                            {{ text }}
+                        </div>
+                    {%- endif -%}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

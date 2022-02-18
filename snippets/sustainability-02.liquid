@@ -1,0 +1,31 @@
+<section class="sustainability-02 sustainability-section__container" style="background-color: {{ background_colour }}; color: {{ text_colour }};">
+  <div class="sustainability-section__content-container">
+    <div class="overflow-container" id="animatable-section-two">  
+      {% if background_image != blank %}
+      <div class="sustainability-02__background" id="animatable-section-two-background" style="background-image: url({{ background_image | img_url: '1440x' }});"></div>
+      {% endif %}
+      <div class="sustainability-section__gradient"></div>
+      {% if main_image != blank %}
+      <figure class="sustainability-02__image" id="animatable-section-two-hands">
+          <img srcset="{{ main_image | img_url: '320x' }} 1x, {{ main_image | img_url: '320x', scale: 2 }} 2x"
+                src="{{ main_image | img_url: '320x' }}"
+                alt="{{ main_image.alt }}"
+                class="img-fluid w-100" />
+      </figure>
+      {% endif %}
+      <div class="sustainability-section__inner-content">
+        {% if title != blank or paragraph != blank %}
+        <div class="sustainability-02__text" id="animatable-section-two-content">
+          {% if title != blank %}
+          <h2 class="sustainability-section__title gkit-h0 mb-4" id="animatable-section-two-title">{{ title | escape }}</h2>
+          {% endif %}
+
+          {% if paragraph != blank %}
+          <div class="sustainability-section__body gkit-p-20">{{ paragraph }}</div>
+          {% endif %}
+        </div>
+        {% endif %}  
+      </div>
+    </div>
+  </div>
+</section>

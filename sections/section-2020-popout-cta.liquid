@@ -1,0 +1,92 @@
+{% assign ctaText = section.settings.ctaText %}
+{% assign ctaLink = section.settings.ctaLink %}
+{% assign reversed = section.settings.isReversed %}
+{% assign offset = section.settings.isImageOffset %}
+{% assign isDarkMode = section.settings.isDarkMode %}
+<section class="container-fluid px-0" style="background-color: {{ section.settings.background_color }};">
+    <div class="container section-2020-popout-cta{% if isDarkMode %} dark-mode{% endif %}">
+        <div class="row">
+            <div class="col-md-5 hero-img{% if reversed %} order-md-2 offset-md-1{% endif %}">
+                <div class="img-container{% if offset %} is-offset{% endif %}">
+                    <img loading="lazy" src="{{ section.settings.heroImage | img_url: '1000x' }}" />
+                </div>
+            </div>
+            <div class="col-md-6 hero-content{% if reversed %} order-md-1{% else %} offset-md-1{% endif %}">
+                <h2>{{ section.settings.contentTitle }}</h2>
+                <p>{{ section.settings.contentBody }}</p>
+                <a class="btn btn-filled-2020" href="{{ ctaLink }}">{{ ctaText }}</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+    "name": "Section - Popout CTA T2",
+    "settings": [
+        {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Colour",
+            "default": "#26292D"
+        },
+        {
+            "type": "image_picker",
+            "id": "heroImage",
+            "label": "Hero Image"
+        },
+        {
+            "type": "text",
+            "id": "contentTitle",
+            "label": "Content Title",
+            "default": "The same famous sustainable coffee sold at Grinds in London."
+        },
+        {
+            "type": "textarea",
+            "id": "contentBody",
+            "label": "Content Body",
+            "default": "Integer ac metus check it out arcu interdum aliquizzle. Quisque posuere. Dawg ass mofo. Dizzle leo pede, check it out izzle, condimentum izzle, phat shiznit, check it out. Vestibulizzle feugiat. Ut vehicula ultricies fo shizzle my nizzle."
+        },
+        {
+            "type": "url",
+            "id": "ctaLink",
+            "label": "CTA Link",
+            "info": "The URL that the CTA will take the customer to"
+        },
+        {
+            "type": "text",
+            "id": "ctaText",
+            "label": "CTA Text",
+            "default": "See locations"
+        },
+        {
+            "type": "checkbox",
+            "id": "isReversed",
+            "label": "Reverse Layout",
+            "default": false,
+            "info": "Using Reverse Layout will put the image on the right and copy on the left."
+        },
+        {
+            "type": "checkbox",
+            "id": "isImageOffset",
+            "label": "Offset Image",
+            "default": false,
+            "info": "This determines if your image will peek outside of the container"
+        },
+        {
+            "type": "checkbox",
+            "id": "isDarkMode",
+            "label": "Dark Background Mode",
+            "info": "This will turn content light - suitable for dark background colours.",
+            "default": true
+        }
+    ],
+    "presets": [
+        {
+            "name": "Section - Popout CTA T2",
+            "category": "Content"
+        }
+    ]
+}
+  
+{% endschema %}

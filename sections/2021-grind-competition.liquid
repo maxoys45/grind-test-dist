@@ -1,0 +1,312 @@
+<article class="grind-competition-content pb-5">
+  {% if section.settings.background_image %}
+      <div class="product__hero-background"
+      style="background-image: url({{ section.settings.background_image | img_url: '1440x' }});"></div>
+  {% endif %}
+
+  <div class="container">
+      <div class="row">
+          <div class="col-12 col-lg-6 order-lg-2">
+              <div class="grind-competition-content__text">
+                  {% if section.settings.page_title != blank %}
+                      <h2 class="grind-competition-content__title gkit-h1 mb-4">{{ section.settings.page_title | escape }}</h2>
+                  {% endif %}
+
+                  <div class="grind-competition-content__media grind-competition-content__media--md-down">
+
+                      {% if section.settings.image != blank %}
+                          <figure class="grind-competition-content__figure">
+                              {%- render 'image',
+                                      image: section.settings.image,
+                                      class: 'img-fluid',
+                                      size: '250x',
+                                      size_sm: '250x',
+                                      size_md: '250x',
+                                      size_lg: '250x',
+                                      size_xl: '250x',
+                                      size_xxl: '250x' -%}
+                          </figure>
+                      {% endif %}
+
+                      {% if section.settings.badge_title != blank or section.settings.badge_subtitle != blank %}
+                          <div class="grind-competition-content__badge">
+                              {% if section.settings.badge_title != blank %}
+                                  <h3 class="grind-competition-content__badge-text gkit-p-15 mb-1 font-weight-extra-bold">{{ section.settings.badge_title }}</h3>
+                              {% endif %}
+
+                              {% if section.settings.badge_subtitle != blank %}
+                                  <p class="grind-competition-content__badge-text gkit-p-11 m-0">{{ section.settings.badge_subtitle }}</p>
+                              {% endif %}
+                          </div>
+                      {% endif %}
+
+                  </div>
+
+                  {% if section.settings.introduction != blank %}
+                      <div class="grind-competition-content__intro gkit-p-20">{{ section.settings.introduction }}</div>
+                  {% endif %}
+
+              </div>
+              <div class="grind-competition-content__form">
+                  <form id="grind-competition-submission-form">
+                      {% for block in section.blocks %}
+                          {% if block.settings.type == "checkbox" %}
+                              <div class="custom-control custom-checkbox">
+                                  <input id={{block.settings.id}}
+                                      name={{block.settings.id}}
+                                      type="checkbox"
+                                      aria-describedby={{block.settings.id}}
+                                      class="custom-control-input" />
+                                  <label for={{block.settings.id}} class="custom-control-label">{{block.settings.label}}</label>
+                              </div>
+                          {% else %}
+                              <div class="form-group">
+                                  <label for={{block.settings.id}} class="gkit-p-17 font-weight-extra-bold">{{block.settings.label}}</label>
+                                  <input id={{block.settings.id}}
+                                      class="form-control"
+                                      aria-describedby={{block.settings.id}}
+                                      name={{block.settings.id}}
+                                      type={{block.settings.type}}
+                                      autocomplete="off" />
+                              </div>
+                          {% endif %}
+                      {% endfor %}
+
+                      <p class="alert-danger mt-3 d-none gkit-bold bg-transparent" role="alert"></p>
+                      <div class="mt-4">
+                          <button type="submit" class="btn btn-black btn-block">
+                              <img class="spinner d-none" src="{{ 'spinner.svg' | asset_url }}" />
+                              <span class="button-text">{{ section.settings.form_button_text | default: 'Submit' }}</span>
+                         </button>
+                      </div>
+
+                      {% if section.settings.small_print != blank %}
+                          <div class="grind-competition-content__small-print mt-4 mt-lg-3 px-md-5 text-md-center gkit-p-17 mb-0 px-md-2">
+                              {{ section.settings.small_print }}
+                          </div>
+                      {% endif %}
+
+                  </form>
+              </div>
+              {% if section.settings.disclaimer %}
+                  <div class="terms-box mt-3">
+                      <p class="gkit-p-15 gkit-light">
+                          {{ section.settings.disclaimer }}
+                      </p>
+                  </div>
+              {% endif %}
+
+          </div>
+          <div class="d-none d-lg-block col-lg-6 order-lg-1">
+              <div class="grind-competition-content__media grind-competition-content__media--lg-up">
+
+                  {% if section.settings.image != blank %}
+                      <figure class="grind-competition-content__figure">
+                          {%- render 'image',
+                                  image: section.settings.image,
+                                  class: 'img-fluid',
+                                  size: '412x',
+                                  size_sm: '412x',
+                                  size_md: '412x',
+                                  size_lg: '412x',
+                                  size_xl: '412x',
+                                  size_xxl: '412x' -%}
+                      </figure>
+                  {% endif %}
+
+              </div>
+          </div>
+      </div>
+  </div>
+
+</article>
+
+<script>
+  const blocks = [];
+  {% for block in section.blocks %}
+    blocks.push({{block.settings | json}});
+  {% endfor %}
+  
+  $('#grind-competition-submission-form').submit(function(e) {
+    e.preventDefault();
+    const payload = {};
+  
+    blocks.forEach(block => {
+        if (block.type === "checkbox"){
+            payload[block.google_id] = $('#' + block.id).is(':checked') ? 'True' : 'False';
+        } else {
+            payload[block.google_id] = $('#' + block.id).val();
+        }
+    })
+  
+    if (!hasError(payload)){
+        $.post('{{section.settings.endpoint}}', payload);
+        window.location.href = '{{section.settings.redirect_url}}';
+    }
+  });
+  
+  function hasError(payload)
+  {
+    let valid = false
+    let error = undefined
+    $(".alert-danger").addClass("d-none");
+    $(".alert-danger").empty();
+  
+    for (idx in blocks){
+        if (!error){
+            const block = blocks[idx]
+            if (block.required){
+                if (payload[block.google_id] === undefined || payload[block.google_id] === ""){
+                    error = "Required field " + block.label.toLowerCase() + " is missing"
+                }
+            } else if (block.min_length && payload[block.google_id].length < block.min_length) {
+                error = block.label + " must be at least " + block.min_length + " character long"
+            } else if (block.max_length && payload[block.google_id].length < block.max_length) {
+                error = "Max length for " + block.label + " is " + block.max_length + " characterg"
+            }
+        }
+    }
+  
+    if (error) {
+        $(".alert-danger").removeClass("d-none");
+        $(".alert-danger").append(error);
+    }
+  
+    return error
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Competition Form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "page_title",
+      "default": "Title",
+      "label": "Page title"
+    },
+    {
+      "type": "richtext",
+      "id": "introduction",
+      "label": "Introduction",
+      "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Page"
+    },
+    {
+      "type": "richtext",
+      "id": "small_print",
+      "label": "Small print",
+      "default": "<p>Default <em>richtext</em> <a href=\"https://example.com/\">content</a></p>"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "default": "*Competition entries are limited to one entry per person. The competition closes on the 16th of July and the winner will be announced on the 18th of July.",
+      "label": "Disclaimer"
+    },
+    {
+      "type": "header",
+      "content": "Form settings"
+    },
+    {
+      "type": "text",
+      "id": "form_button_text",
+      "default": "Submit",
+      "label": "Button text"
+    },
+    {
+      "type": "text",
+      "id": "endpoint",
+      "default": "https://docs.google.com/forms/d/e/1FAIpQLSexmag0LcC09Em26DpitgGgPd0TDJ9ILfMlUncy4zjyyuw66g/formResponse",
+      "label": "Form endpoint"
+    },
+    {
+      "type": "url",
+      "id": "redirect_url",
+      "label": "Redirect URL after success"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry-field",
+      "name": "Field",
+      "settings": [
+        {
+          "type": "text",
+          "id": "id",
+          "label": "ID"
+        },
+        {
+          "type": "text",
+          "id": "google_id",
+          "label": "Google Docs ID",
+          "info": "REQUIRED. Field id in Google Docs, eg. entry.1316406592"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        },
+        {
+          "type": "select",
+          "id": "type",
+          "label": "Type",
+          "options": [
+            { "value": "email", "label": "email" },
+            { "value": "text", "label": "text" },
+            { "value": "number", "label": "number" },
+            { "value": "checkbox", "label": "checkbox" }
+          ],
+          "default": "email",
+          "info": "For checkbox the response will be sent as True/False!"
+        },
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required?",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "min_length",
+          "label": "Min length",
+          "info": "Optional"
+        },
+        {
+          "type": "text",
+          "id": "max_length",
+          "label": "Max length",
+          "info": "Optional"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Competition Form"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,113 @@
+{% if product.tags contains "GCharge Gift Card" %}
+<div
+  class="fade modal"
+  id="gcharge-gcharge-gift-card-popup"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-top-margin">
+      <div class="modal-body position-relative">
+        <div class="modal-close-button">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <img loading="lazy" src="{{ 'close.svg' | asset_url }}" />
+          </button>
+        </div>
+        <div class="gift-container">
+          <img loading="lazy" src="{{ 'gift.svg' | asset_url }}" />
+        </div>
+        <h2 class="gkit-h2 mb-0 mt-3">Who is this gift for?</h2>
+        <p class="gkit-p-17 gkit-light mt-2 mb-0">
+          So we can customise their gift for them.
+        </p>
+        <form class="mt-4" novalidate>
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left mb-4">
+              <label for="recipient_first_name" class="gkit-input-label"
+                >Recipient first name</label
+              >
+              <input
+                class="form-control gkit-input-md"
+                name="recipient_first_name"
+                type="text"
+                placeholder="First name"
+                required
+              />
+              <div class="invalid-feedback">Please provide a first name.</div>
+            </div>
+            <div class="form-group col-md-6 text-left mb-4">
+              <label for="recipient_last_name" class="gkit-input-label"
+                >Recipient last name</label
+              >
+              <input
+                class="form-control gkit-input-md"
+                name="recipient_last_name"
+                type="text"
+                placeholder="Last name"
+                required
+              />
+              <div class="invalid-feedback">Please provide a last name.</div>
+            </div>
+          </div>
+
+          <div class="form-group text-left mb-4">
+            <label for="recipient_email" class="gkit-input-label"
+              >Recipient email address</label
+            >
+            <input
+              class="form-control gkit-input-md"
+              name="recipient_email"
+              type="email"
+              placeholder="Their email address"
+              required
+            />
+            <div class="invalid-feedback">Please provide a valid email.</div>
+          </div>
+
+          <div class="form-group text-left mb-4">
+            <label for="send_date" class="gkit-input-label"
+              >Send at a later date?</label
+            >
+            <input
+              class="gkit-select-md gift-datepicker"
+              name="send_date"
+              placeholder="Leave empty for today"
+              readonly
+              style="font-weight: normal"
+              type="text"
+            />
+          </div>
+
+          <div class="form-group text-left mb-0">
+            <label for="recipient_email" class="gkit-input-label"
+              >Add a message</label
+            >
+            <textarea
+              class="form-control gkit-input"
+              name="recipient_message"
+              placeholder="Enter your message here."
+            ></textarea>
+          </div>
+
+          <button type="submit" class="gkit-btn-lg gkit-primary btn-block mt-4">
+            <img loading="lazy"
+              alt="loading"
+              class="spinner d-none"
+              src="{{ 'spinner.svg' | asset_url }}"
+            />
+            <span class="button-text">{{
+              "products.product.add_to_cart" | t
+            }}</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

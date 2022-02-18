@@ -1,0 +1,39 @@
+{% assign product = all_products[options.featured_product] %}
+
+<section>
+    <div class="my-5 container campaign-featured-product">
+        <div class="row product-wrapper">
+                <img loading="lazy" class="col-12 col-lg-6 d-flex align-items-stretch align-content-stretch featured-product-image" src="{{ options.image | img_url: '1600x' }}" width="100%"/>
+            <div class="col-12 col-lg-6 d-flex align-items-stretch align-content-stretch p-0 px-lg-3">
+                <div class="product-card">
+                    <h2 class="gkit-h2">{{ options.title }} </h2>
+                    <p class="gkit-p-17">{{ options.subtitle  }} </p>
+                    <div class="card p-3 custom-shadow mt-3 d-block small-margin-top-30"  style="background: #FDFCFC">
+                            <img loading="lazy" class="float-right mt-4 ml-2" src="{{ options.outline_image | img_url: '800x' }}" width="74" height="74"/>
+                            <div class="col-8 col-lg-12 p-0">
+                                <h3 class="gkit-h3">{{ options.product_title }}</h3>
+                                <p class="gkit-p-13 gkit-bold m-0">{{ options.product_quantity }}</p>
+                                <p class="gkit-p-15" style="color: #706C69">{{ options.product_details }}</p>
+                            </div>
+                            <div class="d-flex flex-row align-items-end">
+                                <p class="gkit-p-20 gkit-medium m-0 mr-2">{{ options.product_price }}</p>
+                                <p class="gkit-p-13 m-0">{{ options.product_price_terms }}</p>
+                            </div>
+                            <p class="gkit-p-13 mt-1" style="color: #52B57A">{{ options.product_disclaimer }}</p>
+                        </div>
+                        <div class="card p-3 gkit-border-dark mt-4 d-flex flex-row align-items-center small-margin-top-30">
+                            <img loading="lazy" class="mr-3" src="{{ options.shipping_icon | img_url: '300x' }}" width="24" height="24"/>
+                            <p class="gkit-p-13 m-0">{{ options.shipping_info }}</p>
+                        </div>
+                        <div class="card p-3 gkit-border-dark mt-3 d-flex flex-row align-items-center">
+                            <img loading="lazy" class="mr-3" src="{{ options.free_tin_icon | img_url: '300x' }}" width="24" height="24"/>
+                            <p class="gkit-p-13 m-0">{{ options.free_tin_info }}</p>
+                        </div>
+                        <div>
+                            <a class="gkit-btn-lg gkit-btn-wide gkit-primary mt-4" href="{{ options.link }}">{{ options.button_text }}</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
